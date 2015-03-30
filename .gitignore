@@ -9,8 +9,8 @@
 *.class
 
 # Generated files
-bin/
-gen/
+PrivateWardrobe/bin/
+PrivateWardrobe/gen/
 
 # Gradle files
 .gradle/
