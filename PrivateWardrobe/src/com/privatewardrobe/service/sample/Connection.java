@@ -10,18 +10,22 @@
  * and the Eclipse Distribution License is available at 
  *   http://www.eclipse.org/org/documents/edl-v10.php.
  */
-package org.eclipse.paho.android.service.sample;
+package com.privatewardrobe.service.sample;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
-import org.eclipse.paho.android.service.MqttAndroidClient;
+
+import com.privatewardrobe.R;
 
 /**
  * 
@@ -34,7 +38,6 @@ public class Connection {
    * Basic Information about the client
    */
   /** ClientHandle for this Connection Object**/
-	
   private String clientHandle = null;
   /** The clientId of the client associated with this <code>Connection</code> object **/
   private String clientId = null;

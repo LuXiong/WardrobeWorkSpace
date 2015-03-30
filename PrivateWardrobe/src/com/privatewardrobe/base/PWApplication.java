@@ -1,5 +1,7 @@
 package com.privatewardrobe.base;
 
-public class PWApplication {
+import com.privatewardrobe.service.sample.Connection;
 
+public class PWApplication {
+	public static Connection connection;
 }
