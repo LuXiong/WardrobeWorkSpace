@@ -1,4 +1,8 @@
-package com.privatewardrobe;
+package com.privatewardrobe.activity;
+
+import com.privatewardrobe.R;
+import com.privatewardrobe.R.layout;
+import com.privatewardrobe.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
