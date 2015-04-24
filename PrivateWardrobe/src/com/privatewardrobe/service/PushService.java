@@ -1,59 +1,88 @@
 package com.privatewardrobe.service;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.privatewardrobe.base.PWApplication;
-import com.privatewardrobe.base.PWConstant;
-import com.privatewardrobe.service.sample.ActionListener;
-import com.privatewardrobe.service.sample.ActionListener.Action;
-import com.privatewardrobe.service.sample.Connection;
-import com.privatewardrobe.service.sample.Connection.ConnectionStatus;
-import com.privatewardrobe.service.sample.MqttCallbackHandler;
-import com.privatewardrobe.service.sample.MqttTraceCallback;
+import com.privatewardrobe.PWConstant;
+import com.privatewardrobe.service.ActionListener.Action;
+import com.privatewardrobe.service.ActionListener.OnConnectedListener;
+import com.privatewardrobe.service.Connection.ConnectionStatus;
 
 public class PushService {
 
-	public void connectAction(Context context) {
-		MqttConnectOptions conOpt = new MqttConnectOptions();
-		String clientId = "FirstUser";
-		String uri = PWConstant.BASEURL;
+	private static Connection connection;
+	private static ActionListener connectCallback;
+	private final static String clientId = "45i";
+	private final static String uri = PWConstant.BASEURL;
+	private final static String clientHandle = uri + clientId;
+
+	public Connection connectAction(final Context context) {
+		createConnection(context);
+		initCallback(context);
+		connect(context, connectCallback);
+		return connection;
+	}
+
+	private void initCallback(final Context context) {
+		connection.changeConnectionStatus(ConnectionStatus.CONNECTING);
+		String[] actionArgs = new String[] { clientId };
+		connectCallback = new ActionListener(context,
+				new OnConnectedListener() {
+
+					@Override
+					public void onConnected() {
+						
+						subscribe(context);
+					}
+				}, ActionListener.Action.CONNECT, clientHandle, actionArgs);
+	}
+
+	private void createConnection(final Context context) {
 		MqttAndroidClient client = new MqttAndroidClient(context, uri, clientId);
-		String clientHandle = uri + clientId;
-		PWApplication.connection = new Connection(clientHandle, clientId,
+		client.setCallback(new MqttCallbackHandler(context, clientHandle));
+		client.setTraceCallback(new MqttTraceCallback());
+		connection = new Connection(clientHandle, clientId,
 				PWConstant.BASESEVER, PWConstant.BASEPORT, context, client,
 				false);
 
-		String[] actionArgs = new String[1];
-		actionArgs[0] = clientId;
-		PWApplication.connection
-				.changeConnectionStatus(ConnectionStatus.CONNECTING);
-		conOpt.setCleanSession(true);
-		final ActionListener callback = new ActionListener(context,
-				ActionListener.Action.CONNECT, clientHandle, actionArgs);
-		client.setCallback(new MqttCallbackHandler(context, clientHandle));
+	}
 
-		client.setTraceCallback(new MqttTraceCallback());
-		PWApplication.connection.getClient().registerResources(context);
-		PWApplication.connection.getClient().setCallback(
-				new MqttCallbackHandler(context, PWApplication.connection
-						.getClient().getServerURI()
-						+ PWApplication.connection.getClient().getClientId()));
-		PWApplication.connection.addConnectionOptions(conOpt);
+	private void subscribe(Context context) {
+		String[] topics = new String[1];
+		String topic = "PW";
+		topics[0] = topic;
 		try {
-			PWApplication.connection.getClient()
-					.connect(conOpt, null, callback);
-
-
+			connection.getClient().subscribe(
+					topic,
+					0,
+					null,
+					new ActionListener(context, Action.SUBSCRIBE,
+							clientHandle, topics));
+			Log.i("xionglu", "subscribe");
 		} catch (MqttException e) {
-			Log.e(this.getClass().getCanonicalName(), "MqttException Occured",
-					e);
+			e.printStackTrace();
 		}
 
+	}
+
+	private void connect(Context context, ActionListener callback) {
+		connection.getClient().registerResources(context);
+		connection.getClient()
+				.setCallback(
+						new MqttCallbackHandler(context, connection.getClient()
+								.getServerURI()
+								+ connection.getClient().getClientId()));
+		MqttConnectOptions op = new MqttConnectOptions();
+		op.setCleanSession(true);
+		connection.addConnectionOptions(op);
+		try {
+			connection.getClient().connect(op, null, callback);
+
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
 	}
 }
