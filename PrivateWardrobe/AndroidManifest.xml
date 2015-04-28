@@ -18,18 +18,24 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name="com.privatewardrobe.activity.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.LaunchActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-
+        <activity
+            android:name="com.privatewardrobe.activity.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.privatewardrobe.service.MqttService" >
         </service>

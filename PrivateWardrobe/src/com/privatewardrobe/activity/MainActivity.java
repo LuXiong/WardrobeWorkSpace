@@ -1,32 +1,49 @@
 package com.privatewardrobe.activity;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
-
-import com.privatewardrobe.PWApplication;
-import com.privatewardrobe.PWConstant;
-import com.privatewardrobe.R;
-import com.privatewardrobe.R.layout;
-import com.privatewardrobe.R.menu;
-import com.privatewardrobe.service.ActionListener;
-import com.privatewardrobe.service.MqttAndroidClient;
-import com.privatewardrobe.service.PushService;
-import com.privatewardrobe.service.ActionListener.Action;
-
 import android.os.Bundle;
-import android.app.Activity;
+import android.os.Handler;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 
-public class MainActivity extends Activity {
+import com.privatewardrobe.ActionBar;
+import com.privatewardrobe.BaseActivity;
+import com.privatewardrobe.R;
+import com.privatewardrobe.control.DrawView.RefreshListener;
 
-	private TextView text;
+public class MainActivity extends BaseActivity {
+
+	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		setHasRefresh(true);
+		setRefreshListener(new RefreshListener() {
+
+			@Override
+			public void refreshing() {
+				(new Handler()).postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						completeRefresh();
+
+					}
+				}, 2000);
+
+			}
+
+			@Override
+			public void refreshBegin() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void refreshComplete() {
+
+			}
+		});
 	}
 
 	@Override

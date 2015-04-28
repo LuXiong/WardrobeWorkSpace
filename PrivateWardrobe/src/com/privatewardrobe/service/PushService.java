@@ -6,6 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import android.content.Context;
 import android.util.Log;
 
+import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.PWConstant;
 import com.privatewardrobe.service.ActionListener.Action;
 import com.privatewardrobe.service.ActionListener.OnConnectedListener;
@@ -13,28 +14,38 @@ import com.privatewardrobe.service.Connection.ConnectionStatus;
 
 public class PushService {
 
-	private static Connection connection;
 	private static ActionListener connectCallback;
 	private final static String clientId = "45i";
-	private final static String uri = PWConstant.BASEURL;
+	private final static String uri = PWConstant.BASE_PUSH_URL;
 	private final static String clientHandle = uri + clientId;
 
-	public Connection connectAction(final Context context) {
+	public void connectAction(final Context context) {
 		createConnection(context);
 		initCallback(context);
 		connect(context, connectCallback);
-		return connection;
+	}
+
+	public void disConnectAction() {
+		if (PWApplication.connection != null) {
+			try {
+				PWApplication.connection.getClient().disconnect();
+			} catch (MqttException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void initCallback(final Context context) {
-		connection.changeConnectionStatus(ConnectionStatus.CONNECTING);
+		PWApplication.connection
+				.changeConnectionStatus(ConnectionStatus.CONNECTING);
 		String[] actionArgs = new String[] { clientId };
 		connectCallback = new ActionListener(context,
 				new OnConnectedListener() {
 
 					@Override
 					public void onConnected() {
-						
+
 						subscribe(context);
 					}
 				}, ActionListener.Action.CONNECT, clientHandle, actionArgs);
@@ -44,9 +55,9 @@ public class PushService {
 		MqttAndroidClient client = new MqttAndroidClient(context, uri, clientId);
 		client.setCallback(new MqttCallbackHandler(context, clientHandle));
 		client.setTraceCallback(new MqttTraceCallback());
-		connection = new Connection(clientHandle, clientId,
-				PWConstant.BASESEVER, PWConstant.BASEPORT, context, client,
-				false);
+		PWApplication.connection = new Connection(clientHandle, clientId,
+				PWConstant.BASE_PUSH_SEVER, PWConstant.BASE_PUSH_PORT, context,
+				client, false);
 
 	}
 
@@ -55,13 +66,12 @@ public class PushService {
 		String topic = "PW";
 		topics[0] = topic;
 		try {
-			connection.getClient().subscribe(
+			PWApplication.connection.getClient().subscribe(
 					topic,
 					0,
 					null,
-					new ActionListener(context, Action.SUBSCRIBE,
-							clientHandle, topics));
-			Log.i("xionglu", "subscribe");
+					new ActionListener(context, Action.SUBSCRIBE, clientHandle,
+							topics));
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}
@@ -69,17 +79,16 @@ public class PushService {
 	}
 
 	private void connect(Context context, ActionListener callback) {
-		connection.getClient().registerResources(context);
-		connection.getClient()
-				.setCallback(
-						new MqttCallbackHandler(context, connection.getClient()
-								.getServerURI()
-								+ connection.getClient().getClientId()));
+		PWApplication.connection.getClient().registerResources(context);
+		PWApplication.connection.getClient().setCallback(
+				new MqttCallbackHandler(context, PWApplication.connection
+						.getClient().getServerURI()
+						+ PWApplication.connection.getClient().getClientId()));
 		MqttConnectOptions op = new MqttConnectOptions();
 		op.setCleanSession(true);
-		connection.addConnectionOptions(op);
+		PWApplication.connection.addConnectionOptions(op);
 		try {
-			connection.getClient().connect(op, null, callback);
+			PWApplication.connection.getClient().connect(op, null, callback);
 
 		} catch (MqttException e) {
 			e.printStackTrace();

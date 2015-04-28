@@ -4,9 +4,10 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -17,10 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.privatewardrobe.R;
 import com.privatewardrobe.control.RectView.OnRectDrawListener;
-
 
 public class DrawView extends LinearLayout {
 	private float downY;
@@ -28,11 +29,12 @@ public class DrawView extends LinearLayout {
 	private RectView topBarView;
 	private RectView extendsBarView;
 	private RectView bzlPaintView;
-	private int paintColor = Color.RED;
-	private String colorString = "#77ff99cc";
+	private TextView loadingTextView;
+	private int paintColor = getResources().getColor(R.color.base_color);
 	private int topBarHeight = 100;
 	private int extendsBarHeight = 100;
 	private int bzlPaintHeight = 500;
+	private int distance = 0;
 
 	private View deView;
 	private Context context;
@@ -57,6 +59,19 @@ public class DrawView extends LinearLayout {
 		topBarView = (RectView) deView.findViewById(R.id.rectView1);
 		extendsBarView = (RectView) deView.findViewById(R.id.rectView2);
 		bzlPaintView = (RectView) deView.findViewById(R.id.rectView3);
+		loadingTextView = (TextView) deView.findViewById(R.id.loading_text);
+	}
+
+	private void showLoadingText() {
+		loadingTextView.setVisibility(View.VISIBLE);
+	}
+
+	private void hideLoadingText() {
+		loadingTextView.setVisibility(View.GONE);
+	}
+
+	private void setLoadingText(String text) {
+		loadingTextView.setText(text);
 	}
 
 	private void initView() {
@@ -97,7 +112,7 @@ public class DrawView extends LinearLayout {
 		p.reset();
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor(colorString));
+		p.setColor(paintColor);
 		Path path1 = new Path();
 		path1.moveTo(0, 0);
 		path1.quadTo(0, height, width / 2, height);
@@ -105,6 +120,15 @@ public class DrawView extends LinearLayout {
 		path1.lineTo(0, 0);
 		path1.close();
 		canvas.drawPath(path1, p);
+
+		if (height > 80) {
+			p.reset();
+			p.setStyle(Paint.Style.FILL);
+			p.setAntiAlias(true);
+			p.setColor(getResources().getColor(R.color.red));
+			canvas.drawCircle(width / 2, height - 50, 30, p);
+		}
+
 	}
 
 	protected void drawExtendsBar(Canvas canvas) {
@@ -116,7 +140,7 @@ public class DrawView extends LinearLayout {
 		Paint p = new Paint();
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor(colorString));
+		p.setColor(paintColor);
 		canvas.drawRect(0, 0, width, height, p);
 	}
 
@@ -126,7 +150,7 @@ public class DrawView extends LinearLayout {
 		Paint p = new Paint();
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
-		p.setColor(Color.parseColor(colorString));
+		p.setColor(paintColor);
 		canvas.drawRect(0, 0, width, height, p);
 	}
 
@@ -154,7 +178,7 @@ public class DrawView extends LinearLayout {
 		ViewGroup.LayoutParams lp = deView.getLayoutParams();
 		if (distance > topBarHeight) {
 			lp.height = distance;
-		} else {
+		} else {                                       
 			lp.height = topBarHeight;
 		}
 		deView.setLayoutParams(lp);
@@ -169,18 +193,26 @@ public class DrawView extends LinearLayout {
 			return false;
 		}
 		boolean result = false;
-		int distance = 0;
+
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			downY = (int) event.getY();
 			lastY = event.getY();
+			distance = 0;
 			result = true;
 		}
 
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
 			distance = (int) (event.getY() - downY);
+			if (distance > extendsBarHeight) {
+				showLoadingText();
+				setLoadingText("下拉刷新");
+			}
 			if (distance > topBarHeight + extendsBarHeight + bzlPaintHeight) {
-				return true;
+				result = true;
+			}
+			if (distance > 300) {
+				setLoadingText("松开手指刷新");
 			}
 			if (distance > 0) {
 				if (event.getY() - lastY > 0.5) {
@@ -192,49 +224,64 @@ public class DrawView extends LinearLayout {
 				setExtendsBarHeight(0);
 				setBzlHeight(0);
 			}
-			Log.v("xionglu", "event.getY()" + event.getY());
+
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
+			result = true;
+			Log.v("xionglu", "distance:" + distance);
 			if (distance > topBarHeight + extendsBarHeight + bzlPaintHeight
 					&& listener != null) {
 				listener.refreshBegin();
+				isRefreshing = true;
 			}
-			isRefreshing = true;
-			startBziAnimation();
+			if (distance > 0) {
+				startBziAnimation();
+			}
+
 		}
 
 		return result;
 	}
 
 	private void startBziAnimation() {
-		PropertyValuesHolder pvhY = PropertyValuesHolder
-				.ofFloat("scaleY", 1, 0);
-		ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(
-				bzlPaintView, pvhY);
-		bzlPaintView.setPivotY(0);
-		animator.setDuration(500);
-		animator.addListener(bzlScaleAnmiListener);
-		animator.setInterpolator(new DecelerateInterpolator(2.0f));
-		animator.start();
+		ValueAnimator animation = ValueAnimator.ofInt(bzlPaintHeight, 0);
+		animation.setDuration(500);
+		animation.addUpdateListener(new AnimatorUpdateListener() {
+
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				setBzlHeight((Integer) animation.getAnimatedValue());
+				setViewHeight((Integer) extendsBarHeight + topBarHeight
+						+ (Integer) animation.getAnimatedValue());
+			}
+		});
+		animation.addListener(bzlScaleAnmiListener);
+		animation.setInterpolator(new DecelerateInterpolator(3.0f));
+		animation.start();
 	}
 
 	private void startExtendsAnimation() {
-		bzlPaintView.setScaleY(1f);
-		PropertyValuesHolder pvhY = PropertyValuesHolder
-				.ofFloat("scaleY", 1, 0);
-		ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(
-				extendsBarView, pvhY);
-		extendsBarView.setPivotY(0);
-		animator.setDuration(500);
-		animator.addListener(extendBarScaleAnmiListener);
-		animator.start();
+		ValueAnimator animation = ValueAnimator.ofInt(extendsBarHeight, 0);
+		animation.setDuration(500);
+		animation.addUpdateListener(new AnimatorUpdateListener() {
+
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				setExtendsBarHeight((Integer) animation.getAnimatedValue());
+				setViewHeight(topBarHeight
+						+ (Integer) animation.getAnimatedValue());
+			}
+		});
+
+		animation.addListener(extendBarScaleAnmiListener);
+		animation.start();
 	}
 
 	private AnimatorListener bzlScaleAnmiListener = new AnimatorListener() {
 
 		@Override
 		public void onAnimationStart(Animator animation) {
-
+			setLoadingText("");
 		}
 
 		@Override
@@ -244,12 +291,16 @@ public class DrawView extends LinearLayout {
 
 		@Override
 		public void onAnimationEnd(Animator animation) {
-			setBzlHeight(0);
-			setViewHeight((int) extendsBarHeight + topBarHeight);
-			startExtendsAnimation();
-			if (listener != null) {
-				listener.refreshing();
+			setLoadingText("loading...");
+			if (distance > 300) {
+
+				if (listener != null) {
+					listener.refreshing();
+				}
+			} else {
+				completeRefresh();
 			}
+
 		}
 
 		@Override
@@ -271,12 +322,9 @@ public class DrawView extends LinearLayout {
 
 		@Override
 		public void onAnimationEnd(Animator animation) {
-			setExtendsBarHeight(0);
-			setViewHeight(topBarHeight);
-			extendsBarView.setScaleY(1f);
 			isRefreshing = false;
 			if (listener != null) {
-				listener.completeRefresh();
+				listener.refreshComplete();
 			}
 		}
 
@@ -290,15 +338,16 @@ public class DrawView extends LinearLayout {
 		this.listener = listener;
 	}
 
-	public void refreshComplete() {
-
+	public void completeRefresh() {
+		hideLoadingText();
+		startExtendsAnimation();
 	}
 
-	interface RefreshListener {
+	public interface RefreshListener {
 		public void refreshBegin();
 
 		public void refreshing();
 
-		public void completeRefresh();
+		public void refreshComplete();
 	}
 }

@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.example.bsrlines.RectView
+    <com.privatewardrobe.control.RectView
         android:id="@+id/rectView1"
         android:layout_width="match_parent"
         android:layout_height="100px" />
 
-    <com.example.bsrlines.RectView
+    <com.privatewardrobe.control.RectView
         android:id="@+id/rectView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rectView1" />
 
-    <com.example.bsrlines.RectView
+    <com.privatewardrobe.control.RectView
         android:id="@+id/rectView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rectView2" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rectView1"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:text="loading..."
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
