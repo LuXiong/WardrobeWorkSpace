@@ -5,6 +5,8 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class User {
 	// Fields
 
@@ -23,41 +25,41 @@ public class User {
 	/** default constructor */
 	public User() {
 	}
-	
-	public User(JSONObject data){
+
+	public User(JSONObject data) {
 		try {
-			if(data.has("uid")){
+			if (data.has("uid")) {
 				this.uid = data.getString("uid");
 			}
-			if(data.has("name")){
+			if (data.has("name")) {
 				this.name = data.getString("name");
 			}
-			if(data.has("gender")){
+			if (data.has("gender")) {
 				this.gender = data.getInt("gender");
 			}
-			if(data.has("password")){
+			if (data.has("password")) {
 				this.password = data.getString("password");
 			}
-			if(data.has("phone")){
+			if (data.has("phone")) {
 				this.phone = data.getString("phone");
 			}
-			if(data.has("avatar")){
+			if (data.has("avatar")) {
 				this.avatar = data.getString("avatar");
 			}
-			if(data.has("deviceId")){
+			if (data.has("deviceId")) {
 				this.deviceId = data.getString("deviceId");
 			}
-			if(data.has("createTime")){
-				this.createTime.setTime(data.getLong("createTime"));
+			if (data.has("createTime")) {
+				this.createTime = new Date(data.getLong("createTime"));
 			}
-			if(data.has("lastUse")){
-				this.lastUse.setTime(data.getLong("lastUse"));
+			if (data.has("lastUse")) {
+				this.lastUse = new Date(data.getLong("lastUse"));
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			// Log.i("xionglu", "dataexception");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/** minimal constructor */

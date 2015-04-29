@@ -46,7 +46,7 @@ public class PWApplication extends Application {
 		return false;
 	}
 
-	public void Login(String token, long expireIn, String userId) {
+	public void Login(String token, String userId) {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				token, getApplicationContext());
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "user_id",

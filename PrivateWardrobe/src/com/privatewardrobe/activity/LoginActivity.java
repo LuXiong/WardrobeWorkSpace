@@ -1,7 +1,9 @@
 package com.privatewardrobe.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -9,8 +11,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.privatewardrobe.ActionBar;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.PassBusiness;
+import com.privatewardrobe.model.User;
 
 public class LoginActivity extends BaseActivity {
 
@@ -19,6 +26,7 @@ public class LoginActivity extends BaseActivity {
 	private TextView mRegistOrLoginText, mForgetText;
 	private LinearLayout mCodeLayout;
 	private PageState mPageState = PageState.STATE_LOGIN;
+	private ActionBar mActionBar;
 
 	private enum PageState {
 		STATE_LOGIN, STATE_REGIST
@@ -27,9 +35,16 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+		mActionBar = getMyActionBar();
+		mActionBar.setLeftDrawable(null);
 		setContentView(R.layout.activity_login);
 		findView();
 		initView();
+	}
+
+	@Override
+	protected void onActionBarItemSelected(int itemId, ActionItem item) {
+		super.onActionBarItemSelected(itemId, item);
 	}
 
 	private void findView() {
@@ -102,8 +117,24 @@ public class LoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
+			Log.i("xionglu", "Login Start");
+			PassBusiness passBusiness = new PassBusiness();
+			passBusiness.login(mPhoneEdit.getText().toString(), mPasswordEdit
+					.getText().toString(), new BusinessListener<User>() {
 
+				@Override
+				public void onSuccess(User user) {
+					Intent intent = new Intent(LoginActivity.this,
+							MainActivity.class);
+					startActivity(intent);
+					LoginActivity.this.finish();
+				}
+
+				public void onFailure(String reason) {
+					Log.i("xionglu", "Login Failed:" + reason);
+				};
+
+			});
 		}
 	};
 
@@ -111,8 +142,9 @@ public class LoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
-
+			Intent intent = new Intent(LoginActivity.this,
+					PerfectInfoActivity.class);
+			startActivity(intent);
 		}
 	};
 

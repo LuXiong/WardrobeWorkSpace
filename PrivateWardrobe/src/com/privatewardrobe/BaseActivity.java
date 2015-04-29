@@ -10,6 +10,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.control.DrawView.RefreshListener;
 
@@ -18,11 +20,12 @@ public class BaseActivity extends FragmentActivity {
 	private FrameLayout mContentLayout;
 	private RelativeLayout mBaseLayout;
 	private boolean hasRefresh = false;
-
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		initBaseView();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 	}
 
 	private void initBaseView() {

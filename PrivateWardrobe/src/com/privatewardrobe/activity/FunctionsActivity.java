@@ -1,5 +1,16 @@
 package com.privatewardrobe.activity;
 
-public class FunctionsActivity {
+import com.privatewardrobe.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class FunctionsActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_functions);
+	}
 
 }
