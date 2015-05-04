@@ -1,5 +1,11 @@
 package com.privatewardrobe;
 
+/**
+ * @author Dean
+ * 
+ * the application controls the connection to the pushService the 
+ * instance of its self the cache that will be use
+ */
 import java.io.Serializable;
 
 import android.app.Application;
@@ -39,6 +45,9 @@ public class PWApplication extends Application {
 		return PWConstant.BASE_URL;
 	}
 
+	/**
+	 * @return wheather the user has login , called when activity begin
+	 */
 	public boolean isLogin() {
 		if (!TextUtils.isEmpty(getToken()) && !TextUtils.isEmpty(getUserId())) {
 			return true;
@@ -46,6 +55,12 @@ public class PWApplication extends Application {
 		return false;
 	}
 
+	/**
+	 * @param token
+	 *            token to identify the current user
+	 * @param userId
+	 *            current user id to save the user information in preference
+	 */
 	public void Login(String token, String userId) {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				token, getApplicationContext());
@@ -54,6 +69,9 @@ public class PWApplication extends Application {
 		startPushService();
 	}
 
+	/**
+	 * clear the current user information in the preference
+	 */
 	public void Logout() {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				"", getApplicationContext());
@@ -62,6 +80,9 @@ public class PWApplication extends Application {
 		stopPushService();
 	}
 
+	/**
+	 * @return current token
+	 */
 	public String getToken() {
 		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
 				"access_token", getApplicationContext());

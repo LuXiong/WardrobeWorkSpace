@@ -1,5 +1,9 @@
 package com.privatewardrobe;
 
+/**
+ * @author Dean
+ * This is the base activity of the project, every activity with ActionBars must extends this Activity
+ */
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
@@ -16,11 +20,18 @@ import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.control.DrawView.RefreshListener;
 
 public class BaseActivity extends FragmentActivity {
+	// the top actionbar
 	protected ActionBar mActionBar;
+	// the content layout, who inherit this activity must use setContentView()
+	// to init this layout
 	private FrameLayout mContentLayout;
+	// the layout to listen the touch event
 	private RelativeLayout mBaseLayout;
+	// control wheather inherit activity can refresh
 	private boolean hasRefresh = false;
+	// quick load ImageView
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
+
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -36,20 +47,29 @@ public class BaseActivity extends FragmentActivity {
 		mActionBar = new ActionBar(this, view);
 		mActionBar.setOnItemClickListener(mItemClickListener);
 
-		mBaseLayout.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (hasRefresh) {
-					return mActionBar.onTouch(event);
-				} else {
-					return false;
-				}
-			}
-		});
+		mBaseLayout.setOnTouchListener(baseLayoutTouchListener);
 	}
 
-	// 默认添加了返回方法，如果不使用请不要在子类中调用super方法
+	private OnTouchListener baseLayoutTouchListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (hasRefresh) {
+				return mActionBar.onTouch(event);
+			} else {
+				return false;
+			}
+
+		}
+	};
+
+	/**
+	 * 
+	 * @param itemId
+	 * @param item
+	 * 
+	 * 默认添加了返回方法，如果不使用请不要在子类中调用super方法
+	 */
 	protected void onActionBarItemSelected(int itemId, ActionItem item) {
 		if (itemId == ActionBar.LEFT_ID) {
 			BaseActivity.this.finish();
