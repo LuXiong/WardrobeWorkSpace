@@ -88,6 +88,26 @@ public class PWApplication extends Application {
 				"access_token", getApplicationContext());
 	}
 
+	public void setQiNiuTokenExpiredIn(long time) {
+		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token_expired_in", time, getApplicationContext());
+	}
+
+	public long getQiNiuTokenExpiredIn() {
+		return Utils.getLongSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token_expired_in", getApplicationContext(), 0);
+	}
+
+	public void setQiNiuToken(String token) {
+		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "qiniu_token",
+				token, getApplicationContext());
+	}
+
+	public String getQiNiuToken() {
+		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token", getApplicationContext());
+	}
+
 	public String getUserId() {
 		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
 				"user_id", getApplicationContext());

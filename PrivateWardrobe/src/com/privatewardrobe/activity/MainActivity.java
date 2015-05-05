@@ -100,6 +100,19 @@ public class MainActivity extends BaseActivity {
 	}
 
 	@Override
+	protected void onActionBarItemSelected(int itemId, ActionItem item) {
+		if (itemId == 0) {
+			if (mCurrentTag == TAB_FIRST) {
+				Intent intent = new Intent(MainActivity.this,
+						ClothesCreateActivity.class);
+				startActivity(intent);
+			}
+
+		}
+		super.onActionBarItemSelected(itemId, item);
+	}
+
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putString(TAB, mTabHost.getCurrentTabTag());
 		super.onSaveInstanceState(outState);
@@ -204,16 +217,15 @@ public class MainActivity extends BaseActivity {
 				mActivity.mActionBar.getLeftItem().setInvisible();
 				mActivity.mActionBar.notifyItemChange();
 			}
-			
-			else if(tabId.equals(TAB_SECOND)){
+
+			else if (tabId.equals(TAB_SECOND)) {
 				mActivity.mActionBar.setTitle(titles[1]);
 				mActivity.mActionBar.removeAllActionItem();
 				mActivity.mActionBar.addActionItem(0, null,
 						R.drawable.icon_add, ActionItem.SHOWACTION_SHOW);
 				mActivity.mActionBar.getLeftItem().setInvisible();
 				mActivity.mActionBar.notifyItemChange();
-			}
-			else if(tabId.equals(TAB_THIRD)){
+			} else if (tabId.equals(TAB_THIRD)) {
 				mActivity.mActionBar.setTitle(titles[2]);
 				mActivity.mActionBar.removeAllActionItem();
 				mActivity.mActionBar.getLeftItem().setInvisible();

@@ -9,7 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.privatewardrobe.R;
@@ -31,19 +34,33 @@ public class Utils {
 
 	}
 
+	public static String getRealPathFromURI(Uri contentUri, Context context) {
+		String res = null;
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = context.getContentResolver().query(contentUri, proj,
+				null, null, null);
+		if (cursor.moveToFirst()) {
+			;
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			res = cursor.getString(column_index);
+		}
+		cursor.close();
+		return res;
+	}
+
 	public static void buildPhotoHelperListDialog(Context context,
 			final PhotoHelper helper) {
-		String[] choices = {"≈ƒ’’","œ‡≤·"};
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				context);
+		String[] choices = { "≈ƒ’’", "œ‡≤·" };
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setItems(choices, new DialogInterface.OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if(which==0){
+				if (which == 0) {
 					helper.startCapture();
 				}
-				if(which==1){
+				if (which == 1) {
 					helper.startAlbum();
 				}
 			}

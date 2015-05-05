@@ -56,6 +56,18 @@
             android:name="com.privatewardrobe.activity.FunctionsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.ClothesCreateActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.ClothesDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.ClothesEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.privatewardrobe.service.MqttService" >
         </service>
