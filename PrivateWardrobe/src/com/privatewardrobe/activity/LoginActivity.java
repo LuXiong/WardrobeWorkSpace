@@ -25,11 +25,15 @@ public class LoginActivity extends BaseActivity {
 	private Button mGetCodeBtn, mRegistOrLoginBtn;
 	private TextView mRegistOrLoginText, mForgetText;
 	private LinearLayout mCodeLayout;
+
 	private PageState mPageState = PageState.STATE_LOGIN;
 	private ActionBar mActionBar;
 
 	private enum PageState {
-		STATE_LOGIN, STATE_REGIST
+		// page of the login state
+		STATE_LOGIN,
+		// page of the regist state
+		STATE_REGIST
 	}
 
 	@Override

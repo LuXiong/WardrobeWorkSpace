@@ -11,8 +11,18 @@ import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.common.PWHttpClient;
 import com.privatewardrobe.common.PWHttpResponseHandler;
 import com.privatewardrobe.model.User;
-
+/**
+ * when we have to connect the server then we will use this 
+ * @author Dean
+ *
+ */
 public class PassBusiness {
+	/**
+	 * 
+	 * @param phone
+	 * @param password
+	 * @param listener
+	 */
 	public void login(String phone, String password,
 			final BusinessListener<User> listener) {
 		PWHttpClient client = new PWHttpClient();
@@ -23,9 +33,6 @@ public class PassBusiness {
 
 			@Override
 			public void onSuccess(JSONObject data) {
-				// Log.i("xionglu", "JSonData:"+data.toString());
-				// User user = null;
-				// JSONObject userData = null;
 				try {
 					JSONObject userData = new JSONObject(data.getString("user"));
 					User user = new User(userData);

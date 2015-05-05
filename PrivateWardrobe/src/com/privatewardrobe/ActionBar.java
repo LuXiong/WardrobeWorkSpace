@@ -26,6 +26,11 @@ import android.widget.TextView;
 import com.privatewardrobe.control.DrawView;
 import com.privatewardrobe.control.DrawView.RefreshListener;
 
+/**
+ * 
+ * @author Dean
+ *	
+ */
 public class ActionBar {
 
 	public static final int LEFT_ID = -1000;
@@ -203,8 +208,8 @@ public class ActionBar {
 
 		if (isCollapse) {
 			ImageView imageView = (ImageView) LayoutInflater.from(mContext)
-					.inflate(R.layout.image_button, null);
-			imageView.setImageResource(R.drawable.collapse_selector);
+					.inflate(R.layout.actionbar_image_button, null);
+			imageView.setImageResource(R.drawable.actionbar_setting_collapse_selector);
 			imageView.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -525,10 +530,10 @@ public class ActionBar {
 			if (mActionView == null) {
 				if (mDrawable != null) {
 					mActionView = LayoutInflater.from(mContext).inflate(
-							R.layout.image_button, null);
+							R.layout.actionbar_image_button, null);
 				} else {
 					mActionView = LayoutInflater.from(mContext).inflate(
-							R.layout.text_button, null);
+							R.layout.actionbar_text_button, null);
 					((TextView) mActionView).setTextColor(textColor);
 				}
 			}
