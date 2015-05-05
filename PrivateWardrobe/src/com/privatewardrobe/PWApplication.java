@@ -69,9 +69,7 @@ public class PWApplication extends Application {
 		startPushService();
 	}
 
-	/**
-	 * clear the current user information in the preference
-	 */
+
 	public void Logout() {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				"", getApplicationContext());
