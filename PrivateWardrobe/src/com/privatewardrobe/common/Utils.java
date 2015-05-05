@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -13,6 +14,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.privatewardrobe.R;
@@ -47,6 +50,12 @@ public class Utils {
 		}
 		cursor.close();
 		return res;
+	}
+	
+	public static AlertDialog buildLoadingDialog(Context context){
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setView(LayoutInflater.from(context).inflate(R.layout.dialog_loading, null));
+		return builder.create();
 	}
 
 	public static void buildPhotoHelperListDialog(Context context,

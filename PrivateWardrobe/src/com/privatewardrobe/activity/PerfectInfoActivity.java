@@ -37,7 +37,7 @@ public class PerfectInfoActivity extends BaseActivity {
 		setContentView(R.layout.activity_perfect_info);
 		mActionBar = getMyActionBar();
 		mActionBar.setTitle("ÕÍ…∆◊ ¡œ");
-		mActionBar.addActionItem(0, null, R.drawable.item_event_finish,
+		mActionBar.addActionItem(0, null, R.drawable.icon_finish,
 				ActionItem.SHOWACTION_SHOW);
 		findView();
 		initView();
