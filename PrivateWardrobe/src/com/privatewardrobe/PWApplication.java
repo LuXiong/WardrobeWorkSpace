@@ -54,6 +54,7 @@ public class PWApplication extends Application {
 		startPushService();
 	}
 
+
 	public void Logout() {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				"", getApplicationContext());

@@ -1,3 +1,4 @@
+
 package com.privatewardrobe.business;
 
 import org.json.JSONException;
@@ -55,6 +56,33 @@ public class PassBusiness {
 				listener.onFailure("post failed");
 			}
 
+		});
+	}
+	
+	public void regist(String name, Integer gender, String password,
+			String phone, String avatar, String deviceId, String code,
+			final BusinessListener<User> listener){
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("name", name);
+		params.put("gender", gender);
+		params.put("password", password);
+		params.put("phone", phone);
+		params.put("avatar", avatar);
+		params.put("deviceId", deviceId);
+		params.put("code", code);
+		client.post("pass/regist", params, new PWHttpResponseHandler(){
+			public void onSuccess(JSONObject data){
+				try{
+					JSONObject userData = new JSONObject(data.getString("user"));
+					User user = new User(userData);
+					listener.onSuccess(user);
+					
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+			
 		});
 	}
 }
