@@ -23,7 +23,7 @@
             android:padding="4dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_home_up_selector" />
+            android:src="@drawable/actionbar_return_selector" />
 
         <TextView
             android:id="@+id/action_bar_title_text"

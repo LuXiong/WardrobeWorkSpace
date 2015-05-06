@@ -54,7 +54,7 @@ public class DrawView extends LinearLayout {
 
 	private void findView() {
 		LayoutInflater mInflater = LayoutInflater.from(context);
-		deView = mInflater.inflate(R.layout.bzl, null);
+		deView = mInflater.inflate(R.layout.control_drawview_bzl, null);
 		addView(deView);
 		topBarView = (RectView) deView.findViewById(R.id.rectView1);
 		extendsBarView = (RectView) deView.findViewById(R.id.rectView2);

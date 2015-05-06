@@ -1,5 +1,11 @@
 package com.privatewardrobe;
 
+/**
+ * @author Dean
+ * 
+ * the application controls the connection to the pushService the 
+ * instance of its self the cache that will be use
+ */
 import java.io.Serializable;
 
 import android.app.Application;
@@ -39,6 +45,9 @@ public class PWApplication extends Application {
 		return PWConstant.BASE_URL;
 	}
 
+	/**
+	 * @return wheather the user has login , called when activity begin
+	 */
 	public boolean isLogin() {
 		if (!TextUtils.isEmpty(getToken()) && !TextUtils.isEmpty(getUserId())) {
 			return true;
@@ -46,13 +55,20 @@ public class PWApplication extends Application {
 		return false;
 	}
 
-	public void Login(String token, long expireIn, String userId) {
+	/**
+	 * @param token
+	 *            token to identify the current user
+	 * @param userId
+	 *            current user id to save the user information in preference
+	 */
+	public void Login(String token, String userId) {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
 				token, getApplicationContext());
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "user_id",
 				userId, getApplicationContext());
 		startPushService();
 	}
+
 
 	public void Logout() {
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "access_token",
@@ -62,9 +78,32 @@ public class PWApplication extends Application {
 		stopPushService();
 	}
 
+	/**
+	 * @return current token
+	 */
 	public String getToken() {
 		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
 				"access_token", getApplicationContext());
+	}
+
+	public void setQiNiuTokenExpiredIn(long time) {
+		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token_expired_in", time, getApplicationContext());
+	}
+
+	public long getQiNiuTokenExpiredIn() {
+		return Utils.getLongSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token_expired_in", getApplicationContext(), 0);
+	}
+
+	public void setQiNiuToken(String token) {
+		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "qiniu_token",
+				token, getApplicationContext());
+	}
+
+	public String getQiNiuToken() {
+		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"qiniu_token", getApplicationContext());
 	}
 
 	public String getUserId() {
