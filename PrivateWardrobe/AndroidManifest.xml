@@ -26,15 +26,22 @@
         <activity
             android:name="com.privatewardrobe.activity.LaunchActivity"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.privatewardrobe.activity.LoginActivity"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.WelcomeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.WelcomeInterfaceActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service android:name="com.privatewardrobe.service.MqttService" >
