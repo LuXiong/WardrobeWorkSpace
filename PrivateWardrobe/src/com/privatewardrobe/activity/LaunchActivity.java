@@ -1,5 +1,6 @@
 package com.privatewardrobe.activity;
 
+import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
 
 import android.app.Activity;
@@ -12,15 +13,22 @@ public class LaunchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_launch);
-		(new Handler()).postDelayed(new Runnable() {
+		if(!PWApplication.getInstance().isWeclomed()){
+			Intent intent = new Intent(LaunchActivity.this, FunctionActivity.class);
+			startActivity(intent);
+		}else{
+			(new Handler()).postDelayed(new Runnable() {
 
-			@Override
-			public void run() {
-				Intent intent = new Intent(LaunchActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
-				LaunchActivity.this.finish();
-			}
-		}, 3000);
+				@Override
+				public void run() {
+					
+					Intent intent = new Intent(LaunchActivity.this,
+							LoginActivity.class);
+					startActivity(intent);
+					LaunchActivity.this.finish();
+				}
+			}, 3000);
+		}
+		
 	}
 }

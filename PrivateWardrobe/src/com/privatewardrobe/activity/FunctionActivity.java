@@ -48,7 +48,7 @@ public class FunctionActivity extends Activity {
 
 	private void notifyPage() {
 		LayoutInflater mLi = LayoutInflater.from(this);
-		View view1 = mLi.inflate(R.layout.avtivity_welcome_tab1, null);
+		View view1 = mLi.inflate(R.layout.activity_welcome_tab1, null);
 		View view2 = mLi.inflate(R.layout.activity_welcome_tab2, null);
 		View view3 = mLi.inflate(R.layout.activity_welcome_tab3, null);
 		View view4 = mLi.inflate(R.layout.activity_welcome_tab4, null);

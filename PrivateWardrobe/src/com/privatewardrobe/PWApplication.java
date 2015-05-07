@@ -7,13 +7,17 @@ package com.privatewardrobe;
  * instance of its self the cache that will be use
  */
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.common.Cache;
 import com.privatewardrobe.common.DeviceIdFactory;
 import com.privatewardrobe.common.Utils;
+import com.privatewardrobe.model.ClothesType;
 import com.privatewardrobe.service.Connection;
 import com.privatewardrobe.service.PushService;
 
@@ -27,6 +31,18 @@ public class PWApplication extends Application {
 		super.onCreate();
 		instance = this;
 		cache = new Cache(this);
+		//initClothesType();
+	}
+
+	private void initClothesType() {
+		ClothesBusiness clothesBusiness = new ClothesBusiness();
+		clothesBusiness.showClothesType(new BusinessListener<ClothesType>(){
+			@Override
+			public void onSuccess(ArrayList<ClothesType> list) {
+				PWApplication.getInstance().putCache("clothes_type", list);
+			}
+		});
+		
 	}
 
 	public static PWApplication getInstance() {
@@ -84,6 +100,14 @@ public class PWApplication extends Application {
 	public String getToken() {
 		return Utils.getStringSharedPreferences(PWConstant.PREF_MAIN_NAME,
 				"access_token", getApplicationContext());
+	}
+	
+	public boolean isWeclomed(){
+		return Utils.getBooleanSharedPreferences(PWConstant.PREF_MAIN_NAME,
+				"welcomed", getApplicationContext(), false);
+	}
+	public void setWelcomed(boolean isWelcomed){
+		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "welcomed", isWelcomed, getApplicationContext());
 	}
 
 	public void setQiNiuTokenExpiredIn(long time) {
