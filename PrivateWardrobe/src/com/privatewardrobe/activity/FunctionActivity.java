@@ -9,8 +9,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
-
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.WelcomeAdapter;
 
@@ -20,6 +21,7 @@ public class FunctionActivity extends Activity {
 	private ImageView mWelcomeImage1;
 	private ImageView mWelcomeImage2;
 	private ImageView mWelcomeImage3;
+	private Button mWelcomeButton;
 
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -35,6 +37,7 @@ public class FunctionActivity extends Activity {
 		mWelcomeImage1 = (ImageView) findViewById(R.id.activity_welcome_tab_image1);
 		mWelcomeImage2 = (ImageView) findViewById(R.id.activity_welcome_tab_image2);
 		mWelcomeImage3 = (ImageView) findViewById(R.id.activity_welcome_tab_image3);
+		mWelcomeButton = (Button) findViewById(R.id.activity_welcome_tab_button);
 	}
 
 	private void initView() {
@@ -44,11 +47,12 @@ public class FunctionActivity extends Activity {
 
 	private void bindEvents() {
 		mWelcomeViewPager.setOnPageChangeListener(mOnPageChangeListener);
+		mWelcomeButton.setOnClickListener(mWelcomeButtonClickListener);
 	}
 
 	private void notifyPage() {
 		LayoutInflater mLi = LayoutInflater.from(this);
-		View view1 = mLi.inflate(R.layout.avtivity_welcome_tab1, null);
+		View view1 = mLi.inflate(R.layout.activity_welcome_tab1, null);
 		View view2 = mLi.inflate(R.layout.activity_welcome_tab2, null);
 		View view3 = mLi.inflate(R.layout.activity_welcome_tab3, null);
 		View view4 = mLi.inflate(R.layout.activity_welcome_tab4, null);
@@ -101,6 +105,12 @@ public class FunctionActivity extends Activity {
 		}
 
 		public void onPageScrollStateChanged(int arg0) {
+		}
+	};
+	private OnClickListener mWelcomeButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			FunctionActivity.this.finish();
 		}
 	};
 }
