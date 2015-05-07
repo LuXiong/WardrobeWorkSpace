@@ -11,7 +11,7 @@
         android:src="@drawable/activity_welcome_tab_image4" />
 
     <Button
-        android:id="@+id/mWelcomeButton"
+        android:id="@+id/activity_welcome_tab_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
