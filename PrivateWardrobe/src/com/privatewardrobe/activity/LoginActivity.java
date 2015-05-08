@@ -1,5 +1,8 @@
 package com.privatewardrobe.activity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,9 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.privatewardrobe.ActionBar;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
-import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.PassBusiness;
 import com.privatewardrobe.model.User;
@@ -128,13 +131,13 @@ public class LoginActivity extends BaseActivity {
 
 				@Override
 				public void onSuccess(User user) {
-					if(user!=null){
+					if (user != null) {
 						Intent intent = new Intent(LoginActivity.this,
 								MainActivity.class);
 						startActivity(intent);
 						LoginActivity.this.finish();
 					}
-					
+
 				}
 
 				public void onFailure(String reason) {
@@ -149,9 +152,17 @@ public class LoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(LoginActivity.this,
-					PerfectInfoActivity.class);
-			startActivity(intent);
+			if (isPhoneNum(mPhoneEdit.getText().toString())
+					&& isRightPassword(mPasswordEdit.getText().toString())
+					&& mCodeEdit.getText().toString().equals("1234")) {
+				Intent intent = new Intent(LoginActivity.this,
+						PerfectInfoActivity.class);
+				intent.putExtra(PerfectInfoActivity.PHONE_NUM, mPhoneEdit.getText().toString());
+				intent.putExtra(PerfectInfoActivity.PASSWORD, mPasswordEdit.getText().toString());
+				intent.putExtra(PerfectInfoActivity.CODE, mCodeEdit.getText().toString());
+				startActivity(intent);
+			}
+			
 		}
 	};
 
@@ -198,4 +209,42 @@ public class LoginActivity extends BaseActivity {
 		};
 	};
 
+	/**
+	 * 使用正则表达式判断手机号码是否符合规范
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	private boolean isPhoneNum(String phone) {
+		Pattern pMobile = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$"); // 中国移动号码
+		Pattern pCM = Pattern
+				.compile("^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$"); // 中国联通号码
+		Pattern pCU = Pattern.compile("^1(3[0-2]|5[256]|8[56])\\d{8}$"); // 中国电信号码
+		Matcher mMobile = pMobile.matcher(phone);
+		Matcher mCM = pCM.matcher(phone);
+		Matcher mCU = pCU.matcher(phone);
+
+		if (mMobile.matches() || mCM.matches() || mCU.matches()) {
+			return true;
+		} else {
+			System.out.println("手机号码为非法格式，请重新输入");
+			return false;
+		}
+	}
+
+	/**
+	 * 密码格式检查
+	 * 
+	 * @param password
+	 * @return
+	 */
+	private boolean isRightPassword(String password) {
+		if ((password.length() < 16) && (password.length() > 6)) {
+			return true;
+		} else {
+			System.out.println("password的位数请位于6-16之间");
+			return false;
+		}
+	}
 }

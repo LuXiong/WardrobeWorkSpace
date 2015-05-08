@@ -83,8 +83,12 @@ public class PassBusiness {
 				try{
 					JSONObject userData = new JSONObject(data.getString("user"));
 					User user = new User(userData);
-					listener.onSuccess(user);
 					
+					JSONObject tokenData = new JSONObject(data
+							.getString("token"));
+					PWApplication.getInstance().Login(
+							tokenData.getString("token"), user.getUid());
+					listener.onSuccess(user);
 				} catch (Exception e){
 					e.printStackTrace();
 				}

@@ -31,7 +31,7 @@ public class PWApplication extends Application {
 		super.onCreate();
 		instance = this;
 		cache = new Cache(this);
-		//initClothesType();
+		initClothesType();
 	}
 
 	private void initClothesType() {
