@@ -128,10 +128,13 @@ public class LoginActivity extends BaseActivity {
 
 				@Override
 				public void onSuccess(User user) {
-					Intent intent = new Intent(LoginActivity.this,
-							MainActivity.class);
-					startActivity(intent);
-					LoginActivity.this.finish();
+					if(user!=null){
+						Intent intent = new Intent(LoginActivity.this,
+								MainActivity.class);
+						startActivity(intent);
+						LoginActivity.this.finish();
+					}
+					
 				}
 
 				public void onFailure(String reason) {

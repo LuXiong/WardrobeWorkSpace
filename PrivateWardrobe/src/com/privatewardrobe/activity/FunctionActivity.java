@@ -12,6 +12,8 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.WelcomeAdapter;
 
@@ -37,12 +39,12 @@ public class FunctionActivity extends Activity {
 		mWelcomeImage1 = (ImageView) findViewById(R.id.activity_welcome_tab_image1);
 		mWelcomeImage2 = (ImageView) findViewById(R.id.activity_welcome_tab_image2);
 		mWelcomeImage3 = (ImageView) findViewById(R.id.activity_welcome_tab_image3);
-		mWelcomeButton = (Button) findViewById(R.id.activity_welcome_tab_button);
+		
 	}
 
 	private void initView() {
-		bindEvents();
 		notifyPage();
+		bindEvents();
 	}
 
 	private void bindEvents() {
@@ -56,6 +58,7 @@ public class FunctionActivity extends Activity {
 		View view2 = mLi.inflate(R.layout.activity_welcome_tab2, null);
 		View view3 = mLi.inflate(R.layout.activity_welcome_tab3, null);
 		View view4 = mLi.inflate(R.layout.activity_welcome_tab4, null);
+		mWelcomeButton = (Button) view4.findViewById(R.id.activity_welcome_tab_button);
 		final ArrayList<View> views = new ArrayList<View>();
 		views.add(view1);
 		views.add(view2);
@@ -111,6 +114,8 @@ public class FunctionActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			FunctionActivity.this.finish();
+			PWApplication.getInstance().setWelcomed(true);
+			setResult(RESULT_CANCELED);
 		}
 	};
 }

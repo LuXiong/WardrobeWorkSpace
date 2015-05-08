@@ -23,6 +23,10 @@ import com.privatewardrobe.photo.PhotoHelper;
 import com.privatewardrobe.photo.PhotoHelper.PhotoProcessListener;
 
 public class PerfectInfoActivity extends BaseActivity {
+	
+	public final static String PHONE_NUM= "phoneNum";
+	public final static String PASSWORD = "password";
+	public final static String CODE = "code";
 
 	private ImageView mHeadImg;
 	private TextView mBoyText, mGirlText;
@@ -30,6 +34,13 @@ public class PerfectInfoActivity extends BaseActivity {
 	private ActionBar mActionBar;
 
 	private PhotoHelper mPhotoHelper;
+	
+	private String mPhone;
+	private String mPassword;
+	private String mCode;
+	private String mAvatar;
+	private int mGender;
+	private String mName;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
