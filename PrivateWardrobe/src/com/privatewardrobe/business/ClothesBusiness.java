@@ -61,28 +61,210 @@ public class ClothesBusiness {
 
 	public void deleteClothes(String clothesId,
 			final BusinessListener<Clothes> listener) {
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("clothesId", clothesId);
+		client.post("clothes/delete", params, new PWHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject data) {
+//				Log.i("xionglu", "data:" + data.toString());
+				try {
+					JSONObject clothesData = new JSONObject(data
+							.getString("clothes"));
+					Clothes clothes = new Clothes(clothesData);
+					listener.onSuccess(clothes);
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onStart() {
+				listener.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				listener.onFinish();
+			}
+
+			@Override
+			public void onFailure() {
+				listener.onFailure("post failed");
+			}
+			
+			});
 
 	}
 
 	public void updateClothes(String id, int color, int category, String img,
 			final BusinessListener<Clothes> listener) {
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		params.put("color", color);
+		params.put("category", category);
+		params.put("img", img);
+		client.post("clothes/update", params, new PWHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject data) {
+//				Log.i("xionglu", "data:" + data.toString());
+				try {
+					JSONObject clothesData = new JSONObject(data
+							.getString("clothes"));
+					Clothes clothes = new Clothes(clothesData);
+					listener.onSuccess(clothes);
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onStart() {
+				listener.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				listener.onFinish();
+			}
+
+			@Override
+			public void onFailure() {
+				listener.onFailure("post failed");
+			}
+			
+			});
 
 	}
 
 	public void queryClothesById(String id,
 			final BusinessListener<Clothes> listener) {
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post("clothes/queryById", params, new PWHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONObject data) {
+//				Log.i("xionglu", "data:" + data.toString());
+				try {
+					JSONObject clothesData = new JSONObject(data
+							.getString("clothes"));
+					Clothes clothes = new Clothes(clothesData);
+					listener.onSuccess(clothes);
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onStart() {
+				listener.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				listener.onFinish();
+			}
+
+			@Override
+			public void onFailure() {
+				listener.onFailure("post failed");
+			}
+			
+			});
 
 	}
 
-	public void queryClothesByKey(String key,
+	public void queryClothesByKeyWord(String keyWord,
 			final BusinessListener<Clothes> listener) {
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("description", keyWord);
+		client.post("clothes/queryByKeyWord", params, new PWHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONArray data) {
+
+				try {
+					ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
+					for(int i = 0;i < data.length();i++)
+					{
+						JSONObject obj = data.getJSONObject(i);
+						Clothes clothes = new Clothes(new JSONObject(obj.getString("clothes")));
+						clothesList.add(clothes);
+
+					}
+					listener.onSuccess(clothesList);
+			
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onStart() {
+				listener.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				listener.onFinish();
+			}
+
+			@Override
+			public void onFailure() {
+				listener.onFailure("post failed");
+			}
+			
+			});
 
 	}
 
-	public void findAllClothes(String userId,
+	public void queryClothesByUserId(String userId,
 			final BusinessListener<Clothes> listener) {
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("userId", userId);
+		client.post("clothes/queryByUserId", params, new PWHttpResponseHandler(){
+			@Override
+			public void onSuccess(JSONArray data) {
+
+				try {
+					ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
+					for(int i = 0;i < data.length();i++)
+					{
+						JSONObject obj = data.getJSONObject(i);
+						Clothes clothes = new Clothes(new JSONObject(obj.getString("clothes")));
+						clothesList.add(clothes);
+
+					}
+					listener.onSuccess(clothesList);
+			
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+
+			@Override
+			public void onStart() {
+				listener.onStart();
+			}
+
+			@Override
+			public void onFinish() {
+				listener.onFinish();
+			}
+
+			@Override
+			public void onFailure() {
+				listener.onFailure("post failed");
+			}
+			
+			});
 
 	}
+	
+
 	public void showClothesType(final BusinessListener<ClothesType> listener){
 		PWHttpClient client = new PWHttpClient();
 		client.post("clothes/showClothesType", new PWHttpResponseHandler() {
