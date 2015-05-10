@@ -56,7 +56,7 @@ public class PhotoHelper {
 		if (Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())) {
 			File file_go = Environment
-					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+					.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
 			if (!file_go.exists()) {
 				file_go.mkdir();

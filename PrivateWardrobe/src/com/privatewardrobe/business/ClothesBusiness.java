@@ -17,14 +17,17 @@ import com.privatewardrobe.model.ClothesType;
 import com.privatewardrobe.model.User;
 
 public class ClothesBusiness {
-	public void addClothes(String userId, int color, int category, String img,
+	public void addClothes(String userId, String description, int color,
+			int category, String img, int isLike,
 			final BusinessListener<Clothes> listener) {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
+		params.put("description", description);
 		params.put("color", color);
 		params.put("category", category);
 		params.put("img", img);
+		params.put("is_like", isLike);
 		client.post("clothes/add", params, new PWHttpResponseHandler() {
 
 			@Override
@@ -64,10 +67,10 @@ public class ClothesBusiness {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("clothesId", clothesId);
-		client.post("clothes/delete", params, new PWHttpResponseHandler(){
+		client.post("clothes/delete", params, new PWHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject data) {
-//				Log.i("xionglu", "data:" + data.toString());
+				// Log.i("xionglu", "data:" + data.toString());
 				try {
 					JSONObject clothesData = new JSONObject(data
 							.getString("clothes"));
@@ -92,8 +95,8 @@ public class ClothesBusiness {
 			public void onFailure() {
 				listener.onFailure("post failed");
 			}
-			
-			});
+
+		});
 
 	}
 
@@ -105,10 +108,10 @@ public class ClothesBusiness {
 		params.put("color", color);
 		params.put("category", category);
 		params.put("img", img);
-		client.post("clothes/update", params, new PWHttpResponseHandler(){
+		client.post("clothes/update", params, new PWHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject data) {
-//				Log.i("xionglu", "data:" + data.toString());
+				// Log.i("xionglu", "data:" + data.toString());
 				try {
 					JSONObject clothesData = new JSONObject(data
 							.getString("clothes"));
@@ -133,8 +136,8 @@ public class ClothesBusiness {
 			public void onFailure() {
 				listener.onFailure("post failed");
 			}
-			
-			});
+
+		});
 
 	}
 
@@ -143,10 +146,10 @@ public class ClothesBusiness {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("id", id);
-		client.post("clothes/queryById", params, new PWHttpResponseHandler(){
+		client.post("clothes/queryById", params, new PWHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject data) {
-//				Log.i("xionglu", "data:" + data.toString());
+				// Log.i("xionglu", "data:" + data.toString());
 				try {
 					JSONObject clothesData = new JSONObject(data
 							.getString("clothes"));
@@ -171,8 +174,8 @@ public class ClothesBusiness {
 			public void onFailure() {
 				listener.onFailure("post failed");
 			}
-			
-			});
+
+		});
 
 	}
 
@@ -181,91 +184,94 @@ public class ClothesBusiness {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("description", keyWord);
-		client.post("clothes/queryByKeyWord", params, new PWHttpResponseHandler(){
-			@Override
-			public void onSuccess(JSONArray data) {
+		client.post("clothes/queryByKeyWord", params,
+				new PWHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONArray data) {
 
-				try {
-					ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
-					for(int i = 0;i < data.length();i++)
-					{
-						JSONObject obj = data.getJSONObject(i);
-						Clothes clothes = new Clothes(new JSONObject(obj.getString("clothes")));
-						clothesList.add(clothes);
+						try {
+							ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
+							for (int i = 0; i < data.length(); i++) {
+								JSONObject obj = data.getJSONObject(i);
+								Clothes clothes = new Clothes(new JSONObject(
+										obj.getString("clothes")));
+								clothesList.add(clothes);
 
+							}
+							listener.onSuccess(clothesList);
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
-					listener.onSuccess(clothesList);
-			
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
 
-			@Override
-			public void onStart() {
-				listener.onStart();
-			}
+					@Override
+					public void onStart() {
+						listener.onStart();
+					}
 
-			@Override
-			public void onFinish() {
-				listener.onFinish();
-			}
+					@Override
+					public void onFinish() {
+						listener.onFinish();
+					}
 
-			@Override
-			public void onFailure() {
-				listener.onFailure("post failed");
-			}
-			
-			});
+					@Override
+					public void onFailure() {
+						listener.onFailure("post failed");
+					}
+
+				});
 
 	}
 
-	public void queryClothesByUserId(String userId,
+	public void queryClothesByUserId(String userId, int page,
 			final BusinessListener<Clothes> listener) {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
-		client.post("clothes/queryByUserId", params, new PWHttpResponseHandler(){
-			@Override
-			public void onSuccess(JSONArray data) {
+		params.put("page", page);
+		client.post("clothes/queryByUserId", params,
+				new PWHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONArray data) {
 
-				try {
-					ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
-					for(int i = 0;i < data.length();i++)
-					{
-						JSONObject obj = data.getJSONObject(i);
-						Clothes clothes = new Clothes(new JSONObject(obj.getString("clothes")));
-						clothesList.add(clothes);
+						try {
+							ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
+							for (int i = 0; i < data.length(); i++) {
+								JSONObject obj = data.getJSONObject(i);
+								String json =obj.getString("clothes");
+								JSONObject o= new JSONObject(json);
+								Clothes clothes = new Clothes(o);
+								clothesList.add(clothes);
 
+							}
+							listener.onSuccess(clothesList);
+
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
 					}
-					listener.onSuccess(clothesList);
-			
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
 
-			@Override
-			public void onStart() {
-				listener.onStart();
-			}
+					@Override
+					public void onStart() {
+						listener.onStart();
+					}
 
-			@Override
-			public void onFinish() {
-				listener.onFinish();
-			}
+					@Override
+					public void onFinish() {
+						listener.onFinish();
+					}
 
-			@Override
-			public void onFailure() {
-				listener.onFailure("post failed");
-			}
-			
-			});
+					@Override
+					public void onFailure() {
+						listener.onFailure("post failed");
+					}
+
+				});
 
 	}
-	
 
-	public void showClothesType(final BusinessListener<ClothesType> listener){
+	public void showClothesType(final BusinessListener<ClothesType> listener) {
 		PWHttpClient client = new PWHttpClient();
 		client.post("clothes/showClothesType", new PWHttpResponseHandler() {
 
@@ -274,12 +280,13 @@ public class ClothesBusiness {
 				Log.i("xionglu", "data:" + data.toString());
 				ArrayList<ClothesType> typeList = new ArrayList<ClothesType>();
 				try {
-					for(int i=0;i<data.length();i++){
+					for (int i = 0; i < data.length(); i++) {
 						JSONObject obj = data.getJSONObject(i);
-						ClothesType type = new ClothesType(new JSONObject(obj.getString("clothesType")));
+						ClothesType type = new ClothesType(new JSONObject(obj
+								.getString("clothesType")));
 						typeList.add(type);
 					}
-					if(typeList!=null){
+					if (typeList != null) {
 						listener.onSuccess(typeList);
 						Log.i("xionglu", "typeList:" + typeList.toString());
 					}

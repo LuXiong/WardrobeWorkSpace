@@ -5,7 +5,6 @@ import java.util.Date;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,9 +14,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.privatewardrobe.R;
 import com.privatewardrobe.photo.PhotoHelper;
 
@@ -29,12 +28,37 @@ public class Utils {
 		return str;
 	}
 
+	public static String getDateString(Date date) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
+		return df.format(date);
+	}
+
 	public static String getPhotoFileName() {
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"'IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".jpg";
 
+	}
+
+	public static DisplayImageOptions buildRoundedRectangleDisplayAvatarOptions() {
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_launcher)
+				.showImageOnFail(R.drawable.activity_welcome_dot_image2)
+				.showImageForEmptyUri(R.drawable.activity_welcome_dot_image1)
+				.cacheInMemory(true).cacheOnDisc(true)
+				.imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
+		return options;
+	}
+
+	public static DisplayImageOptions buildNoneDisplayImageOptions() {
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.ic_launcher)
+				.showImageOnFail(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_launcher)
+				.bitmapConfig(android.graphics.Bitmap.Config.RGB_565)
+				.cacheInMemory(true).cacheOnDisc(true).build();
+		return options;
 	}
 
 	public static String getRealPathFromURI(Uri contentUri, Context context) {
@@ -51,10 +75,11 @@ public class Utils {
 		cursor.close();
 		return res;
 	}
-	
-	public static AlertDialog buildLoadingDialog(Context context){
+
+	public static AlertDialog buildLoadingDialog(Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setView(LayoutInflater.from(context).inflate(R.layout.dialog_loading, null));
+		builder.setView(LayoutInflater.from(context).inflate(
+				R.layout.dialog_loading, null));
 		return builder.create();
 	}
 
@@ -205,12 +230,4 @@ public class Utils {
 		editor.commit();
 	}
 
-	public static DisplayImageOptions buildNoneDisplayImageOptions() {
-		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ic_launcher)
-				.showImageOnFail(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_launcher)
-				.cacheInMemory(true).cacheOnDisc(true).build();
-		return options;
-	}
 }

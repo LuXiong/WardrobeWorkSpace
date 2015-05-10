@@ -134,6 +134,8 @@ public class PerfectInfoActivity extends BaseActivity {
 												Intent intent = new Intent(
 														PerfectInfoActivity.this,
 														MainActivity.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+														| Intent.FLAG_ACTIVITY_NEW_TASK);
 												startActivity(intent);
 												PerfectInfoActivity.this
 														.finish();
@@ -144,6 +146,24 @@ public class PerfectInfoActivity extends BaseActivity {
 
 						});
 
+			}else{
+				PassBusiness passBusiness = new PassBusiness();
+				passBusiness.regist(mName, mGender, mPassword,
+						mPhone, null, PWApplication
+								.getInstance().getDeviceId(),
+						mCode, new BusinessListener<User>() {
+							@Override
+							public void onSuccess(User user) {
+								Intent intent = new Intent(
+										PerfectInfoActivity.this,
+										MainActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+										| Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivity(intent);
+								PerfectInfoActivity.this
+										.finish();
+							}
+						});
 			}
 
 		}

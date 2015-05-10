@@ -1,12 +1,18 @@
 package com.privatewardrobe.model;
 
+import java.io.Serializable;
 import java.util.Date;
+
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ClothesType {
+public class ClothesType implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7014309486638993293L;
 	// Fields
 
 		private int detailCode;
@@ -51,7 +57,7 @@ public class ClothesType {
 					this.type = data.getString("type");
 				}
 				if (data.has("type_code")) {
-					this.typeCode = data.getInt("type_ode");
+					this.typeCode = data.getInt("type_code");
 				}
 				
 				

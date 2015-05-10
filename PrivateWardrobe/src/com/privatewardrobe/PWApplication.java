@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.common.Cache;
@@ -25,12 +27,14 @@ public class PWApplication extends Application {
 	public static Connection connection;
 	private static PWApplication instance;
 	private static Cache cache;
-
+	private static ImageLoader imageLoader;
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		instance = this;
 		cache = new Cache(this);
+		imageLoader =  ImageLoader.getInstance();
+		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 		initClothesType();
 	}
 
@@ -39,7 +43,7 @@ public class PWApplication extends Application {
 		clothesBusiness.showClothesType(new BusinessListener<ClothesType>(){
 			@Override
 			public void onSuccess(ArrayList<ClothesType> list) {
-				PWApplication.getInstance().putCache("clothes_type", list);
+				PWApplication.getInstance().putCache(PWConstant.CLOTHES_TYPE, list);
 			}
 		});
 		
@@ -47,6 +51,10 @@ public class PWApplication extends Application {
 
 	public static PWApplication getInstance() {
 		return instance;
+	}
+	
+	public ImageLoader getImageLoader(){
+		return imageLoader;
 	}
 
 	public void putCache(String key, Serializable value) {

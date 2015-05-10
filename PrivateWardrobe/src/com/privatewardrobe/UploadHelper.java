@@ -15,10 +15,10 @@ import com.qiniu.util.Auth;
 public class UploadHelper {
 
 	
-	private String mBaseUrl = "7xioul.com1.z0.glb.clouddn.com/";
-	private Auth auth = Auth.create("iP5j-cuQEeVMifha7Dma4kc_RrYm4o__Kj-l0KPb", "6H9pGV6JhYeclyENlR_g1YVuqJqRvTq40a7fOcez");
+	private String mBaseUrl = "7xixi5.com1.z0.glb.clouddn.com/";
+	private Auth auth = Auth.create("3PC82qOgGEy80FO5TGq_YajRbLEgkEluREKX8FGZ", "5GmwDzh6Y6o4h-GYcurTIB_lkEwVpx43qIUOWWCD");
 	private String getUpToken(){
-		return auth.uploadToken("pwweb");
+		return auth.uploadToken("pwproject");
 	}
 	public void upload(File file, final UpCompletionListener listener){
 		Log.i("xionglu", "begin upload");
@@ -36,7 +36,7 @@ public class UploadHelper {
 					
 				}
 				else{
-					Log.i("xionglu", info.error);
+					//Log.i("xionglu", info.error);
 				}
 			}
 		}, null);

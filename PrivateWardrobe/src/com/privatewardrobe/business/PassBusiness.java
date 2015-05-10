@@ -4,6 +4,7 @@ package com.privatewardrobe.business;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.loopj.android.http.RequestParams;
