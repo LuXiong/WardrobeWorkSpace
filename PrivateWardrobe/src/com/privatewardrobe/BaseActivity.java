@@ -11,20 +11,20 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.control.DrawView.RefreshListener;
+import com.privatewardrobe.control.InterceptFrameLayout;
 
 public class BaseActivity extends FragmentActivity {
 	// the top actionbar
 	protected ActionBar mActionBar;
 	// the content layout, who inherit this activity must use setContentView()
 	// to init this layout
-	private FrameLayout mContentLayout;
+	private InterceptFrameLayout mContentLayout;
 	// the layout to listen the touch event
 	private RelativeLayout mBaseLayout;
 	// control wheather inherit activity can refresh
@@ -42,12 +42,12 @@ public class BaseActivity extends FragmentActivity {
 	private void initBaseView() {
 		setContentViewInner(R.layout.activity_base);
 		mBaseLayout = (RelativeLayout) findViewById(R.id.base_layout);
-		mContentLayout = (FrameLayout) findViewById(R.id.base_content_layout);
+		mContentLayout = (InterceptFrameLayout) findViewById(R.id.base_content_layout);
 		ViewGroup view = (ViewGroup) findViewById(R.id.action_bar_layout);
 		mActionBar = new ActionBar(this, view);
 		mActionBar.setOnItemClickListener(mItemClickListener);
 
-		mBaseLayout.setOnTouchListener(baseLayoutTouchListener);
+		//mBaseLayout.setOnTouchListener(baseLayoutTouchListener);
 	}
 
 	private OnTouchListener baseLayoutTouchListener = new OnTouchListener() {
@@ -62,6 +62,11 @@ public class BaseActivity extends FragmentActivity {
 
 		}
 	};
+	
+//	public void setIntercept(boolean b){
+//		mContentLayout.setIntercept(b);
+//	}
+	
 
 	/**
 	 * 

@@ -8,8 +8,11 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.PWConstant;
 import com.privatewardrobe.R;
+import com.privatewardrobe.activity.MainActivity;
 import com.privatewardrobe.adapter.ClothesListAdapter;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ClothesBusiness;
@@ -62,7 +66,17 @@ public class ClothesFragment extends Fragment {
 
 	}
 
+	@Override
+	public void onDestroyView() {
+		PWApplication.getInstance().putCache(PWConstant.CACHE_CLOTHES,
+				mDataList);
+		super.onDestroyView();
+	}
+
 	private void queryClothesByPage(final int page) {
+		if (page == 1) {
+			mListView.enableLoadMore();
+		}
 		ClothesBusiness clothesBusiness = new ClothesBusiness();
 		clothesBusiness.queryClothesByUserId(PWApplication.getInstance()
 				.getUserId(), page, new BusinessListener<Clothes>() {
@@ -75,10 +89,11 @@ public class ClothesFragment extends Fragment {
 				if (list.size() > 0) {
 					mDataList.addAll(list);
 					mResultList.addAll(list);
-					mPage = page+1;
+					mPage = page;
 					notifyDatasetChanged();
 					mListView.onLoadMoreComplete();
 				} else {
+					mListView.disableLoadMore();
 					Toast.makeText(getActivity(), "已经是最后一页", Toast.LENGTH_LONG)
 							.show();
 				}
@@ -101,12 +116,39 @@ public class ClothesFragment extends Fragment {
 		mClothesAdapter = new ClothesListAdapter(getActivity(), mResultList);
 		mListView.setAdapter(mClothesAdapter);
 		mSearchEdit.addTextChangedListener(searchEditWatcher);
+		// if(mListView.getChildCount()>=1){
+		// mListView.getChildAt(0).get;
+		// }
+		mListView.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.i("xionglu", "onTouch");
+				if (mListView.getFirstVisiblePosition() == 0
+						|| event.getAction() == MotionEvent.ACTION_UP) {
+					Log.i("xionglu", "onTouch Deliver");
+					MainActivity activity = (MainActivity) getActivity();
+					activity.mActionBar.onTouch(event);
+				}
+
+				return false;
+			}
+		});
+		// mListView.setOnOverScrolledTopListener(new
+		// OnOverScrolledTopListener() {
+		//
+		// @Override
+		// public void onOverScrolled(MotionEvent ev, int startY) {
+		// MainActivity activity = (MainActivity) getActivity();
+		// activity.mActionBar.onTouch(ev, startY);
+		// }
+		// });
 		mListView.setOnLoadMoreListener(new OnLoadMoreListener() {
-			
+
 			@Override
 			public void onLoadMore() {
-				// TODO Auto-generated method stub
-				
+				queryClothesByPage(mPage + 1);
+
 			}
 		});
 	}

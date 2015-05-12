@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
 	public final static String TAB = "tab";
 	private String mCurrentTag = TAB_FIRST;
 	private static String[] titles = new String[] { "ÒÂ³÷", "´îÅä", "¸ü¶à" };
-	private ActionBar mActionBar;
+	public ActionBar mActionBar;
 
 	private Bundle mSavedInstanceState;
 	private TabManager mTabManager;
@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void refreshComplete() {
-
+//			setIntercept(false);
 		}
 
 		@Override

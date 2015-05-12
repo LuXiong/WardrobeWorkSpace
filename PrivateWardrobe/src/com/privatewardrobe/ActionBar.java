@@ -29,7 +29,7 @@ import com.privatewardrobe.control.DrawView.RefreshListener;
 /**
  * 
  * @author Dean
- *	
+ * 
  */
 public class ActionBar {
 
@@ -85,8 +85,8 @@ public class ActionBar {
 	public void completeRefresh() {
 		mPullView.completeRefresh();
 	}
-	
-	public void setOnRefreshListener(RefreshListener listener){
+
+	public void setOnRefreshListener(RefreshListener listener) {
 		mPullView.setRefreshListener(listener);
 	}
 
@@ -209,7 +209,8 @@ public class ActionBar {
 		if (isCollapse) {
 			ImageView imageView = (ImageView) LayoutInflater.from(mContext)
 					.inflate(R.layout.actionbar_image_button, null);
-			imageView.setImageResource(R.drawable.actionbar_setting_collapse_selector);
+			imageView
+					.setImageResource(R.drawable.actionbar_setting_collapse_selector);
 			imageView.setOnClickListener(new OnClickListener() {
 
 				@Override
