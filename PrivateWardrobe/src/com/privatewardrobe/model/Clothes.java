@@ -8,6 +8,10 @@ import org.json.JSONObject;
 
 public class Clothes implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3764002419098794498L;
 	private String id;
 	private String userId;
 	private String description;

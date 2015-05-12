@@ -34,6 +34,9 @@ import com.privatewardrobe.photo.PhotoHelper.PhotoProcessListener;
 
 public class ClothesCreateActivity extends BaseActivity {
 
+	public static int REQUEST_CODE = 101;
+	public static String CLOTHES = "clothes";
+
 	private ActionBar mActionBar;
 	private ImageView mClothesImg;
 	private EditText mDescriptionEdit;
@@ -123,8 +126,11 @@ public class ClothesCreateActivity extends BaseActivity {
 											public void onSuccess(
 													Clothes clothes) {
 												mLoadingDialog.dismiss();
+												Intent data = new Intent();
+												data.putExtra(CLOTHES, clothes);
+												setResult(RESULT_OK, data);
 												ClothesCreateActivity.this
-														.finish();
+												.finish();
 												Toast.makeText(
 														ClothesCreateActivity.this,
 														"创建成功",
@@ -145,7 +151,11 @@ public class ClothesCreateActivity extends BaseActivity {
 							@Override
 							public void onSuccess(Clothes clothes) {
 								mLoadingDialog.dismiss();
-								ClothesCreateActivity.this.finish();
+								Intent data = new Intent();
+								data.putExtra(CLOTHES, clothes);
+								setResult(RESULT_OK, data);
+								ClothesCreateActivity.this
+								.finish();
 								Toast.makeText(ClothesCreateActivity.this,
 										"创建成功", Toast.LENGTH_LONG).show();
 							}

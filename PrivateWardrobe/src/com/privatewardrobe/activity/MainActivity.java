@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,13 @@ import com.privatewardrobe.ActionBar;
 import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.control.DrawView.RefreshListener;
 import com.privatewardrobe.fragment.ClothesFragment;
 import com.privatewardrobe.fragment.MoreFragment;
 import com.privatewardrobe.fragment.SuitFragment;
+import com.privatewardrobe.photo.PhotoHelper;
+import com.privatewardrobe.photo.PhotoHelper.PhotoProcessListener;
 
 public class MainActivity extends BaseActivity {
 
@@ -35,6 +39,7 @@ public class MainActivity extends BaseActivity {
 	public ActionBar mActionBar;
 
 	private Bundle mSavedInstanceState;
+	private PhotoHelper mPhotoHelper;
 	private TabManager mTabManager;
 	private TabHost mTabHost;
 	private long mExitTime;
@@ -49,6 +54,13 @@ public class MainActivity extends BaseActivity {
 		setRefreshListener(mRefreshListener);
 		findView();
 		initView();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		mPhotoHelper.process(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
+
 	}
 
 	private void findView() {
@@ -85,6 +97,18 @@ public class MainActivity extends BaseActivity {
 			mCurrentTag = TAB_FIRST;
 		}
 		mTabHost.setCurrentTabByTag(mCurrentTag);
+		mPhotoHelper = new PhotoHelper(this, new PhotoProcessListener() {
+
+			@Override
+			public void onComplete(Uri source, Uri large, Uri thumbnail) {
+				if (mCurrentTag == TAB_SECOND) {
+					Intent intent = new Intent(MainActivity.this,
+							SuitCreateActivity.class);
+					intent.putExtra(SuitCreateActivity.IMG, large.toString());
+					startActivity(intent);
+				}
+			}
+		});
 	}
 
 	public static class FirstFragment extends ClothesFragment {
@@ -103,11 +127,19 @@ public class MainActivity extends BaseActivity {
 	protected void onActionBarItemSelected(int itemId, ActionItem item) {
 		if (itemId == 0) {
 			if (mCurrentTag == TAB_FIRST) {
+				// Utils.buildPhotoHelperListDialog(MainActivity.this,
+				// mPhotoHelper);
 				Intent intent = new Intent(MainActivity.this,
 						ClothesCreateActivity.class);
 				startActivity(intent);
 			}
-
+			if (mCurrentTag == TAB_SECOND) {
+				Utils.buildPhotoHelperListDialog(MainActivity.this,
+						mPhotoHelper);
+//				Intent intent = new Intent(MainActivity.this,
+//						SuitCreateActivity.class);
+//				startActivity(intent);
+			}
 		}
 		super.onActionBarItemSelected(itemId, item);
 	}
@@ -134,7 +166,7 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void refreshComplete() {
-//			setIntercept(false);
+			// setIntercept(false);
 		}
 
 		@Override
