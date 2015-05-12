@@ -66,7 +66,7 @@ public class SuitBusiness {
 		});
 	}
 	
-	public void updateSuit(String id,int weather,int occasion,String description,
+	public void updateSuit(String id,int weather,int occasion,String description,int isLike,
 			final BusinessListener<Suit> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
@@ -74,6 +74,7 @@ public class SuitBusiness {
 		params.put("weather",weather);
 		params.put("occasion", occasion);
 		params.put("description", description);
+		params.put("isLike", isLike);
 		client.post("suit/update", params, new PWHttpResponseHandler() {
 
 			@Override
@@ -156,7 +157,7 @@ public class SuitBusiness {
 		
 	}
 	
-	public void querySuitByUserId(String userId,final BusinessListener<Suit> listener){
+	public void querySuitByUserId(String userId,final int page,final BusinessListener<Suit> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
@@ -166,6 +167,8 @@ public class SuitBusiness {
 
 				try {
 					ArrayList<Suit> suitsList = new ArrayList<Suit>();
+					if(page == 0)
+					{
 					for(int i = 0;i < data.length();i++)
 					{
 						JSONObject obj = data.getJSONObject(i);
@@ -174,7 +177,27 @@ public class SuitBusiness {
 
 					}
 					listener.onSuccess(suitsList);
-			
+					}else if (page*20<=data.length()){
+						for(int i = (page-1)*20;i<page*20;i++)
+						{
+							JSONObject obj = data.getJSONObject(i);
+							Suit suit = new Suit(new JSONObject(obj.getString("Suit")));
+							suitsList.add(suit);
+
+						}
+						listener.onSuccess(suitsList);
+					}else if(((page-1)*20<=data.length())&&(data.length()<=page*20)){
+						for(int i = (page-1)*20; i<data.length();i++)
+						{
+							JSONObject obj = data.getJSONObject(i);
+							Suit suit = new Suit(new JSONObject(obj.getString("Suit")));
+							suitsList.add(suit);
+
+						}
+						listener.onSuccess(suitsList);
+					}else if(page*20>data.length()){
+						listener.onFailure("no more results");
+					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

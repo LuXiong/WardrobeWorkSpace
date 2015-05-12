@@ -100,7 +100,7 @@ public class ClothesBusiness {
 
 	}
 
-	public void updateClothes(String id, int color, int category, String img,
+	public void updateClothes(String id, int color, int category, String img,String description,int like,
 			final BusinessListener<Clothes> listener) {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
@@ -108,6 +108,8 @@ public class ClothesBusiness {
 		params.put("color", color);
 		params.put("category", category);
 		params.put("img", img);
+		params.put("description", description);
+		params.put("like", like);
 		client.post("clothes/update", params, new PWHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject data) {
@@ -224,7 +226,7 @@ public class ClothesBusiness {
 
 	}
 
-	public void queryClothesByUserId(String userId, int page,
+	public void queryClothesByUserId(String userId, final int page,
 			final BusinessListener<Clothes> listener) {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
@@ -237,16 +239,39 @@ public class ClothesBusiness {
 
 						try {
 							ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
-							for (int i = 0; i < data.length(); i++) {
-								JSONObject obj = data.getJSONObject(i);
-								String json =obj.getString("clothes");
-								JSONObject o= new JSONObject(json);
-								Clothes clothes = new Clothes(o);
-								clothesList.add(clothes);
+							if (page == 0) {
+								for (int i = 0; i < data.length(); i++) {
+									JSONObject obj = data.getJSONObject(i);
+									String json = obj.getString("clothes");
+									JSONObject o = new JSONObject(json);
+									Clothes clothes = new Clothes(o);
+									clothesList.add(clothes);
 
+								}
+								listener.onSuccess(clothesList);
+							} else if (page * 20 <= data.length()) {
+								for (int i = (page - 1) * 20; i < page * 20; i++) {
+									JSONObject obj = data.getJSONObject(i);
+									String json = obj.getString("clothes");
+									JSONObject o = new JSONObject(json);
+									Clothes clothes = new Clothes(o);
+									clothesList.add(clothes);
+								}
+								listener.onSuccess(clothesList);
+							} else if (((page - 1) * 20 <= data.length())
+									&& (data.length() <= page * 20)) {
+								for (int i = (page - 1) * 20; i < data.length(); i++) {
+
+									JSONObject obj = data.getJSONObject(i);
+									String json = obj.getString("clothes");
+									JSONObject o = new JSONObject(json);
+									Clothes clothes = new Clothes(o);
+									clothesList.add(clothes);
+								}
+								listener.onSuccess(clothesList);
+							} else if (page * 20 > data.length()) {
+								listener.onFailure("no more results");
 							}
-							listener.onSuccess(clothesList);
-
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -313,5 +338,7 @@ public class ClothesBusiness {
 
 		});
 	}
+	
+	
 
 }

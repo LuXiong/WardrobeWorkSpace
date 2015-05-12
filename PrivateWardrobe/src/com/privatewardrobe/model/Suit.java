@@ -10,11 +10,14 @@ public class Suit {
 	private String id;
 	private String userId;
 	private String img;
+	private String thumb;
 	private String clothes;
 	private Integer weather;
 	private Integer occasion;
 	private Date createTime;
 	private Date lastEdit;
+	private int isLike;
+	private String description;
 	
 	public Suit(){
 		
@@ -29,6 +32,9 @@ public class Suit {
 			}
 			if (data.has("img")) {
 				this.img = data.getString("img");
+			}
+			if (data.has("thumb")) {
+				this.thumb = data.getString("thumb");
 			}
 			if (data.has("clothes")) {
 				this.clothes = data.getString("clothes");
@@ -45,6 +51,12 @@ public class Suit {
 			}
 			if (data.has("lasEdit")) {
 				this.lastEdit = new Date(data.getLong("lastEdit"));
+			}
+			if (data.has("isLike")) {
+				this.isLike = data.getInt("isLike");
+			}
+			if (data.has("description")) {
+				this.description = data.getString("description");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -63,17 +75,38 @@ public class Suit {
 		this.occasion = occasion;
 	}
 	/**full constructor*/
-	public Suit(String id, String userId, String img, String clothes,
-			Integer weather, Integer occasion, Date createTime, Date lastEdit) {
+	public Suit(String id, String userId, String img, String thumb,String clothes,
+			Integer weather, Integer occasion, Date createTime, Date lastEdit,String description,int isLike) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.img = img;
+		this.thumb = thumb;
 		this.clothes = clothes;
 		this.weather = weather;
 		this.occasion = occasion;
 		this.createTime = createTime;
 		this.lastEdit = lastEdit;
+		this.description =description;
+		this.isLike = isLike;
+	}
+	public String getThumb() {
+		return thumb;
+	}
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
+	public int getIsLike() {
+		return isLike;
+	}
+	public void setIsLike(int isLike) {
+		this.isLike = isLike;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getId() {
 		return id;
