@@ -177,7 +177,7 @@ public class SuitBusiness {
 
 					}
 					listener.onSuccess(suitsList);
-					}else if (page*20<=data.length()){
+					}else if ((page*20<=data.length())&&(page!=0)){
 						for(int i = (page-1)*20;i<page*20;i++)
 						{
 							JSONObject obj = data.getJSONObject(i);
@@ -230,7 +230,11 @@ public class SuitBusiness {
 		String mergeClothesIdTotal = null;
 					for(int i = 0;i<clothesList.size();i++)
 					{
+						if(i!=clothesList.size()-1){
 						mergeClothesIdTotal = mergeClothesIdTotal + clothesList.get(i).getId()+ "-";
+						}else{
+						mergeClothesIdTotal = mergeClothesIdTotal + clothesList.get(i).getId();
+						}
 					}
 
 		return mergeClothesIdTotal;
@@ -288,11 +292,21 @@ public class SuitBusiness {
 	 */
 	public static int CheckWeatherW(String weatherW){
 		int weather = 0;
-		switch(weatherW){
-		case "春装":weather = 20;break;
-		case "夏装":weather = 30;break;
-		case "秋装":weather = 15;break;
-		case "冬装":weather = 10;break;
+//		switch(weatherW){
+//		case "春装":weather = 20;break;
+//		case "夏装":weather = 30;break;
+//		case "秋装":weather = 15;break;
+//		case "冬装":weather = 10;break;
+//		}
+		
+		if(weatherW == "春装"){
+			weather = 20;
+		}else if(weatherW == "夏装"){
+			weather = 30;
+		}else if(weatherW == "秋装"){
+			weather = 15;
+		}else if(weatherW == "冬装"){
+			weather = 10;
 		}
 		return weather;
 	}
@@ -305,13 +319,27 @@ public class SuitBusiness {
 	
 	public static int CheckOccasionW(String occasionW){
 		int occasion = 0;
-		switch(occasionW){
-		case "上学":occasion = 1;break;
-		case "逛街":occasion = 2;break;
-		case "会议":occasion = 3;break;
-		case "party":occasion = 4;break;
-		case "约会 ":occasion = 5;break;
-		case "旅游 ":occasion = 6;break;
+//		switch(occasionW){
+//		case "上学":occasion = 1;break;
+//		case "逛街":occasion = 2;break;
+//		case "会议":occasion = 3;break;
+//		case "party":occasion = 4;break;
+//		case "约会 ":occasion = 5;break;
+//		case "旅游 ":occasion = 6;break;
+//		}
+		
+		if(occasionW == "上学"){
+			occasion = 1;
+		}else if(occasionW == "逛街"){
+			occasion = 2;
+		}else if(occasionW == "会议"){
+			occasion = 3;
+		}else if(occasionW == "party"){
+			occasion = 4;
+		}else if(occasionW == "约会 "){
+			occasion = 5;
+		}else if(occasionW == "旅游 "){
+			occasion = 6;
 		}
 		return occasion;
 	}

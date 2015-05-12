@@ -249,7 +249,7 @@ public class ClothesBusiness {
 
 								}
 								listener.onSuccess(clothesList);
-							} else if (page * 20 <= data.length()) {
+							} else if ((page*20<=data.length())&&(page!=0)) {
 								for (int i = (page - 1) * 20; i < page * 20; i++) {
 									JSONObject obj = data.getJSONObject(i);
 									String json = obj.getString("clothes");
