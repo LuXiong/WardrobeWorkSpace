@@ -281,5 +281,29 @@ public class SuitBusiness {
 
 		});
 	}
+	
+	public static String CheckWeather(int weather){
+		String weatherW = null;
+		switch(weather){
+		case 20:weatherW = "春装";break;
+		case 30:weatherW = "夏装";break;
+		case 15:weatherW = "秋装";break;
+		case 10:weatherW = "冬装";break;
+		}
+		return weatherW;
+	}
+	
+	public static String CheckOccasion(int occasion){
+		String occasionW = null;
+		switch(occasion){
+		case 1:occasionW = "上学";break;
+		case 2:occasionW = "逛街";break;
+		case 3:occasionW = "会议";break;
+		case 4:occasionW = "party";break;
+		case 5:occasionW = "约会 ";break;
+		case 6:occasionW = "旅游 ";break;
+		}
+		return occasionW;
+	}
 }
 	
