@@ -45,7 +45,6 @@
             android:name="com.privatewardrobe.activity.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
             android:name="com.privatewardrobe.activity.PhotoFilterActivity"
             android:screenOrientation="portrait" >
@@ -70,15 +69,21 @@
             android:name="com.privatewardrobe.activity.SuitCreateActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity 
+        <activity
             android:name="com.privatewardrobe.activity.FunctionActivity"
-           android:screenOrientation="portrait" ></activity>
- <activity 
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.privatewardrobe.activity.PerfectInfoActivity"
-           android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.ChooseClothesActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <service android:name="com.privatewardrobe.service.MqttService" >
         </service>
     </application>
-
 
 </manifest>

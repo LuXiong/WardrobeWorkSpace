@@ -47,7 +47,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/activity_create_occasion_layout"
+            android:id="@+id/activity_create_suit_occasion_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -71,6 +71,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="喜歡" />
+
+        <GridView
+            android:id="@+id/activity_create_suit_clothes_gridView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnWidth="60dp"
+            android:horizontalSpacing="6dp"
+            android:numColumns="auto_fit" >
+        </GridView>
     </LinearLayout>
 
 </RelativeLayout>
