@@ -18,6 +18,7 @@ import com.privatewardrobe.model.Suit;
 public class SuitBusiness {
 
 	public void addSuit(String userId,String img,String thumb,int weather,int occasion,String description,
+			int isLike,
 			final BusinessListener<Suit> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
@@ -27,6 +28,7 @@ public class SuitBusiness {
 		params.put("weather", weather);
 		params.put("ocassion", occasion);
 		params.put("description", description);
+		params.put("isLike", isLike);
 		client.post("suit/add", params, new PWHttpResponseHandler() {
 
 			@Override

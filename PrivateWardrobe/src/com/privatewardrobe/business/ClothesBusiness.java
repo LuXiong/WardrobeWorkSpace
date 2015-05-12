@@ -27,7 +27,7 @@ public class ClothesBusiness {
 		params.put("color", color);
 		params.put("category", category);
 		params.put("img", img);
-		params.put("is_like", isLike);
+		params.put("like", isLike);
 		client.post("clothes/add", params, new PWHttpResponseHandler() {
 
 			@Override
