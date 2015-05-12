@@ -178,7 +178,7 @@ public class DrawView extends LinearLayout {
 		ViewGroup.LayoutParams lp = deView.getLayoutParams();
 		if (distance > topBarHeight) {
 			lp.height = distance;
-		} else {                                       
+		} else {
 			lp.height = topBarHeight;
 		}
 		deView.setLayoutParams(lp);
@@ -189,8 +189,10 @@ public class DrawView extends LinearLayout {
 	}
 
 	public boolean onTouch(MotionEvent event) {
-		if (isRefreshing) {
+		if (isRefreshing&&extendsBarView.getHeight()>0) {
 			return false;
+		}else{
+			isRefreshing=false;
 		}
 		boolean result = false;
 
@@ -227,12 +229,13 @@ public class DrawView extends LinearLayout {
 
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
+			isRefreshing = true;
 			result = true;
 			Log.v("xionglu", "distance:" + distance);
 			if (distance > topBarHeight + extendsBarHeight + bzlPaintHeight
 					&& listener != null) {
 				listener.refreshBegin();
-				isRefreshing = true;
+
 			}
 			if (distance > 0) {
 				startBziAnimation();

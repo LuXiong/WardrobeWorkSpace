@@ -1,12 +1,13 @@
 package com.privatewardrobe.control;
 
-
+import com.nostra13.universalimageloader.utils.L;
 import com.privatewardrobe.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
@@ -53,7 +54,8 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 	private boolean mIsLoadingMore = false;
 	private int mCurrentScrollState;
 
-//	private boolean isToLoad
+	private boolean isToLoadMore = true;
+
 	public LoadMoreListView(Context context) {
 		super(context);
 		init(context);
@@ -67,6 +69,14 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 	public LoadMoreListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
+	}
+	
+	@Override
+	protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX,
+			boolean clampedY) {
+		// TODO Auto-generated method stub
+		//Log.i("xionglu", "clampedY:"+clampedY);
+		super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
 	}
 
 	private void init(Context context) {
@@ -120,6 +130,8 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
+		
+
 
 		if (mOnScrollListener != null) {
 			mOnScrollListener.onScroll(view, firstVisibleItem,
@@ -143,19 +155,17 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 				mIsLoadingMore = true;
 				onLoadMore();
 			}
-
 		}
 
 	}
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-	
-		//bug fix: listview was not clickable after scroll
-		if ( scrollState == OnScrollListener.SCROLL_STATE_IDLE )
-        	{
-          		view.invalidateViews();
-        	}
-        	
+
+		// bug fix: listview was not clickable after scroll
+		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+			view.invalidateViews();
+		}
+
 		mCurrentScrollState = scrollState;
 
 		if (mOnScrollListener != null) {
@@ -167,7 +177,9 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 	public void onLoadMore() {
 		Log.d(TAG, "onLoadMore");
 		if (mOnLoadMoreListener != null) {
-			mOnLoadMoreListener.onLoadMore();
+			if (isToLoadMore) {
+				mOnLoadMoreListener.onLoadMore();
+			}
 		}
 	}
 
@@ -177,6 +189,15 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
 	public void onLoadMoreComplete() {
 		mIsLoadingMore = false;
 		mProgressBarLoadMore.setVisibility(View.GONE);
+	}
+
+	public void disableLoadMore() {
+		isToLoadMore = false;
+		mProgressBarLoadMore.setVisibility(View.GONE);
+	}
+
+	public void enableLoadMore() {
+		isToLoadMore = true;
 	}
 
 	/**

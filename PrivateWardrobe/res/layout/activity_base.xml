@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
-    <include
-        android:id="@+id/action_bar_layout"
-        layout="@layout/action_bar" />
 
-    <FrameLayout
+
+    <com.privatewardrobe.control.InterceptFrameLayout
         android:id="@+id/base_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/action_bar_layout"
+        android:layout_marginTop="66dp"
         android:background="@android:color/transparent" >
-    </FrameLayout>
-
+    </com.privatewardrobe.control.InterceptFrameLayout>
+    <include
+        android:id="@+id/action_bar_layout"
+        layout="@layout/action_bar" />
 </RelativeLayout>
