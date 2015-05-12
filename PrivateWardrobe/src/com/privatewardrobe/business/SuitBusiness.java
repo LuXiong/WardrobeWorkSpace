@@ -281,29 +281,65 @@ public class SuitBusiness {
 
 		});
 	}
-	
-	public static String CheckWeather(int weather){
-		String weatherW = null;
-		switch(weather){
-		case 20:weatherW = "春装";break;
-		case 30:weatherW = "夏装";break;
-		case 15:weatherW = "秋装";break;
-		case 10:weatherW = "冬装";break;
+	/**
+	 * 根据字符得出weather的代码
+	 * @param weatherW
+	 * @return
+	 */
+	public static int CheckWeatherW(String weatherW){
+		int weather = 0;
+		switch(weatherW){
+		case "春装":weather = 20;break;
+		case "夏装":weather = 30;break;
+		case "秋装":weather = 15;break;
+		case "冬装":weather = 10;break;
 		}
-		return weatherW;
+		return weather;
 	}
 	
-	public static String CheckOccasion(int occasion){
-		String occasionW = null;
-		switch(occasion){
-		case 1:occasionW = "上学";break;
-		case 2:occasionW = "逛街";break;
-		case 3:occasionW = "会议";break;
-		case 4:occasionW = "party";break;
-		case 5:occasionW = "约会 ";break;
-		case 6:occasionW = "旅游 ";break;
+/**
+ * 根据字符得出occasion的代码
+ * @param occasionW
+ * @return
+ */
+	
+	public static int CheckOccasionW(String occasionW){
+		int occasion = 0;
+		switch(occasionW){
+		case "上学":occasion = 1;break;
+		case "逛街":occasion = 2;break;
+		case "会议":occasion = 3;break;
+		case "party":occasion = 4;break;
+		case "约会 ":occasion = 5;break;
+		case "旅游 ":occasion = 6;break;
 		}
-		return occasionW;
+		return occasion;
+	}
+	/**
+	 * 获取weather的整个字符表
+	 * @return
+	 */
+	public static ArrayList<String> getWeatherStringList(){
+		ArrayList<String> weatherStringList = new ArrayList<String>();
+		weatherStringList.add("春装");
+		weatherStringList.add("夏装");
+		weatherStringList.add("秋装");
+		weatherStringList.add("冬装");
+		return weatherStringList;
+	}
+	/**
+	 * 获取occasion的整个字符表
+	 * @return
+	 */
+	public static ArrayList<String> getOccasionStringList(){
+		ArrayList<String> occasionStringList = new ArrayList<String>();
+		occasionStringList.add("上学");
+		occasionStringList.add("逛街");
+		occasionStringList.add("会议");
+		occasionStringList.add("party");
+		occasionStringList.add("约会 ");
+		occasionStringList.add("旅游 ");
+		return occasionStringList;
 	}
 }
 	
