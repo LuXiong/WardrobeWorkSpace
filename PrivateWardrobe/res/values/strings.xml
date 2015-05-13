@@ -91,6 +91,7 @@
     <string name="keepaliveHint">200</string>
     <string name="sslKeyLocaltion">file://</string>
     <string name="select">select</string>
+    <string name="about_us">穿衣搭配APP是由华中科技大学一组六人团队协作完成。参与制作人员组成：熊路、周叶子、王琦、黄锦、鲁享琳、张宇佳。</string>
     <!-- PushServiceEnd -->
 
 </resources>
