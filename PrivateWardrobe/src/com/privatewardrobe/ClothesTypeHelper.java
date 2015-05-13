@@ -2,6 +2,8 @@ package com.privatewardrobe;
 
 import java.util.ArrayList;
 
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.model.ClothesType;
 
 public class ClothesTypeHelper {
@@ -20,7 +22,21 @@ public class ClothesTypeHelper {
 	private void init() {
 		ArrayList<ClothesType> types = (ArrayList<ClothesType>) PWApplication
 				.getInstance().getCache(PWConstant.CLOTHES_TYPE);
-		mList.addAll(types);
+		if(types!=null){
+			mList.clear();
+			mList.addAll(types);
+		}else{
+			ClothesBusiness clothesBusiness = new ClothesBusiness();
+			clothesBusiness.showClothesType(new BusinessListener<ClothesType>(){
+				@Override
+				public void onSuccess(ArrayList<ClothesType> list) {
+					mList.clear();
+					mList.addAll(list);
+					PWApplication
+					.getInstance().putCache(PWConstant.CLOTHES_TYPE,list);
+				}
+			});
+		}
 	}
 
 	public ArrayList<String> getGender() {

@@ -99,6 +99,7 @@ public class PWApplication extends Application {
 				"", getApplicationContext());
 		Utils.setSharedPreferences(PWConstant.PREF_MAIN_NAME, "user_id", "",
 				getApplicationContext());
+		cache.clear();
 		stopPushService();
 	}
 

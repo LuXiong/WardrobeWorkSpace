@@ -104,7 +104,7 @@ public class BaseActivity extends FragmentActivity {
 		mContentLayout.addView(view);
 	}
 
-	protected void completeRefresh() {
+	public void completeRefresh() {
 		mActionBar.completeRefresh();
 	}
 

@@ -11,7 +11,7 @@
         android:id="@+id/base_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="60dp"
         android:background="@android:color/transparent" >
     </com.privatewardrobe.control.InterceptFrameLayout>
     <include

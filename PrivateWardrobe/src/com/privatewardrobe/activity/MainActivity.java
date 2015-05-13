@@ -154,14 +154,14 @@ public class MainActivity extends BaseActivity {
 
 		@Override
 		public void refreshing() {
-			(new Handler()).postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					completeRefresh();
-
-				}
-			}, 2000);
+			if (mCurrentTag == TAB_FIRST) {
+				ClothesFragment clothesFragment = (ClothesFragment) getSupportFragmentManager().findFragmentByTag(TAB_FIRST);
+				clothesFragment.onRefresh();
+			}
+			if (mCurrentTag == TAB_SECOND) {
+				SuitFragment suitFragment = (SuitFragment) getSupportFragmentManager().findFragmentByTag(TAB_SECOND);
+				suitFragment.onRefresh();
+			}
 		}
 
 		@Override

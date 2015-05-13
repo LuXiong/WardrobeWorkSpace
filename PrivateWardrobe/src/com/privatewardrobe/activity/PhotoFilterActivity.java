@@ -96,8 +96,7 @@ public class PhotoFilterActivity extends BaseActivity {
 	private void loadData() {
 		Intent intent = getIntent();
 		mFromLargeUri = intent.getStringExtra(URI);
-		imageLoader.displayImage(mFromLargeUri, mTempPhotoImg,
-				Utils.buildNoneDisplayImageOptions());
+		imageLoader.displayImage(mFromLargeUri, mTempPhotoImg);
 		Uri uri = Uri.parse(mFromLargeUri);
 		try {
 			FileInputStream fis = new FileInputStream(uri.getPath());

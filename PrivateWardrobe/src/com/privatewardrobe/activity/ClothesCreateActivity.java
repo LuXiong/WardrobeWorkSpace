@@ -230,7 +230,7 @@ public class ClothesCreateActivity extends BaseActivity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							mColor = which;
+							mColor = which+1;
 							notifyDataSetChanged();
 						}
 					});

@@ -40,17 +40,19 @@ public class PerfectInfoActivity extends BaseActivity {
 	private ActionBar mActionBar;
 
 	private PhotoHelper mPhotoHelper;
-	private AlertDialog loadingDialog;
 
 	private String mPhone;
 	private String mPassword;
 	private String mCode;
 	private String mAvatar;
-	private Uri mHeadSource;
 	private int mGender = 0;
 	private String mName;
 
-	private boolean hasHeadImg = false;
+	private Uri mSource;
+	// private int
+
+	private AlertDialog mLoadingDialog;
+	private boolean hasImg = false;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -81,14 +83,14 @@ public class PerfectInfoActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		loadingDialog = Utils.buildLoadingDialog(this);
+		mLoadingDialog = Utils.buildLoadingDialog(this);
 		mPhotoHelper = new PhotoHelper(this, new PhotoProcessListener() {
 
 			@Override
 			public void onComplete(Uri source, final Uri large, Uri thumbnail) {
-				hasHeadImg = true;
-				imageLoader.displayImage(large.toString(), mHeadImg);
-				mHeadSource = source;
+				mSource = thumbnail;
+				hasImg = true;
+				imageLoader.displayImage(thumbnail.toString(), mHeadImg);
 			}
 		});
 		mHeadImg.setOnClickListener(mHeadImgClickListener);
@@ -107,18 +109,17 @@ public class PerfectInfoActivity extends BaseActivity {
 	protected void onActionBarItemSelected(int itemId, ActionItem item) {
 		super.onActionBarItemSelected(itemId, item);
 		if (itemId == 0) {
-			loadingDialog.show();
-			if (hasHeadImg) {
-				mName = mNameText.getText().toString();
-				if (TextUtils.isEmpty(mName)) {
-					Toast.makeText(PerfectInfoActivity.this, "ÇëÌîÐ´êÇ³Æ",
-							Toast.LENGTH_LONG).show();
-					return;
-				}
+			mLoadingDialog.show();
+			mName = mNameText.getText().toString();
+			if (TextUtils.isEmpty(mName)) {
+				Toast.makeText(PerfectInfoActivity.this, "ÇëÌîÐ´êÇ³Æ",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			if (hasImg) {
+				
 				UploadHelper uploadHelper = new UploadHelper();
-				uploadHelper.upload(
-						new File(Utils.getRealPathFromURI(mHeadSource,
-								PerfectInfoActivity.this)),
+				uploadHelper.upload(new File(mSource.getPath()),
 						new UpCompletionListener() {
 
 							@Override
@@ -129,6 +130,11 @@ public class PerfectInfoActivity extends BaseActivity {
 										mPhone, mAvatar, PWApplication
 												.getInstance().getDeviceId(),
 										mCode, new BusinessListener<User>() {
+											@Override
+											public void onFinish() {
+												mLoadingDialog.dismiss();
+											}
+
 											@Override
 											public void onSuccess(User user) {
 												Intent intent = new Intent(
@@ -146,12 +152,16 @@ public class PerfectInfoActivity extends BaseActivity {
 
 						});
 
-			}else{
+			} else {
 				PassBusiness passBusiness = new PassBusiness();
-				passBusiness.regist(mName, mGender, mPassword,
-						mPhone, null, PWApplication
-								.getInstance().getDeviceId(),
-						mCode, new BusinessListener<User>() {
+				passBusiness.regist(mName, mGender, mPassword, mPhone, "de",
+						PWApplication.getInstance().getDeviceId(), mCode,
+						new BusinessListener<User>() {
+							@Override
+							public void onFinish() {
+								mLoadingDialog.dismiss();
+							}
+
 							@Override
 							public void onSuccess(User user) {
 								Intent intent = new Intent(
@@ -160,8 +170,7 @@ public class PerfectInfoActivity extends BaseActivity {
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
 										| Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivity(intent);
-								PerfectInfoActivity.this
-										.finish();
+								PerfectInfoActivity.this.finish();
 							}
 						});
 			}
@@ -182,7 +191,8 @@ public class PerfectInfoActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(PerfectInfoActivity.this, "ÄÐ", Toast.LENGTH_LONG).show();
+			Toast.makeText(PerfectInfoActivity.this, "ÄÐ", Toast.LENGTH_LONG)
+					.show();
 			mGender = 1;
 		}
 	};
@@ -190,7 +200,8 @@ public class PerfectInfoActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(PerfectInfoActivity.this, "Å®", Toast.LENGTH_LONG).show();
+			Toast.makeText(PerfectInfoActivity.this, "Å®", Toast.LENGTH_LONG)
+					.show();
 			mGender = 0;
 		}
 	};

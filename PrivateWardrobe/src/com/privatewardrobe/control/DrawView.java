@@ -35,6 +35,7 @@ public class DrawView extends LinearLayout {
 	private int extendsBarHeight = 100;
 	private int bzlPaintHeight = 500;
 	private int distance = 0;
+	private int alpha = 0xaa;
 
 	private View deView;
 	private Context context;
@@ -113,6 +114,7 @@ public class DrawView extends LinearLayout {
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
 		p.setColor(paintColor);
+		p.setAlpha(alpha);
 		Path path1 = new Path();
 		path1.moveTo(0, 0);
 		path1.quadTo(0, height, width / 2, height);
@@ -141,6 +143,7 @@ public class DrawView extends LinearLayout {
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
 		p.setColor(paintColor);
+		p.setAlpha(alpha);
 		canvas.drawRect(0, 0, width, height, p);
 	}
 
@@ -151,6 +154,7 @@ public class DrawView extends LinearLayout {
 		p.setStyle(Paint.Style.FILL);
 		p.setAntiAlias(true);
 		p.setColor(paintColor);
+		p.setAlpha(alpha);
 		canvas.drawRect(0, 0, width, height, p);
 	}
 
@@ -189,10 +193,10 @@ public class DrawView extends LinearLayout {
 	}
 
 	public boolean onTouch(MotionEvent event) {
-		if (isRefreshing&&extendsBarView.getHeight()>0) {
+		if (isRefreshing && extendsBarView.getHeight() > 0) {
 			return false;
-		}else{
-			isRefreshing=false;
+		} else {
+			isRefreshing = false;
 		}
 		boolean result = false;
 
@@ -247,7 +251,8 @@ public class DrawView extends LinearLayout {
 	}
 
 	private void startBziAnimation() {
-		ValueAnimator animation = ValueAnimator.ofInt(bzlPaintHeight, 0);
+		ValueAnimator animation = ValueAnimator.ofInt(bzlPaintView.getHeight(),
+				0);
 		animation.setDuration(500);
 		animation.addUpdateListener(new AnimatorUpdateListener() {
 
@@ -264,20 +269,24 @@ public class DrawView extends LinearLayout {
 	}
 
 	private void startExtendsAnimation() {
-		ValueAnimator animation = ValueAnimator.ofInt(extendsBarHeight, 0);
-		animation.setDuration(500);
-		animation.addUpdateListener(new AnimatorUpdateListener() {
+		if (extendsBarView.getHeight() > 0) {
+			ValueAnimator animation = ValueAnimator.ofInt(
+					extendsBarView.getHeight(), 0);
+			animation.setDuration(500);
+			animation.addUpdateListener(new AnimatorUpdateListener() {
 
-			@Override
-			public void onAnimationUpdate(ValueAnimator animation) {
-				setExtendsBarHeight((Integer) animation.getAnimatedValue());
-				setViewHeight(topBarHeight
-						+ (Integer) animation.getAnimatedValue());
-			}
-		});
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					setExtendsBarHeight((Integer) animation.getAnimatedValue());
+					setViewHeight(topBarHeight
+							+ (Integer) animation.getAnimatedValue());
+				}
+			});
 
-		animation.addListener(extendBarScaleAnmiListener);
-		animation.start();
+			animation.addListener(extendBarScaleAnmiListener);
+			animation.start();
+		}
+
 	}
 
 	private AnimatorListener bzlScaleAnmiListener = new AnimatorListener() {

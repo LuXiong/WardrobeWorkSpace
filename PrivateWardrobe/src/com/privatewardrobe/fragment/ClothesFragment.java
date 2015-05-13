@@ -3,6 +3,7 @@ package com.privatewardrobe.fragment;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,24 +13,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.PWConstant;
 import com.privatewardrobe.R;
+import com.privatewardrobe.activity.ClothesDetailActivity;
 import com.privatewardrobe.activity.MainActivity;
 import com.privatewardrobe.adapter.ClothesListAdapter;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.control.LoadMoreListView;
 import com.privatewardrobe.control.LoadMoreListView.OnLoadMoreListener;
+import com.privatewardrobe.control.RefreshInterface;
 import com.privatewardrobe.model.Clothes;
 
-public class ClothesFragment extends Fragment {
+public class ClothesFragment extends Fragment implements RefreshInterface {
 
 	private ArrayList<Clothes> mDataList;
 	private ArrayList<Clothes> mResultList;
@@ -82,6 +89,8 @@ public class ClothesFragment extends Fragment {
 				.getUserId(), page, new BusinessListener<Clothes>() {
 			@Override
 			public void onSuccess(ArrayList<Clothes> list) {
+				MainActivity activity = (MainActivity) getActivity();
+				activity.completeRefresh();
 				if (page == 1) {
 					mDataList.clear();
 					mResultList.clear();
@@ -90,14 +99,14 @@ public class ClothesFragment extends Fragment {
 					mDataList.addAll(list);
 					mResultList.addAll(list);
 					mPage = page;
-					notifyDatasetChanged();
+					
 					mListView.onLoadMoreComplete();
 				} else {
 					mListView.disableLoadMore();
 					Toast.makeText(getActivity(), "已经是最后一页", Toast.LENGTH_LONG)
 							.show();
 				}
-
+				notifyDatasetChanged();
 			}
 		});
 	}
@@ -151,6 +160,17 @@ public class ClothesFragment extends Fragment {
 
 			}
 		});
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent = new Intent(getActivity(),
+						ClothesDetailActivity.class);
+				startActivity(intent);
+			}
+		});
+		//mListView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.view_fragment_clothes_empty, null));
 	}
 
 	private void notifyDatasetChanged() {
@@ -162,7 +182,15 @@ public class ClothesFragment extends Fragment {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			// TODO Auto-generated method stub
+			mResultList.clear();
+			for (int i = 0; i < mDataList.size(); i++) {
+				Clothes clohtes = mDataList.get(i);
+				if (clohtes.getDescription().contains(
+						mSearchEdit.getText().toString())) {
+					mResultList.add(clohtes);
+				}
+			}
+			notifyDatasetChanged();
 
 		}
 
@@ -190,5 +218,17 @@ public class ClothesFragment extends Fragment {
 				mSearchEdit.requestFocus();
 			}
 		}, 500);
+	}
+
+	@Override
+	public void onRefresh() {
+		queryClothesByPage(1);
+
+	}
+
+	@Override
+	public void onComplete() {
+		// TODO Auto-generated method stub
+		
 	}
 }

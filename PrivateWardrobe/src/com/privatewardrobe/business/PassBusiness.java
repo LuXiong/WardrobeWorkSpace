@@ -67,7 +67,7 @@ public class PassBusiness {
 		});
 	}
 	
-	public void regist(String name, Integer gender, String password,
+	public void regist(String name, int gender, String password,
 			String phone, String avatar, String deviceId, String code,
 			final BusinessListener<User> listener){
 		PWHttpClient client = new PWHttpClient();

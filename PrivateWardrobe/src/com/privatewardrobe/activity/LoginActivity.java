@@ -3,7 +3,9 @@ package com.privatewardrobe.activity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.PassBusiness;
+import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.User;
 
 public class LoginActivity extends BaseActivity {
@@ -31,6 +34,7 @@ public class LoginActivity extends BaseActivity {
 
 	private PageState mPageState = PageState.STATE_LOGIN;
 	private ActionBar mActionBar;
+
 
 	private enum PageState {
 		// page of the login state
@@ -68,6 +72,7 @@ public class LoginActivity extends BaseActivity {
 	private void initView() {
 		bindEvents();
 		notifyPage();
+		
 	}
 
 	private void bindEvents() {
@@ -124,7 +129,7 @@ public class LoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			Log.i("xionglu", "Login Start");
+			
 			PassBusiness passBusiness = new PassBusiness();
 			passBusiness.login(mPhoneEdit.getText().toString(), mPasswordEdit
 					.getText().toString(), new BusinessListener<User>() {
@@ -159,12 +164,15 @@ public class LoginActivity extends BaseActivity {
 					&& mCodeEdit.getText().toString().equals("1234")) {
 				Intent intent = new Intent(LoginActivity.this,
 						PerfectInfoActivity.class);
-				intent.putExtra(PerfectInfoActivity.PHONE_NUM, mPhoneEdit.getText().toString());
-				intent.putExtra(PerfectInfoActivity.PASSWORD, mPasswordEdit.getText().toString());
-				intent.putExtra(PerfectInfoActivity.CODE, mCodeEdit.getText().toString());
+				intent.putExtra(PerfectInfoActivity.PHONE_NUM, mPhoneEdit
+						.getText().toString());
+				intent.putExtra(PerfectInfoActivity.PASSWORD, mPasswordEdit
+						.getText().toString());
+				intent.putExtra(PerfectInfoActivity.CODE, mCodeEdit.getText()
+						.toString());
 				startActivity(intent);
 			}
-			
+
 		}
 	};
 
@@ -242,7 +250,7 @@ public class LoginActivity extends BaseActivity {
 	 * @return
 	 */
 	private boolean isRightPassword(String password) {
-		if ((password.length() < 16) && (password.length() > 6)) {
+		if ((password.length() <= 16) && (password.length() >= 6)) {
 			return true;
 		} else {
 			System.out.println("password的位数请位于6-16之间");

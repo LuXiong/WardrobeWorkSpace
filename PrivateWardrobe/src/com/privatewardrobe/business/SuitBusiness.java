@@ -26,14 +26,14 @@ public class SuitBusiness {
 		params.put("img", img);
 		params.put("thumb", thumb);
 		params.put("weather", weather);
-		params.put("ocassion", occasion);
+		params.put("occasion", occasion);
 		params.put("description", description);
 		params.put("isLike", isLike);
 		client.post("suit/add", params, new PWHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(JSONObject data) {
-//				Log.i("xionglu", "data:" + data.toString());
+				Log.i("xionglu", "data:" + data.toString());
 				try {
 					JSONObject suitData = new JSONObject(data
 							.getString("suit"));
@@ -174,7 +174,7 @@ public class SuitBusiness {
 					for(int i = 0;i < data.length();i++)
 					{
 						JSONObject obj = data.getJSONObject(i);
-						Suit suit = new Suit(new JSONObject(obj.getString("Suit")));
+						Suit suit = new Suit(new JSONObject(obj.getString("suit")));
 						suitsList.add(suit);
 
 					}
@@ -183,7 +183,7 @@ public class SuitBusiness {
 						for(int i = (page-1)*20;i<page*20;i++)
 						{
 							JSONObject obj = data.getJSONObject(i);
-							Suit suit = new Suit(new JSONObject(obj.getString("Suit")));
+							Suit suit = new Suit(new JSONObject(obj.getString("suit")));
 							suitsList.add(suit);
 
 						}
@@ -192,7 +192,7 @@ public class SuitBusiness {
 						for(int i = (page-1)*20; i<data.length();i++)
 						{
 							JSONObject obj = data.getJSONObject(i);
-							Suit suit = new Suit(new JSONObject(obj.getString("Suit")));
+							Suit suit = new Suit(new JSONObject(obj.getString("suit")));
 							suitsList.add(suit);
 
 						}

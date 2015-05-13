@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,6 +24,8 @@ import com.privatewardrobe.R;
 import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.ChooseClothesListAdapter;
 import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.model.Clothes;
 
 public class ChooseClothesActivity extends BaseActivity {
@@ -30,11 +36,13 @@ public class ChooseClothesActivity extends BaseActivity {
 
 	private ArrayList<Clothes> mClothesList;
 	private ArrayList<Clothes> mChosedList;
+	private ArrayList<Clothes> mResultList;
 
 	private ActionBar mActionBar;
 	private GridView mClothesGridView;
 	private ListView mCLothesListVew;
 	private LinearLayout mCreateLayout;
+	private EditText mSearchEdit;
 
 	private ImgHorizenGridAdapter mGridAdapter;
 	private ChooseClothesListAdapter mListAdapter;
@@ -73,6 +81,7 @@ public class ChooseClothesActivity extends BaseActivity {
 				if (clothes != null) {
 					mChosedList.add(clothes);
 					mClothesList.add(0, clothes);
+					mResultList.add(0, clothes);
 					notifyDataSetChanged();
 				}
 			}
@@ -85,16 +94,19 @@ public class ChooseClothesActivity extends BaseActivity {
 		mClothesGridView = (GridView) findViewById(R.id.activity_choose_clothes_gridView);
 		mCLothesListVew = (ListView) findViewById(R.id.activity_choose_clothes_data_list);
 		mCreateLayout = (LinearLayout) findViewById(R.id.activity_choose_create_clothes_layout);
+		mSearchEdit = (EditText) findViewById(R.id.activity_choose_clothes_edit);
 	}
 
 	private void initView() {
 		mClothesList = new ArrayList<Clothes>();
 		mChosedList = new ArrayList<Clothes>();
+		mResultList = new ArrayList<Clothes>();
 		mGridAdapter = new ImgHorizenGridAdapter(this, mChosedList);
-		mListAdapter = new ChooseClothesListAdapter(this, mClothesList,
+		mListAdapter = new ChooseClothesListAdapter(this, mResultList,
 				mChosedList);
 		mClothesGridView.setAdapter(mGridAdapter);
 		mCLothesListVew.setAdapter(mListAdapter);
+		mCLothesListVew.setEmptyView(LayoutInflater.from(this).inflate(R.layout.view_choose_clothes_empty, null));
 		bindEvent();
 
 	}
@@ -103,6 +115,7 @@ public class ChooseClothesActivity extends BaseActivity {
 		mClothesGridView.setOnItemClickListener(mGridViewItemClickListener);
 		mCLothesListVew.setOnItemClickListener(mListViewItemClickListener);
 		mCreateLayout.setOnClickListener(mCreateClickListener);
+		mSearchEdit.addTextChangedListener(mSearchTextWatcher);
 	}
 
 	private void loadData() {
@@ -120,7 +133,20 @@ public class ChooseClothesActivity extends BaseActivity {
 		if (clothesList != null) {
 			mClothesList.clear();
 			mClothesList.addAll(clothesList);
+			mResultList.clear();
+			mResultList.addAll(clothesList);
 		}
+		ClothesBusiness clothesBusiness = new ClothesBusiness();
+		clothesBusiness.queryClothesByUserId(PWApplication.getInstance().getUserId(), 0, new BusinessListener<Clothes>(){
+			@Override
+			public void onSuccess(ArrayList<Clothes> list) {
+				mClothesList.clear();
+				mClothesList.addAll(list);
+				mResultList.clear();
+				mResultList.addAll(list);
+				notifyDataSetChanged();
+			}
+		});
 		notifyDataSetChanged();
 
 	}
@@ -144,7 +170,8 @@ public class ChooseClothesActivity extends BaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View v,
 				int position, long arg3) {
-			Clothes clothes = mClothesList.get(position);
+			mSearchEdit.setText("");
+			Clothes clothes = mResultList.get(position);
 			if (mChosedList.contains(clothes)) {
 				mChosedList.remove(clothes);
 			} else {
@@ -164,5 +191,33 @@ public class ChooseClothesActivity extends BaseActivity {
 			startActivityForResult(intent, ClothesCreateActivity.REQUEST_CODE);
 		}
 
+	};
+	private TextWatcher mSearchTextWatcher = new TextWatcher() {
+		
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			mResultList.clear();
+			for(int i=0;i<mClothesList.size();i++){
+				Clothes clohtes = mClothesList.get(i);
+				if(clohtes.getDescription().contains(mSearchEdit.getText().toString())){
+					mResultList.add(clohtes);
+				}
+			}
+			notifyDataSetChanged();
+			
+		}
+		
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
 	};
 }

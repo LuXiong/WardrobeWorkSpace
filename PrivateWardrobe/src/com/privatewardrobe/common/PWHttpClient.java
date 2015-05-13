@@ -94,8 +94,8 @@ public class PWHttpClient {
 						} else {
 							if (!mSilence) {
 								Toast.makeText(PWApplication.getInstance(),
-										"有个参数错掉了...", Toast.LENGTH_SHORT)
-										.show();
+										data.getString("error"),
+										Toast.LENGTH_SHORT).show();
 							}
 							handler.onFailure();
 						}
@@ -126,6 +126,5 @@ public class PWHttpClient {
 			mClient.cancelRequests(context, true);
 		}
 	}
-
 
 }

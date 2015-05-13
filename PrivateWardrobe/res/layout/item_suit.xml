@@ -8,21 +8,21 @@
     android:paddingTop="8dp" >
 
     <ImageView
-        android:id="@+id/item_clothes_img"
+        android:id="@+id/item_suit_img"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_launcher" />
 
     <LinearLayout
-        android:id="@+id/item_clothes_text_layout"
+        android:id="@+id/item_suit_text_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/item_clothes_img"
+        android:layout_toRightOf="@id/item_suit_img"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/item_clothes_time_text"
+            android:id="@+id/item_suit_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2015年6月9日  16:23"
@@ -30,7 +30,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/item_clothes_description_text"
+            android:id="@+id/item_suit_description_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/item_clothes_like_btn"
+        android:id="@+id/item_suit_like_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

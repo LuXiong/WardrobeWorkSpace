@@ -7,6 +7,8 @@
         android:id="@+id/fragment_clothes_search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="horizontal" >
 
         <EditText
@@ -19,6 +21,8 @@
     <com.privatewardrobe.control.LoadMoreListView
         android:id="@+id/fragment_clothes_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_clothes_search_layout"
+        android:descendantFocusability="blocksDescendants" />
 
 </RelativeLayout>

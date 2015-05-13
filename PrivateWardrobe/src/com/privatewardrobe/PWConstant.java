@@ -16,5 +16,6 @@ public class PWConstant {
 	//clohtes type
 	public static final String CLOTHES_TYPE = "clothesType";
 	public static final String CACHE_CLOTHES = "clothes";
+	public static final String CACHE_SUIT = "suit";
 
 }
