@@ -27,7 +27,11 @@ public class Utils {
 		String str = formatter.format(curDate);
 		return str;
 	}
-
+	static public String getTime(Date date) {
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+		String str = formatter.format(date);
+		return str;
+	}
 	public static String getDateString(Date date) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss");
 		return df.format(date);
@@ -38,6 +42,31 @@ public class Utils {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"'IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".jpg";
+
+	}
+
+	public static String getDeltaTime(long time) {
+		long currentMillis = System.currentTimeMillis();
+		long delta = currentMillis - time;
+		if (delta <= (long) 0) {
+			return "刚刚";
+		} else if (((long) 0 < delta) && (delta < (long) 1000 * 60)) {
+			return "刚刚";
+		} else if (((long) 1000 * 60 <= delta)
+				&& (delta < (long) 1000 * 60 * 60)) {
+			return delta / ((long) 1000 * 60) + "分钟前";
+		} else if (((long) 1000 * 60 * 60 <= delta)
+				&& (delta < (long) 1000 * 60 * 60 * 24)) {
+			return delta / ((long) 1000 * 60 * 60) + "小时前";
+		} else if (((long) 1000 * 60 * 60 * 24 <= delta)
+				&& (delta < (long) 1000 * 60 * 60 * 24 * 30)) {
+			return delta / ((long) 1000 * 60 * 60 * 24) + "天前";
+		} else if ((delta >= (long) 1000 * 60 * 60 * 24 * 30)
+				&& (delta < (long) 1000 * 60 * 60 * 24 * 30 * 12)) {
+			return delta / ((long) 1000 * 60 * 60 * 24 * 30) + "月前";
+		} else {
+			return delta / ((long) 1000 * 60 * 60 * 24 * 30 * 12) + "年前";
+		}
 
 	}
 

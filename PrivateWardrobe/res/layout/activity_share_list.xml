@@ -2,6 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
+    <com.privatewardrobe.control.LoadMoreListView
+        android:id="@+id/activity_share_list_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants" >
+    </com.privatewardrobe.control.LoadMoreListView>
 
 </RelativeLayout>
