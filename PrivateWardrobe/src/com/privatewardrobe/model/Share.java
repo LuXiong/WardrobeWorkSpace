@@ -6,6 +6,10 @@ import java.util.Date;
 import org.json.JSONObject;
 
 public class Share implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6208119922279231814L;
 	private String userName;
 	private String userId;
 	private String userImg;
