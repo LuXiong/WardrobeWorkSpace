@@ -13,28 +13,26 @@ import android.widget.TextView;
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
 import com.privatewardrobe.common.Utils;
-import com.privatewardrobe.model.Clothes;
+import com.privatewardrobe.model.Suit;
 
-public class ChooseClothesListAdapter extends BaseAdapter {
+public class ChooseSuitListAdapter extends BaseAdapter {
+
+	private ArrayList<Suit> mSuitList;
 	private Context mContext;
-	private ArrayList<Clothes> mClohtesList;
-	private ArrayList<Clothes> mChoosedList;
 
-	public ChooseClothesListAdapter(Context context,
-			ArrayList<Clothes> clohtesList, ArrayList<Clothes> choosedList) {
+	public ChooseSuitListAdapter(ArrayList<Suit> list, Context context) {
+		this.mSuitList = list;
 		this.mContext = context;
-		this.mClohtesList = clohtesList;
-		this.mChoosedList = choosedList;
 	}
 
 	@Override
 	public int getCount() {
-		return mClohtesList.size();
+		return mSuitList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mClohtesList.get(position);
+		return mSuitList.get(position);
 	}
 
 	@Override
@@ -45,40 +43,31 @@ public class ChooseClothesListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		Clothes clothes = mClohtesList.get(position);
+		Suit suit = mSuitList.get(position);
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.item_cloths_choose_list, null);
+					R.layout.item_suit_choose_list, null);
 			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if (mChoosedList.contains(clothes)) {
-			holder.state.setText("已选择");
-		} else {
-			holder.state.setText("未选中");
-		}
 		PWApplication
 				.getInstance()
 				.getImageLoader()
-				.displayImage("http://" + clothes.getImg(), holder.img,
+				.displayImage("http://" + suit.getImg(), holder.img,
 						Utils.buildNoneDisplayImageOptions());
-		holder.description.setText(clothes.getDescription());
+		holder.text.setText(suit.getDescription());
 		return convertView;
 	}
 
-	class ViewHolder {
-		TextView state;
+	private class ViewHolder {
 		ImageView img;
-		TextView description;
+		TextView text;
 
 		public ViewHolder(View v) {
-			state = (TextView) v
-					.findViewById(R.id.item_clothes_choose_state_img);
-			img = (ImageView) v.findViewById(R.id.item_clothes_choose_img);
-			description = (TextView) v
-					.findViewById(R.id.item_clothes_choose_text);
+			img = (ImageView) v.findViewById(R.id.item_suit_choose_img);
+			text = (TextView) v.findViewById(R.id.item_suit_choose_text);
 		}
 	}
 
