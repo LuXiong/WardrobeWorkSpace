@@ -60,7 +60,7 @@ public class ShareListAdapter extends BaseAdapter {
 				.displayImage("http://" + share.getUserImg(), holder.userImg,
 						Utils.buildNoneDisplayImageOptions());
 		holder.userName.setText(share.getUserName());
-		holder.createTime.setText(Utils.getDeltaTime(share.getCreatTime()
+		holder.createTime.setText(Utils.getDeltaTime(share.getCreateTime()
 				.getTime()));
 		holder.content.setText(share.getContent());
 		PWApplication
