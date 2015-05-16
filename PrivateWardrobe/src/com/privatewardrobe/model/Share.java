@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.widget.ListView;
 
 public class Share implements Serializable {
 	/**
@@ -22,17 +25,64 @@ public class Share implements Serializable {
 	private int commentCount;
 	private int isLike;
 	private int isCollect;
-	private Date creatTime;
+	private Date createTime;
 	private ArrayList<Comment> commentList;
 
-	public Share(JSONObject obj) {
+	public Share(JSONObject data) {
 
+		try {
+			if (data.has("user_name")) {
+			    this.userName = data.getString("user_name");
+			}
+			if (data.has("user_id")) {
+				this.userId = data.getString("user_id");
+			}
+			if (data.has("user_img")) {
+				this.userImg = data.getString("user_img");
+			}
+			if (data.has("suit_id")) {
+				this.suitId = data.getString("suit_id");
+			}
+			if (data.has("suit_img")) {
+				this.suitImg = data.getString("suit_img");
+			}
+			if (data.has("share_content")) {
+				this.content = data.getString("share_content");
+			}
+			if (data.has("suit_description")) {
+				this.suitDescription = data.getString("suit_description");
+			}
+			if (data.has("like_count")) {
+				this.likeCount = data.getInt("like_count");
+			}
+			if (data.has("comment_count")) {
+				this.commentCount = data.getInt("comment_count");
+			}
+			if (data.has("is_like")) {
+				this.isLike = data.getInt("is_like");
+			}
+			if (data.has("is_collect")) {
+				this.isCollect = data.getInt("is_collect");
+			}
+			if (data.has("share_create_time")) {
+				this.createTime = new Date(data.getLong("share_create_time"));
+			}
+			if (data.has("commentList")) {
+//				this.commentList = new ArrayList(data.getJSONArray("commentList").toString());
+//				this.commentList.add(data.getJSONArray("commentList"));
+			}
+			
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Share(String userName, String userId, String userImg, String suitId,
 			String suitImg, String content, String suitDescription,
 			int likeCount, int commentCount, int isLike, int isCollect,
-			Date creatTime, ArrayList<Comment> commentList) {
+			Date createTime, ArrayList<Comment> commentList) {
 		super();
 		this.userName = userName;
 		this.userId = userId;
@@ -45,9 +95,11 @@ public class Share implements Serializable {
 		this.commentCount = commentCount;
 		this.isLike = isLike;
 		this.isCollect = isCollect;
-		this.creatTime = creatTime;
+		this.createTime = createTime;
 		this.commentList = commentList;
 	}
+
+	
 
 	public String getUserName() {
 		return userName;
@@ -137,12 +189,12 @@ public class Share implements Serializable {
 		this.isCollect = isCollect;
 	}
 
-	public Date getCreatTime() {
-		return creatTime;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreatTime(Date creatTime) {
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public ArrayList<Comment> getCommentList() {
