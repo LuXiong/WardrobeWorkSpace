@@ -89,7 +89,10 @@
             android:name="com.privatewardrobe.activity.ChooseSuitActivity"
             android:screenOrientation="portrait" >
         </activity>
-
+<activity
+            android:name="com.privatewardrobe.activity.ShareListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <service android:name="com.privatewardrobe.service.MqttService" >
         </service>
     </application>
