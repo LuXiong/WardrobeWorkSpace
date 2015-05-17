@@ -55,7 +55,8 @@ public class ClothesDetailAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
-					R.id.activity_clothes_detail_suitList, null);
+					R.layout.item_detail_clothes_list
+					, null);
 			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		} else {

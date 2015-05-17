@@ -14,6 +14,7 @@ import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.ClothesTypeHelper;
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.ClothesDetailAdapter;
 import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
 import com.privatewardrobe.business.BusinessListener;
@@ -39,6 +40,8 @@ protected void onCreate(Bundle bundle) {
 	mActionBar = getMyActionBar();
 	mActionBar.setLeftDrawable(null);
 	setContentView(R.layout.activity_clothes_detail);
+	mActionBar.addActionItem(0, null, R.drawable.action_bar_right_btn_edit,
+			ActionItem.SHOWACTION_SHOW);
 	findView();
 	initView();
 	loadData();
@@ -52,16 +55,16 @@ private void loadData() {
 	
 	if (clothes != null) {
 		mClothes = clothes;
+		ClothesBusiness clothesBusiness = new ClothesBusiness();
+		clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
+			@Override
+			public void onSuccess(ArrayList<Suit> suitlist) {
+				mSuitList.clear();
+				mSuitList.addAll(suitlist);
+				notifyDataSetChanged();
+			}
+		});
 	}
-	ClothesBusiness clothesBusiness = new ClothesBusiness();
-	clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
-		@Override
-		public void onSuccess(ArrayList<Suit> suitlist) {
-			mSuitList.clear();
-			mSuitList.addAll(suitlist);
-			notifyDataSetChanged();
-		}
-	});
 		notifyDataSetChanged();
 	
 	
@@ -72,9 +75,9 @@ private void notifyDataSetChanged() {
 	mDescriptionTextView.setText(mClothes.getDescription());
 	mColorTextView.setText(ClothesBusiness.checkColor(mClothes.getColor()));
 	mCategoryView.setText(ClothesTypeHelper.getInstance().getDetailName(mClothes.getCategory()));
-	mCreateTimeTextView.setText(mClothes.getCreateTime().toString());
-	mLastEditTextView.setText(mClothes.getLastEdit().toString());
-	ImageLoader.getInstance().displayImage(mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+	mCreateTimeTextView.setText(Utils.getDateString(mClothes.getCreateTime()));
+	mLastEditTextView.setText(Utils.getDateString(mClothes.getLastEdit()));
+	ImageLoader.getInstance().displayImage("http://" + mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
 	mClothesDetailAdapter.notifyDataSetChanged();
 	
 }
@@ -82,6 +85,9 @@ private void notifyDataSetChanged() {
 
 private void initView() {
 	// TODO Auto-generated method stub
+	mSuitList = new ArrayList<Suit>();
+	mClothesDetailAdapter = new ClothesDetailAdapter(mSuitList, this);
+	mSuitListView.setAdapter(mClothesDetailAdapter);
 	
 	bindEvents();
 	notifyPage();

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.SuitDetailAdapter;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ClothesBusiness;
@@ -36,6 +37,8 @@ public class SuitDetailActivity extends BaseActivity{
 		mActionBar = getMyActionBar();
 		mActionBar.setLeftDrawable(null);
 		setContentView(R.layout.activity_suit_detail);
+		mActionBar.addActionItem(0, null, R.drawable.action_bar_right_btn_edit,
+				ActionItem.SHOWACTION_SHOW);
 		findView();
 		initView();
 		loadData();
@@ -50,17 +53,16 @@ public class SuitDetailActivity extends BaseActivity{
 		
 		if (suit != null) {
 			mSuit = suit;
-		}
-		SuitBusiness suitBusiness = new SuitBusiness();
-		suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
-			@Override
-			public void onSuccess(ArrayList<Clothes> clotheslist) {
-				mClothesList.clear();
-				mClothesList.addAll(clotheslist);
-				notifyDataSetChanged();
-			}
-		});
-		
+			SuitBusiness suitBusiness = new SuitBusiness();
+			suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
+				@Override
+				public void onSuccess(ArrayList<Clothes> clotheslist) {
+					mClothesList.clear();
+					mClothesList.addAll(clotheslist);
+					notifyDataSetChanged();
+				}
+			});
+		}		
 		notifyDataSetChanged();
 	}
 
@@ -69,15 +71,18 @@ public class SuitDetailActivity extends BaseActivity{
 		mDescriptionTextView.setText(mSuit.getDescription());
 		mWeatherTextView.setText(SuitBusiness.checkWeather(mSuit.getWeather()));
 		mOccasionTextView.setText(SuitBusiness.checkOccasion(mSuit.getOccasion()));
-		mCreateTimeTextView.setText(mSuit.getCreateTime().toString());
-		mLastEditTextView.setText(mSuit.getLastEdit().toString());
-		ImageLoader.getInstance().displayImage(mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+		mCreateTimeTextView.setText(Utils.getDateString(mSuit.getCreateTime()));
+		mLastEditTextView.setText(Utils.getDateString(mSuit.getLastEdit()));
+		ImageLoader.getInstance().displayImage("http://" + mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
 		mSuitDetailAdapter.notifyDataSetChanged();
 		
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
+		mClothesList = new ArrayList<Clothes>();
+		mSuitDetailAdapter = new SuitDetailAdapter(mClothesList, this);
+		mClothesListView.setAdapter(mSuitDetailAdapter);
 		bindEvents();
 		notifyPage();
 		

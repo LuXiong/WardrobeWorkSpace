@@ -96,11 +96,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="拥有搭配："
+                    android:text="相关状态："
                     android:textSize="20dp" />
 
-                <ListView
-                    android:id="@+id/activity_userproflie_suit_list"
+                <com.privatewardrobe.control.StaticListView
+                    android:id="@+id/activity_userproflie_share_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
