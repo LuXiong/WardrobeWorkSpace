@@ -25,7 +25,6 @@ import com.privatewardrobe.model.Suit;
 
 public class ClothesDetailActivity extends BaseActivity{
 	final static public String EXTRA_INPUT = "clothes";
-	final static public String SUIT_MATCH = "suit";
 	private TextView mDescriptionTextView,mColorTextView,mCategoryView,mExponentTextView;
 	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
 	private ImageView mImgImageView;

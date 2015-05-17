@@ -83,9 +83,9 @@ public class ClothesDetailAdapter extends BaseAdapter {
 		ImageView img = null;
 		
 		public ViewHolder(View v) {
-        	img = (ImageView) v.findViewById(R.id.item_clothes_suit_img);
-			descriptionTextView = (TextView) v.findViewById(R.id.item_clothes_description_text);
-			createTimeTextView = (TextView) v.findViewById(R.id.item_clothes_time_text);
+        	img = (ImageView) v.findViewById(R.id.item_detail_clothes_suit_img);
+			descriptionTextView = (TextView) v.findViewById(R.id.item_detail_clothes_description_text);
+			createTimeTextView = (TextView) v.findViewById(R.id.item_detail_clothes_time_text);
 			
 		}
 	}
