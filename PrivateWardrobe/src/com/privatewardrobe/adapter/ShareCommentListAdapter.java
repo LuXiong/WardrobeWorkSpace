@@ -54,14 +54,14 @@ public class ShareCommentListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		String time = Utils.getTime(comment.getCreateTime())+":";
-		String user = time+comment.getUserName();
+		String time = Utils.getTime(comment.getCreateTime())+"   ";
+		String user = time+comment.getUserName()+": ";
 		String content = comment.getContent();
-		SpannableStringBuilder text = new SpannableStringBuilder();
+		SpannableStringBuilder text = new SpannableStringBuilder(user+content);
 		ForegroundColorSpan baseColorSspan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.base_color));
 		ForegroundColorSpan greyColorSspan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.grey_text));
-		text.setSpan(baseColorSspan, 0, user.length()-1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-		text.setSpan(greyColorSspan, user.length(), user.length()+content.length()-1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		text.setSpan(baseColorSspan, 0, user.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		text.setSpan(greyColorSspan, user.length(), user.length()+content.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		holder.text.setText(text);
 		return convertView;
 	}
