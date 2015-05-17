@@ -24,21 +24,21 @@ public class ClothesDetailAdapter extends BaseAdapter {
 	private Context mContext;
 	
 	
-	public ClothesDetailAdapter(ArrayList<Clothes> mClothes, Context mContext) {
-		this.mClothes = mClothes;
+	public ClothesDetailAdapter(ArrayList<Suit> mSuitList, Context mContext) {
+		this.mSuitList = mSuitList;
 		this.mContext = mContext;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return mClothes.size();
+		return mSuitList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return mClothes.get(position);
+		return mSuitList.get(position);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ClothesDetailAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHolder holder;
-		Clothes clothes = mClothes.get(position);
+		Suit suit = mSuitList.get(position);
 
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
@@ -62,20 +62,20 @@ public class ClothesDetailAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		PWApplication
-				.getInstance()
-				.getImageLoader()
-				.displayImage("http://" + clothes.getImg(), holder.imgImageView,
-						Utils.buildNoneDisplayImageOptions());
-		holder.colorTextView.setText(clothes.getColor());
-		holder.categoryView.setText(clothes.getCategory());
-		holder.exponentTextView.setText(clothes.getExponent());
-		holder.descriptionTextView.setText(clothes.getDescription());
-		holder.createTimeTextView.setText(clothes.getCreateTime().toString());
-		holder.lastEditTextView.setText(clothes.getLastEdit().toString());
-		holder.isLike.setText(clothes.getLike());
-		ArrayList<Suit> suits = clothes.getSuitList();
-		if (suits != null) {
+//		PWApplication
+//				.getInstance()
+//				.getImageLoader()
+//				.displayImage("http://" + clothes.getImg(), holder.imgImageView,
+//						Utils.buildNoneDisplayImageOptions());
+//		holder.colorTextView.setText(clothes.getColor());
+//		holder.categoryView.setText(clothes.getCategory());
+//		holder.exponentTextView.setText(clothes.getExponent());
+//		holder.descriptionTextView.setText(clothes.getDescription());
+//		holder.createTimeTextView.setText(clothes.getCreateTime().toString());
+//		holder.lastEditTextView.setText(clothes.getLastEdit().toString());
+//		holder.isLike.setText(clothes.getLike());
+//		ArrayList<Suit> suits = clothes.getSuitList();
+		if (suit != null) {
 //			SuitAdapter adapter = new ShareCommentListAdapter(
 //					suits, mContext);
 //			holder.commentListView.setAdapter(adapter);
