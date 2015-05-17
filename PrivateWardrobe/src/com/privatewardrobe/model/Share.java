@@ -68,8 +68,16 @@ public class Share implements Serializable {
 				this.createTime = new Date(data.getLong("share_create_time"));
 			}
 			if (data.has("commentList")) {
+				commentList = new ArrayList<Comment>();
+				Comment comment = new Comment(data.getString("comment_id"),
+						data.getString("comment_user_id"),data.getString("comment_share_id"),
+						data.getString("comment_user_name"),data.getString("comment_content"),
+						new Date(data.getLong("comment_create_time")),data.getString("comment_user_img"));
+				commentList.add(comment);
+				
 //				this.commentList = new ArrayList(data.getJSONArray("commentList").toString());
 //				this.commentList.add(data.getJSONArray("commentList"));
+		
 			}
 			
 			
