@@ -13,14 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.privatewardrobe.PWApplication;
@@ -42,9 +41,7 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 	private ArrayList<Clothes> mResultList;
 
 	private EditText mSearchEdit;
-	private LoadMoreListView mListView;
-
-	private int mPage = 1;
+	private GridView mGridView;
 
 	private ClothesListAdapter mClothesAdapter;
 
@@ -69,7 +66,7 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 			mResultList.addAll(clothess);
 			notifyDatasetChanged();
 		}
-		queryClothesByPage(1);
+		queryClothesByPage();
 
 	}
 
@@ -80,32 +77,20 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 		super.onDestroyView();
 	}
 
-	private void queryClothesByPage(final int page) {
-		if (page == 1) {
-			mListView.enableLoadMore();
-		}
+	private void queryClothesByPage() {
 		ClothesBusiness clothesBusiness = new ClothesBusiness();
 		clothesBusiness.queryClothesByUserId(PWApplication.getInstance()
-				.getUserId(), page, new BusinessListener<Clothes>() {
+				.getUserId(), 0, new BusinessListener<Clothes>() {
 			@Override
 			public void onSuccess(ArrayList<Clothes> list) {
 				MainActivity activity = (MainActivity) getActivity();
 				activity.completeRefresh();
-				if (page == 1) {
 					mDataList.clear();
 					mResultList.clear();
-				}
-				if (list.size() > 0) {
+				
 					mDataList.addAll(list);
 					mResultList.addAll(list);
-					mPage = page;
-					
-					mListView.onLoadMoreComplete();
-				} else {
-					mListView.disableLoadMore();
-					Toast.makeText(getActivity(), "已经是最后一页", Toast.LENGTH_LONG)
-							.show();
-				}
+
 				notifyDatasetChanged();
 			}
 		});
@@ -114,8 +99,8 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 	private void findView(View v) {
 		mSearchEdit = (EditText) v
 				.findViewById(R.id.fragment_clothes_search_edit);
-		mListView = (LoadMoreListView) v
-				.findViewById(R.id.fragment_clothes_listview);
+		mGridView = (GridView) v
+				.findViewById(R.id.fragment_clothes_gridView);
 
 	}
 
@@ -123,17 +108,17 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 		mDataList = new ArrayList<Clothes>();
 		mResultList = new ArrayList<Clothes>();
 		mClothesAdapter = new ClothesListAdapter(getActivity(), mResultList);
-		mListView.setAdapter(mClothesAdapter);
+		mGridView.setAdapter(mClothesAdapter);
 		mSearchEdit.addTextChangedListener(searchEditWatcher);
 		// if(mListView.getChildCount()>=1){
 		// mListView.getChildAt(0).get;
 		// }
-		mListView.setOnTouchListener(new OnTouchListener() {
+		mGridView.setOnTouchListener(new OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				Log.i("xionglu", "onTouch");
-				if (mListView.getFirstVisiblePosition() == 0
+				if (mGridView.getFirstVisiblePosition() == 0
 						|| event.getAction() == MotionEvent.ACTION_UP) {
 					Log.i("xionglu", "onTouch Deliver");
 					MainActivity activity = (MainActivity) getActivity();
@@ -152,15 +137,7 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 		// activity.mActionBar.onTouch(ev, startY);
 		// }
 		// });
-		mListView.setOnLoadMoreListener(new OnLoadMoreListener() {
-
-			@Override
-			public void onLoadMore() {
-				queryClothesByPage(mPage + 1);
-
-			}
-		});
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -222,7 +199,7 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 
 	@Override
 	public void onRefresh() {
-		queryClothesByPage(1);
+		queryClothesByPage();
 
 	}
 

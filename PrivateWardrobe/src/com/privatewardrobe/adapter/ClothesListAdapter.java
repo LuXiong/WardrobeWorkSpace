@@ -55,27 +55,24 @@ public class ClothesListAdapter extends BaseAdapter {
 		PWApplication.getInstance().getImageLoader()
 				.displayImage("http://"+clothes.getImg(), holder.img,Utils.buildNoneDisplayImageOptions());
 		holder.description.setText(clothes.getDescription());
-		holder.time.setText(Utils.getDateString(clothes.getCreateTime()));
 		if (clothes.getLike()==1) {
-			holder.like.setText("Ï²»¶");
+			holder.like.setImageResource(R.drawable.icon_like);
 		} else {
-			holder.like.setText("²»Ï²»¶");
+			holder.like.setImageResource(R.drawable.icon_dislike);
 		}
 		return convertView;
 	}
 
 	private class ViewHolder {
 		ImageView img;
-		TextView time;
 		TextView description;
-		Button like;
+		ImageView like;
 
 		public ViewHolder(View v) {
 			img = (ImageView) v.findViewById(R.id.item_clothes_img);
-			time = (TextView) v.findViewById(R.id.item_clothes_time_text);
 			description = (TextView) v
 					.findViewById(R.id.item_clothes_description_text);
-			like = (Button) v.findViewById(R.id.item_clothes_like_btn);
+			like = (ImageView) v.findViewById(R.id.item_clothes_like_img);
 		}
 	}
 }
