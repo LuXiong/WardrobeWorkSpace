@@ -14,6 +14,7 @@ import com.privatewardrobe.common.PWHttpClient;
 import com.privatewardrobe.common.PWHttpResponseHandler;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.ClothesType;
+import com.privatewardrobe.model.Suit;
 import com.privatewardrobe.model.User;
 
 public class ClothesBusiness {
@@ -339,6 +340,44 @@ public class ClothesBusiness {
 		});
 	}
 	
+	public void querySuitByClothesId(String clothesId,final BusinessListener<Suit> listener){
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("clothesId", clothesId);
+		client.post("clothes/querySuitByClothesId", params,
+				new PWHttpResponseHandler(){
+			public void onSuccess(JSONArray data){
+				ArrayList<Suit> suitList = new ArrayList<Suit>();
+				try {
+					for (int i = 0; i < data.length(); i++) {
+						JSONObject obj = data.getJSONObject(i);
+						Suit suit = new Suit(new JSONObject(obj
+								.getString("suit")));
+						suitList.add(suit);
+					}
+					if (suitList != null) {
+						listener.onSuccess(suitList);
+					}
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+			
+		});
+		
+	}
 	
+	final static public String checkColor(int color){
+		String colorW = null;
+		if(color == 1){
+			colorW = "冷色";
+		}else if(color == 2){
+			colorW = "中色";
+		}else if(color ==3){
+			colorW = "暖色";
+		}
+		return colorW;
+	}
 
 }
