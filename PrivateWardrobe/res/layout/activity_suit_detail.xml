@@ -151,7 +151,7 @@
                 android:layout_marginRight="10dp"
                 android:orientation="vertical" >
 
-                <ListView
+                <com.privatewardrobe.control.StaticGridView
                     android:id="@+id/activity_suit_detail_clothesList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

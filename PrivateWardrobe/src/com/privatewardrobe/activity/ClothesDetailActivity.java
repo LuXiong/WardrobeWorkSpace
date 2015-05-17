@@ -52,16 +52,16 @@ private void loadData() {
 	
 	if (clothes != null) {
 		mClothes = clothes;
+		ClothesBusiness clothesBusiness = new ClothesBusiness();
+		clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
+			@Override
+			public void onSuccess(ArrayList<Suit> suitlist) {
+				mSuitList.clear();
+				mSuitList.addAll(suitlist);
+				notifyDataSetChanged();
+			}
+		});
 	}
-	ClothesBusiness clothesBusiness = new ClothesBusiness();
-	clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
-		@Override
-		public void onSuccess(ArrayList<Suit> suitlist) {
-			mSuitList.clear();
-			mSuitList.addAll(suitlist);
-			notifyDataSetChanged();
-		}
-	});
 		notifyDataSetChanged();
 	
 	
@@ -82,6 +82,9 @@ private void notifyDataSetChanged() {
 
 private void initView() {
 	// TODO Auto-generated method stub
+	mSuitList = new ArrayList<Suit>();
+	mClothesDetailAdapter = new ClothesDetailAdapter(mSuitList, this);
+	mSuitListView.setAdapter(mClothesDetailAdapter);
 	
 	bindEvents();
 	notifyPage();

@@ -50,17 +50,16 @@ public class SuitDetailActivity extends BaseActivity{
 		
 		if (suit != null) {
 			mSuit = suit;
-		}
-		SuitBusiness suitBusiness = new SuitBusiness();
-		suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
-			@Override
-			public void onSuccess(ArrayList<Clothes> clotheslist) {
-				mClothesList.clear();
-				mClothesList.addAll(clotheslist);
-				notifyDataSetChanged();
-			}
-		});
-		
+			SuitBusiness suitBusiness = new SuitBusiness();
+			suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
+				@Override
+				public void onSuccess(ArrayList<Clothes> clotheslist) {
+					mClothesList.clear();
+					mClothesList.addAll(clotheslist);
+					notifyDataSetChanged();
+				}
+			});
+		}		
 		notifyDataSetChanged();
 	}
 
@@ -78,6 +77,9 @@ public class SuitDetailActivity extends BaseActivity{
 
 	private void initView() {
 		// TODO Auto-generated method stub
+		mClothesList = new ArrayList<Clothes>();
+		mSuitDetailAdapter = new SuitDetailAdapter(mClothesList, this);
+		mClothesListView.setAdapter(mSuitDetailAdapter);
 		bindEvents();
 		notifyPage();
 		
