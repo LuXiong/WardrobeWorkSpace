@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
 				if (mCurrentTag == TAB_SECOND) {
 					Intent intent = new Intent(MainActivity.this,
 							SuitCreateActivity.class);
-					intent.putExtra(SuitCreateActivity.IMG, large.getPath());
+					intent.putExtra(SuitCreateActivity.IMG, large.toString());
 					startActivity(intent);
 				}
 			}

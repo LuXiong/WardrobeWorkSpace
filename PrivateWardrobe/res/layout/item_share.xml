@@ -50,7 +50,7 @@
     <ImageView
         android:id="@+id/item_share_suit_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_launcher"
         android:scaleType="fitXY" />
@@ -96,7 +96,7 @@
     <com.privatewardrobe.control.StaticListView
         android:id="@+id/item_share_comment_list"
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="10dp"
         android:background="@color/gray_light" >

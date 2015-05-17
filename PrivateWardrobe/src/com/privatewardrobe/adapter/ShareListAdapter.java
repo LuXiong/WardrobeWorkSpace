@@ -105,7 +105,7 @@ public class ShareListAdapter extends BaseAdapter {
 			like = (TextView) v.findViewById(R.id.item_share_like_text);
 			collect = (TextView) v.findViewById(R.id.item_share_collect_text);
 			suitDescription = (TextView) v
-					.findViewById(R.id.item_suit_description_text);
+					.findViewById(R.id.item_share_suit_description_text);
 			commentListView = (StaticListView) v
 					.findViewById(R.id.item_share_comment_list);
 		}
