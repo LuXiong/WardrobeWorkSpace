@@ -305,6 +305,24 @@ public class SuitBusiness {
 		}
 		return weatherW;
 	}
+	
+	public static String checkOccasion(int occasion){
+		String occasionW = null;
+		if(occasion == 1){
+			occasionW = "上学";
+		}else if(occasion == 2){
+			occasionW = "逛街";
+		}else if(occasion == 3){
+			occasionW = "会议";
+		}else if(occasion == 4){
+			occasionW = "party";
+		}else if(occasion == 5){
+			occasionW = "约会";
+		}else if(occasion == 6){
+			occasionW = "旅游";
+		}
+		return occasionW;
+	}
 	public static int CheckWeatherW(String weatherW){
 		int weather = 0;
 //		switch(weatherW){
