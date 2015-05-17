@@ -2,24 +2,34 @@ package com.privatewardrobe.activity;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
+import com.privatewardrobe.ClothesTypeHelper;
+import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.ClothesDetailAdapter;
+import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
+import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 
 
 public class ClothesDetailActivity extends BaseActivity{
 	final static public String EXTRA_INPUT = "clothes";
+	final static public String SUIT_MATCH = "suit";
 	private TextView mDescriptionTextView,mColorTextView,mCategoryView,mExponentTextView;
 	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
 	private ImageView mImgImageView;
-	private ListView mSuitListView;
+	private GridView mSuitListView;
 	
 	private ArrayList<Suit> mSuitList;
 	private ClothesDetailAdapter mClothesDetailAdapter;
@@ -36,15 +46,43 @@ protected void onCreate(Bundle bundle) {
 }
 private void loadData() {
 	// TODO Auto-generated method stub
-		mClothes = (Clothes) getIntent().getSerializableExtra(
-				ClothesDetailActivity.EXTRA_INPUT);
+	Intent intent = getIntent();
 
-		notifyDatasetChanged();
+	ArrayList<Suit> suitList = (ArrayList<Suit>) intent
+			.getSerializableExtra(SUIT_MATCH);
+	if (suitList != null) {
+		mSuitList.clear();
+		mSuitList.addAll(suitList);
+	}
+	ClothesBusiness clothesBusiness = new ClothesBusiness();
+	clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
+		@Override
+		public void onSuccess(ArrayList<Suit> suitlist) {
+			mSuitList.clear();
+			mSuitList.addAll(suitlist);
+			notifyDataSetChanged();
+		}
+	});
+		notifyDataSetChanged();
 	
 	
 }
-private void notifyDatasetChanged() {
+private void notifyDataSetChanged() {
 	// TODO Auto-generated method stub
+	//全屏刷新，在控件中显示 内容
+	mDescriptionTextView.setText(mClothes.getDescription());
+	mColorTextView.setText(ClothesBusiness.checkColor(mClothes.getColor()));
+	mCategoryView.setText(ClothesTypeHelper.getInstance().getDetailName(mClothes.getCategory()));
+	mCreateTimeTextView.setText(mClothes.getCreateTime().toString());
+	mLastEditTextView.setText(mClothes.getLastEdit().toString());
+	ImageLoader.getInstance().displayImage(mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+	adapterNotifyDatasetChanged();
+	
+}
+
+private void adapterNotifyDatasetChanged() {
+	// TODO Auto-generated method stub
+//	mSuitListView.findViewById();
 	
 }
 private void initView() {
@@ -71,6 +109,6 @@ private void findView() {
 	mLastEditTextView = (TextView)findViewById(R.id.activity_clothes_detail_lastEdit);
 	mIsLike = (TextView)findViewById(R.id.activity_clothes_detail_isLike);
 	mImgImageView = (ImageView)findViewById(R.id.activity_clothes_detail_img);
-	mSuitListView = (ListView)findViewById(R.id.activity_clothes_detail_suitList);
+	mSuitListView = (GridView)findViewById(R.id.activity_clothes_detail_suitList);
 }
 }

@@ -55,57 +55,37 @@ public class ClothesDetailAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.activity_clothes_detail, null);
+					R.id.activity_clothes_detail_suitList, null);
 			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-//		PWApplication
-//				.getInstance()
-//				.getImageLoader()
-//				.displayImage("http://" + clothes.getImg(), holder.imgImageView,
-//						Utils.buildNoneDisplayImageOptions());
-//		holder.colorTextView.setText(clothes.getColor());
-//		holder.categoryView.setText(clothes.getCategory());
-//		holder.exponentTextView.setText(clothes.getExponent());
-//		holder.descriptionTextView.setText(clothes.getDescription());
-//		holder.createTimeTextView.setText(clothes.getCreateTime().toString());
-//		holder.lastEditTextView.setText(clothes.getLastEdit().toString());
-//		holder.isLike.setText(clothes.getLike());
-//		ArrayList<Suit> suits = clothes.getSuitList();
+		PWApplication
+				.getInstance()
+				.getImageLoader()
+				.displayImage("http://" + suit.getImg(), holder.img,
+						Utils.buildNoneDisplayImageOptions());
+		holder.descriptionTextView.setText(suit.getDescription());
+		holder.createTimeTextView.setText(suit.getCreateTime().toString());
 		if (suit != null) {
-//			SuitAdapter adapter = new ShareCommentListAdapter(
-//					suits, mContext);
-//			holder.commentListView.setAdapter(adapter);
+			// SuitAdapter adapter = new ShareCommentListAdapter(
+			// suits, mContext);
+			// holder.commentListView.setAdapter(adapter);
 		}
 
 		return convertView;
 	}
 	private class ViewHolder {
-	    TextView descriptionTextView = null,colorTextView = null,categoryView = null,exponentTextView = null;
-	    TextView createTimeTextView = null,lastEditTextView = null,isLike = null;
-		ImageView imgImageView = null;
-		ListView suitListView = null;
 
+		TextView descriptionTextView = null,createTimeTextView = null;
+		ImageView img = null;
+		
 		public ViewHolder(View v) {
-			imgImageView = (ImageView) v.findViewById(R.id.activity_clothes_detail_img);
-			colorTextView = (TextView) v.findViewById(R.id.activity_clothes_detail_color);
-			descriptionTextView = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_description);
-			categoryView = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_category);
-			exponentTextView = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_exponent);
-			createTimeTextView = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_createTime);
-			lastEditTextView = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_lastEdit);
-			isLike = (TextView) v
-					.findViewById(R.id.activity_clothes_detail_isLike);
-			suitListView = (ListView) v
-					.findViewById(R.id.activity_clothes_detail_suitList);
+        	img = (ImageView) v.findViewById(R.id.item_clothes_suit_img);
+			descriptionTextView = (TextView) v.findViewById(R.id.item_clothes_description_text);
+			createTimeTextView = (TextView) v.findViewById(R.id.item_clothes_time_text);
 			
 		}
 	}
