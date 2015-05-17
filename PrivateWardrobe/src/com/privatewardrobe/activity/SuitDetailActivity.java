@@ -7,13 +7,19 @@ import android.widget.TextView;
 
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.adapter.SuitDetailAdapter;
+import com.privatewardrobe.model.Clothes;
+import com.privatewardrobe.model.Suit;
 
 public class SuitDetailActivity extends BaseActivity{
-	
+	final static public String EXTRA_INPUT = "suit";
 	private TextView mDescriptionTextView,mWeatherTextView,mOccasionTextView;
 	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
 	private ImageView mImgImageView;
 	private ListView mClothesListView;
+	
+	private SuitDetailAdapter mSuitDetailAdapter;
+	private Suit mSuit;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -23,9 +29,34 @@ public class SuitDetailActivity extends BaseActivity{
 		setContentView(R.layout.activity_suit_detail);
 		findView();
 		initView();
+		loadData();
+	}
+
+	private void loadData() {
+		// TODO Auto-generated method stub
+		mSuit = (Suit) getIntent().getSerializableExtra(
+				SuitDetailActivity.EXTRA_INPUT);
+		notifyDatasetChanged();
+	}
+
+	private void notifyDatasetChanged() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void initView() {
+		// TODO Auto-generated method stub
+		bindEvents();
+		notifyPage();
+		
+	}
+
+	private void notifyPage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void bindEvents() {
 		// TODO Auto-generated method stub
 		
 	}

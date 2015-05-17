@@ -15,6 +15,7 @@ public class Share implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6208119922279231814L;
+	private String shareId;
 	private String userName;
 	private String userId;
 	private String userImg;
@@ -32,6 +33,9 @@ public class Share implements Serializable {
 	public Share(JSONObject data) {
 
 		try {
+			if (data.has("share_id")){
+				this.shareId = data.getString("share_id");
+			}
 			if (data.has("user_name")) {
 			    this.userName = data.getString("user_name");
 			}
@@ -88,11 +92,14 @@ public class Share implements Serializable {
 		}
 	}
 
-	public Share(String userName, String userId, String userImg, String suitId,
-			String suitImg, String content, String suitDescription,
-			int likeCount, int commentCount, int isLike, int isCollect,
-			Date createTime, ArrayList<Comment> commentList) {
+	
+	public Share(String shareId, String userName, String userId,
+			String userImg, String suitId, String suitImg, String content,
+			String suitDescription, int likeCount, int commentCount,
+			int isLike, int isCollect, Date createTime,
+			ArrayList<Comment> commentList) {
 		super();
+		this.shareId = shareId;
 		this.userName = userName;
 		this.userId = userId;
 		this.userImg = userImg;
@@ -108,7 +115,14 @@ public class Share implements Serializable {
 		this.commentList = commentList;
 	}
 
-	
+
+	public String getShareId() {
+		return shareId;
+	}
+
+	public void setShareId(String shareId) {
+		this.shareId = shareId;
+	}
 
 	public String getUserName() {
 		return userName;
@@ -214,8 +228,6 @@ public class Share implements Serializable {
 		this.commentList = commentList;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 
 }

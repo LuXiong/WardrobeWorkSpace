@@ -9,15 +9,21 @@ import android.widget.TextView;
 
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.adapter.ClothesDetailAdapter;
+import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 
+
 public class ClothesDetailActivity extends BaseActivity{
+	final static public String EXTRA_INPUT = "clothes";
 	private TextView mDescriptionTextView,mColorTextView,mCategoryView,mExponentTextView;
 	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
 	private ImageView mImgImageView;
 	private ListView mSuitListView;
 	
 	private ArrayList<Suit> mSuitList;
+	private ClothesDetailAdapter mClothesDetailAdapter;
+	private Clothes mClothes;
 @Override
 protected void onCreate(Bundle bundle) {
 	super.onCreate(bundle);
@@ -26,8 +32,32 @@ protected void onCreate(Bundle bundle) {
 	setContentView(R.layout.activity_clothes_detail);
 	findView();
 	initView();
+	loadData();
+}
+private void loadData() {
+	// TODO Auto-generated method stub
+		mClothes = (Clothes) getIntent().getSerializableExtra(
+				ClothesDetailActivity.EXTRA_INPUT);
+
+		notifyDatasetChanged();
+	
+	
+}
+private void notifyDatasetChanged() {
+	// TODO Auto-generated method stub
+	
 }
 private void initView() {
+	// TODO Auto-generated method stub
+	bindEvents();
+	notifyPage();
+	
+}
+private void notifyPage() {
+	// TODO Auto-generated method stub
+	
+}
+private void bindEvents() {
 	// TODO Auto-generated method stub
 	
 }
