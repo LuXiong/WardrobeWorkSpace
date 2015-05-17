@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commentRL"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fragment_input_chat_bg"
+        android:minHeight="50dp" >
+
+       
+        <RelativeLayout
+            android:id="@+id/right_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/send_mode_btn"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minHeight="40dp" >
+
+            <EditText
+                android:id="@+id/input_txt"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/send_btn"
+                android:background="@drawable/comment_input_method_bg"
+                android:gravity="center_vertical"
+                android:hint="评论："
+                android:maxLines="5"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:textSize="19dp" />
+
+            <ImageButton
+                android:id="@+id/send_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/widget_chat_send_selector"
+                android:textColor="@color/grey_text" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

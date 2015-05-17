@@ -31,7 +31,6 @@ import com.privatewardrobe.UploadHelper;
 import com.privatewardrobe.UploadHelper.UpCompletionListener;
 import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
 import com.privatewardrobe.business.BusinessListener;
-import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.business.SuitBusiness;
 import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.Clothes;
@@ -54,7 +53,7 @@ public class SuitCreateActivity extends BaseActivity {
 	private GridView mClothesGridView;
 	private AlertDialog mLoadingDialog;
 
-	private String mSeason, mOccasion, mImg, mDescription, mClothes;
+	private String mSeason, mOccasion,  mDescription, mClothes;
 	private int mLike;
 
 	private ImgHorizenGridAdapter mGridAdapter;
@@ -179,7 +178,10 @@ public class SuitCreateActivity extends BaseActivity {
 		} else {
 			mOccasionText.setText(mOccasion);
 		}
-		imageLoader.displayImage(mImg, mSuitImg);
+		if(mSource!=null){
+			imageLoader.displayImage(mSource.toString(), mSuitImg);
+		}
+		
 		mLikeBtn.setText("Ï²»¶" + mLike);
 		mGridAdapter.notifyDataSetChanged();
 	}
@@ -297,9 +299,11 @@ public class SuitCreateActivity extends BaseActivity {
 	};
 
 	private void loadData() {
-		mImg = getIntent().getStringExtra(IMG);
-		mSource = Uri.parse(mImg);
-		notifyDatasetChanged();
+		mSource = getIntent().getParcelableExtra(IMG);
+		if(mSource!=null){
+			hasImg = true;
+			notifyDatasetChanged();
+		}
 		chooseClothes();
 	}
 

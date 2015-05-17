@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
+import com.privatewardrobe.activity.ShareListActivity;
 import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.control.StaticListView;
 import com.privatewardrobe.model.Comment;
@@ -20,10 +22,13 @@ import com.privatewardrobe.model.Share;
 public class ShareListAdapter extends BaseAdapter {
 	private Context mContext;
 	private ArrayList<Share> mShareList;
+	private ShareCommentListener mListener;
 
-	public ShareListAdapter(Context context, ArrayList<Share> shareList) {
+	public ShareListAdapter(Context context, ArrayList<Share> shareList,
+			ShareCommentListener l) {
 		this.mContext = context;
 		this.mShareList = shareList;
+		this.mListener = l;
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class ShareListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		Share share = mShareList.get(position);
 		if (convertView == null) {
@@ -69,6 +74,14 @@ public class ShareListAdapter extends BaseAdapter {
 				.displayImage("http://" + share.getSuitImg(), holder.suitImg,
 						Utils.buildNoneDisplayImageOptions());
 		holder.comment.setText("∆¿¬€(" + share.getCommentCount() + ")");
+		holder.comment.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				((ShareListActivity) mContext).popInputMethod();
+				mListener.onComment(position);
+			}
+		});
 		holder.like.setText("µ„‘ﬁ(" + share.getLikeCount() + ")");
 		holder.collect.setText(" ’≤ÿ");
 		holder.suitDescription.setText(share.getSuitDescription());
@@ -111,4 +124,7 @@ public class ShareListAdapter extends BaseAdapter {
 		}
 	}
 
+	public interface ShareCommentListener {
+		public void onComment(int which);
+	}
 }

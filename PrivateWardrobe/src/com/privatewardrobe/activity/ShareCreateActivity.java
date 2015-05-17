@@ -1,5 +1,7 @@
 package com.privatewardrobe.activity;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +10,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.privatewardrobe.ActionBar;
 import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.BaseActivity;
+import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ShareBusiness;
 import com.privatewardrobe.common.Utils;
+import com.privatewardrobe.model.Share;
 import com.privatewardrobe.model.Suit;
 import com.privatewardrobe.service.Notify;
 
@@ -48,7 +55,23 @@ public class ShareCreateActivity extends BaseActivity {
 	@Override
 	protected void onActionBarItemSelected(int itemId, ActionItem item) {
 		if (itemId == 0) {
-
+			ShareBusiness shareBusiness = new ShareBusiness();
+			if(mSuit==null){
+				Toast.makeText(ShareCreateActivity.this, "请选择搭配", Toast.LENGTH_LONG).show();
+				return;
+			}
+			shareBusiness.addShare(PWApplication.getInstance().getUserId(), mSuit.getId(), mShareEdit.getText().toString(), mPublic, new BusinessListener<Share>(){
+				@Override
+				public void onSuccess(Share share) {
+					if(share!=null){
+						Intent data = new Intent();
+						data.putExtra(SUIT, share);
+						setResult(RESULT_OK, data);
+						ShareCreateActivity.this.finish();
+						Toast.makeText(ShareCreateActivity.this, "发送成功", Toast.LENGTH_LONG).show();
+					}
+				}
+			});
 		}
 		super.onActionBarItemSelected(itemId, item);
 	}
