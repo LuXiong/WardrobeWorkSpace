@@ -1,13 +1,22 @@
 package com.privatewardrobe.activity;
 
+import java.util.ArrayList;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.SuitDetailAdapter;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
+import com.privatewardrobe.business.SuitBusiness;
+import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 
@@ -16,11 +25,11 @@ public class SuitDetailActivity extends BaseActivity{
 	private TextView mDescriptionTextView,mWeatherTextView,mOccasionTextView;
 	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
 	private ImageView mImgImageView;
-	private ListView mClothesListView;
+	private GridView mClothesListView;
 	
 	private SuitDetailAdapter mSuitDetailAdapter;
 	private Suit mSuit;
-
+	private ArrayList<Clothes> mClothesList;
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -34,13 +43,36 @@ public class SuitDetailActivity extends BaseActivity{
 
 	private void loadData() {
 		// TODO Auto-generated method stub
-		mSuit = (Suit) getIntent().getSerializableExtra(
-				SuitDetailActivity.EXTRA_INPUT);
-		notifyDatasetChanged();
+		Intent intent = getIntent();
+
+		Suit suit = (Suit) intent
+				.getSerializableExtra(EXTRA_INPUT);
+		
+		if (suit != null) {
+			mSuit = suit;
+		}
+		SuitBusiness suitBusiness = new SuitBusiness();
+		suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
+			@Override
+			public void onSuccess(ArrayList<Clothes> clotheslist) {
+				mClothesList.clear();
+				mClothesList.addAll(clotheslist);
+				notifyDataSetChanged();
+			}
+		});
+		
+		notifyDataSetChanged();
 	}
 
-	private void notifyDatasetChanged() {
+	private void notifyDataSetChanged() {
 		// TODO Auto-generated method stub
+		mDescriptionTextView.setText(mSuit.getDescription());
+		mWeatherTextView.setText(SuitBusiness.checkWeather(mSuit.getWeather()));
+		mOccasionTextView.setText(SuitBusiness.checkOccasion(mSuit.getOccasion()));
+		mCreateTimeTextView.setText(mSuit.getCreateTime().toString());
+		mLastEditTextView.setText(mSuit.getLastEdit().toString());
+		ImageLoader.getInstance().displayImage(mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+		mSuitDetailAdapter.notifyDataSetChanged();
 		
 	}
 
@@ -70,7 +102,7 @@ public class SuitDetailActivity extends BaseActivity{
 		mLastEditTextView = (TextView)findViewById(R.id.activity_suit_detail_lastEdit);
 		mIsLike = (TextView)findViewById(R.id.activity_suit_detail_isLike);
 		mImgImageView = (ImageView)findViewById(R.id.activity_suit_detail_img);
-		mClothesListView = (ListView)findViewById(R.id.activity_suit_detail_clothesList);
+		mClothesListView = (GridView)findViewById(R.id.activity_suit_detail_clothesList);
 		
 	}
 }

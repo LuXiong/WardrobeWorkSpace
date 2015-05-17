@@ -225,7 +225,7 @@ public class ShareListActivity extends BaseActivity {
 			final String commentStr = ((EditText) v).getText().toString();
 			ShareBusiness shareBusiness = new ShareBusiness();
 			shareBusiness.addComment(mDataList.get(which).getShareId(),
-					PWApplication.getInstance().getUserId(), "hhjb",
+					PWApplication.getInstance().getUserId(), commentStr,
 					new BusinessListener<Comment>() {
 
 					});
