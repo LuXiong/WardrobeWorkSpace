@@ -73,7 +73,7 @@ public class UserProfileActivity extends BaseActivity{
 		mNameTextView.setText(mUser.getName());
 		mCreateTimeTextView.setText(Utils.getDateString(mUser.getCreateTime()));
 		mPhoneTextView.setText(mUser.getPhone());
-		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView);
+		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView,Utils.buildNoneDisplayImageOptions());
 		mShareListAdapter.notifyDataSetChanged();
 		
 	}
