@@ -292,6 +292,19 @@ public class SuitBusiness {
 	 * @param weatherW
 	 * @return
 	 */
+	public static String checkWeather(int weather){
+		String weatherW = null;
+		if(weather == 20){
+			weatherW = "春装";
+		}else if(weather == 30){
+			weatherW = "夏装";
+		}else if(weather == 15){
+			weatherW = "秋装";
+		}else if(weather == 10){
+			weatherW = "冬装";
+		}
+		return weatherW;
+	}
 	public static int CheckWeatherW(String weatherW){
 		int weather = 0;
 //		switch(weatherW){

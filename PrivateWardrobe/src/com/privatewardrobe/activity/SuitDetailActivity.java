@@ -1,5 +1,8 @@
 package com.privatewardrobe.activity;
 
+import java.util.ArrayList;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -8,6 +11,9 @@ import android.widget.TextView;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.SuitDetailAdapter;
+import com.privatewardrobe.business.BusinessListener;
+import com.privatewardrobe.business.ClothesBusiness;
+import com.privatewardrobe.business.SuitBusiness;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 
@@ -20,7 +26,7 @@ public class SuitDetailActivity extends BaseActivity{
 	
 	private SuitDetailAdapter mSuitDetailAdapter;
 	private Suit mSuit;
-
+	private ArrayList<Clothes> mClothesList;
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -34,12 +40,28 @@ public class SuitDetailActivity extends BaseActivity{
 
 	private void loadData() {
 		// TODO Auto-generated method stub
-		mSuit = (Suit) getIntent().getSerializableExtra(
-				SuitDetailActivity.EXTRA_INPUT);
-		notifyDatasetChanged();
+		Intent intent = getIntent();
+
+		Suit suit = (Suit) intent
+				.getSerializableExtra(EXTRA_INPUT);
+		
+		if (suit != null) {
+			mSuit = suit;
+		}
+		SuitBusiness suitBusiness = new SuitBusiness();
+		suitBusiness.queryClothesBySuitId(mSuit.getId(), new BusinessListener<Clothes>(){
+			@Override
+			public void onSuccess(ArrayList<Clothes> clotheslist) {
+				mClothesList.clear();
+				mClothesList.addAll(clotheslist);
+				notifyDataSetChanged();
+			}
+		});
+		
+		notifyDataSetChanged();
 	}
 
-	private void notifyDatasetChanged() {
+	private void notifyDataSetChanged() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -69,11 +69,11 @@ public class ClothesDetailAdapter extends BaseAdapter {
 						Utils.buildNoneDisplayImageOptions());
 		holder.descriptionTextView.setText(suit.getDescription());
 		holder.createTimeTextView.setText(suit.getCreateTime().toString());
-		if (suit != null) {
-			// SuitAdapter adapter = new ShareCommentListAdapter(
-			// suits, mContext);
-			// holder.commentListView.setAdapter(adapter);
-		}
+//		if (suit != null) {
+//			// SuitAdapter adapter = new ShareCommentListAdapter(
+//			// suits, mContext);
+//			// holder.commentListView.setAdapter(adapter);
+//		}
 
 		return convertView;
 	}
