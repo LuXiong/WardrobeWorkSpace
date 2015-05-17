@@ -6,6 +6,10 @@ public class PWConstant {
 	public static final String BASE_PUSH_URL = "tcp://xlook315.eicp.net:39099";
 	public static final String BASE_PUSH_SEVER = "tcp://xlook315.eicp.net";
 	public static final int BASE_PUSH_PORT = 39099;
+	
+//	public static final String BASE_PUSH_URL = "tcp://192.168.191.1:1883";
+//	public static final String BASE_PUSH_SEVER = "tcp://192.168.191.1";
+//	public static final int BASE_PUSH_PORT = 1883;
 	//Preference Constants
 	public static final String PREF_MAIN_NAME = "MAIN";
 	public static final String PREF_USER_NAME = "USER_";

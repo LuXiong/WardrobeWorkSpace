@@ -15,7 +15,7 @@ import com.privatewardrobe.service.Connection.ConnectionStatus;
 public class PushService {
 
 	private static ActionListener connectCallback;
-	private final static String clientId = "45i";
+	private final static String clientId = "s5i";
 	private final static String uri = PWConstant.BASE_PUSH_URL;
 	private final static String clientHandle = uri + clientId;
 

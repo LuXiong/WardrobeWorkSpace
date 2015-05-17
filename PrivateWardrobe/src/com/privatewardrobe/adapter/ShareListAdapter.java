@@ -3,6 +3,8 @@ package com.privatewardrobe.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
+import android.sax.StartElementListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
 import com.privatewardrobe.activity.ShareListActivity;
+import com.privatewardrobe.activity.UserProfileActivity;
 import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.control.StaticListView;
 import com.privatewardrobe.model.Comment;
@@ -49,7 +52,7 @@ public class ShareListAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		Share share = mShareList.get(position);
+		final Share share = mShareList.get(position);
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(
 					R.layout.item_share, null);
@@ -64,6 +67,16 @@ public class ShareListAdapter extends BaseAdapter {
 				.getImageLoader()
 				.displayImage("http://" + share.getUserImg(), holder.userImg,
 						Utils.buildNoneDisplayImageOptions());
+		holder.userImg.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, UserProfileActivity.class);
+				intent.putExtra(UserProfileActivity.EXTRA_INPUT,
+						share.getUserId());
+				mContext.startActivity(intent);
+			}
+		});
 		holder.userName.setText(share.getUserName());
 		holder.createTime.setText(Utils.getDeltaTime(share.getCreateTime()
 				.getTime()));
@@ -78,8 +91,11 @@ public class ShareListAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				((ShareListActivity) mContext).popInputMethod();
-				mListener.onComment(position);
+				if (mListener != null) {
+					((ShareListActivity) mContext).popInputMethod();
+					mListener.onComment(position);
+				}
+
 			}
 		});
 		holder.like.setText("µãÔÞ(" + share.getLikeCount() + ")");

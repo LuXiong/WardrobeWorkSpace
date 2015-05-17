@@ -11,27 +11,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.GridView;
 
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.PWConstant;
 import com.privatewardrobe.R;
 import com.privatewardrobe.activity.ClothesDetailActivity;
 import com.privatewardrobe.activity.MainActivity;
-import com.privatewardrobe.adapter.ClothesListAdapter;
+import com.privatewardrobe.activity.SuitDetailActivity;
 import com.privatewardrobe.adapter.SuitListAdapter;
 import com.privatewardrobe.business.BusinessListener;
-import com.privatewardrobe.business.ClothesBusiness;
 import com.privatewardrobe.business.SuitBusiness;
-import com.privatewardrobe.control.LoadMoreListView;
-import com.privatewardrobe.control.LoadMoreListView.OnLoadMoreListener;
 import com.privatewardrobe.control.RefreshInterface;
-import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 
 public class SuitFragment extends Fragment implements RefreshInterface {
@@ -39,8 +35,7 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 	private ArrayList<Suit> mDataList;
 	private ArrayList<Suit> mResultList;
 	private EditText mSearchEdit;
-	private LoadMoreListView mListView;
-	private int mPage = 1;
+	private GridView mListView;
 
 	private SuitListAdapter mSuitAdapter;
 
@@ -65,7 +60,7 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 			mResultList.addAll(clothess);
 			notifyDatasetChanged();
 		}
-		queryClothesByPage(1);
+		queryClothesByPage();
 	}
 
 	@Override
@@ -74,32 +69,19 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 		super.onDestroyView();
 	}
 
-	private void queryClothesByPage(final int page) {
-		if (page == 1) {
-			mListView.enableLoadMore();
-		}
+	private void queryClothesByPage() {
 		SuitBusiness suitBusiness = new SuitBusiness();
 		suitBusiness.querySuitByUserId(PWApplication.getInstance().getUserId(),
-				page, new BusinessListener<Suit>() {
+				0, new BusinessListener<Suit>() {
 					@Override
 					public void onSuccess(ArrayList<Suit> list) {
 						MainActivity activity = (MainActivity) getActivity();
 						activity.completeRefresh();
-						if (page == 1) {
-							mDataList.clear();
-							mResultList.clear();
-						}
-						if (list.size() > 0) {
-							mDataList.addAll(list);
-							mResultList.addAll(list);
-							mPage = page;
-							
-							mListView.onLoadMoreComplete();
-						} else {
-							mListView.disableLoadMore();
-							Toast.makeText(getActivity(), "已经是最后一页",
-									Toast.LENGTH_LONG).show();
-						}
+						mDataList.clear();
+						mResultList.clear();
+
+						mDataList.addAll(list);
+						mResultList.addAll(list);
 						notifyDatasetChanged();
 					}
 				});
@@ -112,8 +94,7 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 
 	private void findView(View v) {
 		mSearchEdit = (EditText) v.findViewById(R.id.fragment_suit_search_edit);
-		mListView = (LoadMoreListView) v
-				.findViewById(R.id.fragment_suit_listview);
+		mListView = (GridView) v.findViewById(R.id.fragment_suit_gridView);
 	}
 
 	private void initView(View v) {
@@ -137,25 +118,20 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 				return false;
 			}
 		});
-		mListView.setOnLoadMoreListener(new OnLoadMoreListener() {
 
-			@Override
-			public void onLoadMore() {
-				queryClothesByPage(mPage + 1);
-
-			}
-		});
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent = new Intent(getActivity(),
-						ClothesDetailActivity.class);
+						SuitDetailActivity.class);
+				intent.putExtra(SuitDetailActivity.EXTRA_INPUT, mResultList.get(arg2));
 				startActivity(intent);
 			}
 		});
-		//mListView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.view_fragment_suit_empty, null));
+		// mListView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.view_fragment_suit_empty,
+		// null));
 	}
 
 	private TextWatcher searchEditWatcher = new TextWatcher() {
@@ -191,7 +167,7 @@ public class SuitFragment extends Fragment implements RefreshInterface {
 
 	@Override
 	public void onRefresh() {
-		queryClothesByPage(1);
+		queryClothesByPage();
 
 	}
 

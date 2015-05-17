@@ -1,5 +1,6 @@
 package com.privatewardrobe.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -7,7 +8,11 @@ import org.json.JSONObject;
 
 
 
-public class User {
+public class User implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5243180721812991140L;
 	// Fields
 
 	private String uid;

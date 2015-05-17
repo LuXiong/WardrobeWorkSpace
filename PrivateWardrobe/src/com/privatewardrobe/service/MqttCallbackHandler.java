@@ -24,6 +24,7 @@ import android.content.Intent;
 
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
+import com.privatewardrobe.activity.LaunchActivity;
 import com.privatewardrobe.service.Connection.ConnectionStatus;
 
 /**
@@ -101,8 +102,7 @@ public class MqttCallbackHandler implements MqttCallback {
 		if (cacheMsg == null || !cacheMsg.equals(s)) {
 			PWApplication.getInstance().putCache("CurrentMsg", s);
 			Intent intent = new Intent();
-			intent.setClassName(context,
-					"org.eclipse.paho.android.service.sample.ConnectionDetails");
+			intent.setClass(context, LaunchActivity.class);
 			intent.putExtra("handle", clientHandle);
 			JSONObject obj = new JSONObject(new String(message.getPayload()));
 			Notify.notifcation(context, (String) obj.get("content"), intent,

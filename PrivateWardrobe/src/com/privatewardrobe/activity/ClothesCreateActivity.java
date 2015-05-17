@@ -66,6 +66,12 @@ public class ClothesCreateActivity extends BaseActivity {
 				ActionItem.SHOWACTION_SHOW);
 		findView();
 		initView();
+		loadData();
+	}
+
+	private void loadData() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void notifyDataSetChanged() {

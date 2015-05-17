@@ -58,27 +58,24 @@ public class SuitListAdapter extends BaseAdapter {
 				.displayImage("http://" + suit.getImg(), holder.img,
 						Utils.buildNoneDisplayImageOptions());
 		holder.description.setText(suit.getDescription());
-		holder.time.setText(Utils.getDateString(suit.getCreateTime()));
-		if (suit.getIsLike() == 1) {
-			holder.like.setText("Ï²»¶");
+		if (suit.getIsLike()==1) {
+			holder.like.setImageResource(R.drawable.icon_like);
 		} else {
-			holder.like.setText("²»Ï²»¶");
+			holder.like.setImageResource(R.drawable.icon_dislike);
 		}
 		return convertView;
 	}
 
 	private class ViewHolder {
 		ImageView img;
-		TextView time;
 		TextView description;
-		Button like;
+		ImageView like;
 
 		public ViewHolder(View v) {
 			img = (ImageView) v.findViewById(R.id.item_suit_img);
-			time = (TextView) v.findViewById(R.id.item_suit_time_text);
 			description = (TextView) v
 					.findViewById(R.id.item_suit_description_text);
-			like = (Button) v.findViewById(R.id.item_suit_like_btn);
+			like = (ImageView) v.findViewById(R.id.item_suit_like_img);
 		}
 	}
 }

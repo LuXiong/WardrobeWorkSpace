@@ -85,11 +85,11 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 			public void onSuccess(ArrayList<Clothes> list) {
 				MainActivity activity = (MainActivity) getActivity();
 				activity.completeRefresh();
-					mDataList.clear();
-					mResultList.clear();
-				
-					mDataList.addAll(list);
-					mResultList.addAll(list);
+				mDataList.clear();
+				mResultList.clear();
+
+				mDataList.addAll(list);
+				mResultList.addAll(list);
 
 				notifyDatasetChanged();
 			}
@@ -99,8 +99,7 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 	private void findView(View v) {
 		mSearchEdit = (EditText) v
 				.findViewById(R.id.fragment_clothes_search_edit);
-		mGridView = (GridView) v
-				.findViewById(R.id.fragment_clothes_gridView);
+		mGridView = (GridView) v.findViewById(R.id.fragment_clothes_gridView);
 
 	}
 
@@ -140,14 +139,16 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				Intent intent = new Intent(getActivity(),
 						ClothesDetailActivity.class);
+				intent.putExtra(ClothesDetailActivity.EXTRA_INPUT, mResultList.get(position));
 				startActivity(intent);
 			}
 		});
-		//mListView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.view_fragment_clothes_empty, null));
+		// mListView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.view_fragment_clothes_empty,
+		// null));
 	}
 
 	private void notifyDatasetChanged() {
@@ -206,6 +207,6 @@ public class ClothesFragment extends Fragment implements RefreshInterface {
 	@Override
 	public void onComplete() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" >
 
-    <LinearLayout
+<LinearLayout
         android:id="@+id/fragment_suit_search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/search_bg"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_search" />
 
         <EditText
             android:id="@+id/fragment_suit_search_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="搜索" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="搜索衣服"
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <com.privatewardrobe.control.LoadMoreListView
-        android:id="@+id/fragment_suit_listview"
+    <GridView
+        android:id="@+id/fragment_suit_gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/fragment_suit_search_layout"
-        android:descendantFocusability="blocksDescendants" />
+        android:layout_marginTop="10dp"
+        android:descendantFocusability="blocksDescendants"
+        android:horizontalSpacing="15dp"
+        android:numColumns="2"
+        android:scrollbars="none"
+        android:verticalSpacing="15dp" />
 
 </RelativeLayout>
