@@ -8,12 +8,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
 import com.privatewardrobe.adapter.ShareListAdapter;
+import com.privatewardrobe.adapter.ShareListAdapter.ShareCommentListener;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ShareBusiness;
 import com.privatewardrobe.business.SuitBusiness;
+import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Share;
 import com.privatewardrobe.model.Suit;
@@ -51,17 +54,16 @@ public class UserProfileActivity extends BaseActivity{
 		
 		if (user != null) {
 			mUser = user;
+			ShareBusiness shareBusiness = new ShareBusiness();
+			shareBusiness.queryShareByUserId(mUser.getUid(),new BusinessListener<Share>(){
+				@Override
+				public void onSuccess(ArrayList<Share> sharelist) {
+					mShareList.clear();
+					mShareList.addAll(sharelist);
+					notifyDataSetChanged();
+				}
+			});
 		}
-		ShareBusiness shareBusiness = new ShareBusiness();
-		shareBusiness.queryShareByUserId(mUser.getUid(),new BusinessListener<Share>(){
-			@Override
-			public void onSuccess(ArrayList<Share> sharelist) {
-				mShareList.clear();
-				mShareList.addAll(sharelist);
-				notifyDataSetChanged();
-			}
-		});
-		
 		notifyDataSetChanged();
 		
 	}
@@ -69,14 +71,30 @@ public class UserProfileActivity extends BaseActivity{
 	private void notifyDataSetChanged() {
 		// TODO Auto-generated method stub
 		mNameTextView.setText(mUser.getName());
+		mCreateTimeTextView.setText(Utils.getDateString(mUser.getCreateTime()));
+		mPhoneTextView.setText(mUser.getPhone());
+		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView);
+		mShareListAdapter.notifyDataSetChanged();
 		
 	}
 
+//	private ShareCommentListener listener = new ShareCommentListener() {
+//
+//		@Override
+//		public void onComment(int which) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//	};
+
 	private void initView() {
 		// TODO Auto-generated method stub
-			bindEvents();
-			notifyPage();
-		
+		mShareList = new ArrayList<Share>();
+		mShareListAdapter = new ShareListAdapter(this, mShareList, null);
+		mShareListView.setAdapter(mShareListAdapter);
+		bindEvents();
+		notifyPage();
+
 	}
 
 	private void notifyPage() {

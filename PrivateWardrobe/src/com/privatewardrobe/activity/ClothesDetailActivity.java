@@ -72,9 +72,9 @@ private void notifyDataSetChanged() {
 	mDescriptionTextView.setText(mClothes.getDescription());
 	mColorTextView.setText(ClothesBusiness.checkColor(mClothes.getColor()));
 	mCategoryView.setText(ClothesTypeHelper.getInstance().getDetailName(mClothes.getCategory()));
-	mCreateTimeTextView.setText(mClothes.getCreateTime().toString());
-	mLastEditTextView.setText(mClothes.getLastEdit().toString());
-	ImageLoader.getInstance().displayImage(mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+	mCreateTimeTextView.setText(Utils.getDateString(mClothes.getCreateTime()));
+	mLastEditTextView.setText(Utils.getDateString(mClothes.getLastEdit()));
+	ImageLoader.getInstance().displayImage("http://" + mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
 	mClothesDetailAdapter.notifyDataSetChanged();
 	
 }

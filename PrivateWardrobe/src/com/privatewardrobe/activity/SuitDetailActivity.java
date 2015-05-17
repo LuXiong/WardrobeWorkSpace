@@ -68,9 +68,9 @@ public class SuitDetailActivity extends BaseActivity{
 		mDescriptionTextView.setText(mSuit.getDescription());
 		mWeatherTextView.setText(SuitBusiness.checkWeather(mSuit.getWeather()));
 		mOccasionTextView.setText(SuitBusiness.checkOccasion(mSuit.getOccasion()));
-		mCreateTimeTextView.setText(mSuit.getCreateTime().toString());
-		mLastEditTextView.setText(mSuit.getLastEdit().toString());
-		ImageLoader.getInstance().displayImage(mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+		mCreateTimeTextView.setText(Utils.getDateString(mSuit.getCreateTime()));
+		mLastEditTextView.setText(Utils.getDateString(mSuit.getLastEdit()));
+		ImageLoader.getInstance().displayImage("http://" + mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
 		mSuitDetailAdapter.notifyDataSetChanged();
 		
 	}
