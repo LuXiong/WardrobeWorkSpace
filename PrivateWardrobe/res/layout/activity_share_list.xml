@@ -10,4 +10,18 @@
         android:descendantFocusability="blocksDescendants" >
     </com.privatewardrobe.control.LoadMoreListView>
 
+    <RelativeLayout
+        android:id="@+id/activity_share_comment_fragment_wraplayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp" >
+
+        <fragment
+            android:id="@+id/activity_share_comment_send_fragment"
+            android:name="com.privatewardrobe.control.CommentFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 </RelativeLayout>

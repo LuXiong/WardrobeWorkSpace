@@ -371,5 +371,30 @@ public class SuitBusiness {
 		occasionStringList.add("¬√”Œ ");
 		return occasionStringList;
 	}
+	
+	public void queryClothesBySuitId(String suitId,final BusinessListener<Clothes> listener){
+		PWHttpClient client = new PWHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("suitId", suitId);
+		client.post("suit/queryClothesBySuitId", params, new PWHttpResponseHandler(){
+			public void onSuccess(JSONArray data){
+			ArrayList<Clothes> clothesList = new ArrayList<Clothes>();
+			try {
+				for (int i = 0; i < data.length(); i++) {
+					JSONObject obj = data.getJSONObject(i);
+					Clothes clothes = new Clothes(new JSONObject(obj
+							.getString("clothes")));
+					clothesList.add(clothes);
+				}
+				if (clothesList != null) {
+					listener.onSuccess(clothesList);
+				}
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}
+			}
+		});
+		
+	}
 }
 	

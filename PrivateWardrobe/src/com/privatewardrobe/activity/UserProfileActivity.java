@@ -15,6 +15,7 @@ import com.privatewardrobe.model.User;
 
 
 public class UserProfileActivity extends BaseActivity{
+	final static public String EXTRA_INPUT = "user";
 	private User mUser;
 	
 	private TextView mNameTextView,mPhoneTextView,mCreateTimeTextView;
@@ -30,6 +31,20 @@ public class UserProfileActivity extends BaseActivity{
 		setContentView(R.layout.activity_userprofile);
 		findView();
 		initView();
+		loadData();
+	}
+
+	private void loadData() {
+		// TODO Auto-generated method stub
+		mUser = (User) getIntent().getSerializableExtra(
+				UserProfileActivity.EXTRA_INPUT);
+		notifyDatasetChanged();
+		
+	}
+
+	private void notifyDatasetChanged() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void initView() {

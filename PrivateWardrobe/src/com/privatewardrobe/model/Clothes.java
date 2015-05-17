@@ -1,6 +1,7 @@
 package com.privatewardrobe.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -23,6 +24,7 @@ public class Clothes implements Serializable{
 	private String img;
 	private String suits;
 	private int like;
+	private ArrayList<Suit> suitList;
 
 	public Clothes() {
 	}
@@ -187,6 +189,14 @@ public class Clothes implements Serializable{
 
 	public void setLike(int like) {
 		this.like = like;
+	}
+
+	public ArrayList<Suit> getSuitList() {
+		return suitList;
+	}
+
+	public void setSuitList(ArrayList<Suit> suitList) {
+		this.suitList = suitList;
 	}
 
 

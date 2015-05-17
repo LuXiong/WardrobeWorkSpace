@@ -43,6 +43,7 @@ public class ChooseSuitActivity extends BaseActivity {
 	protected void onCreate(Bundle bundle) {
 		// TODO Auto-generated method stub
 		super.onCreate(bundle);
+		setContentView(R.layout.activity_choose_suit);
 		mActionBar = getMyActionBar();
 		mActionBar.setTitle("—°‘Ò¥Ó≈‰");
 		findView();
@@ -66,6 +67,12 @@ public class ChooseSuitActivity extends BaseActivity {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		PWApplication.getInstance().putCache(PWConstant.CACHE_SUIT, mDataList);
+		super.onDestroy();
 	}
 
 	private void findView() {

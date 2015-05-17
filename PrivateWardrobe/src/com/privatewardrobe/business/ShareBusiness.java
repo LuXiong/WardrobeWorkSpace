@@ -180,9 +180,9 @@ public class ShareBusiness {
 	public void addComment(String shareId,String userId,String content,final BusinessListener<Comment> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
-		params.put("shareId", shareId);
-		params.put("userId", userId);
-		params.put("content", content);
+		params.put("commentShareId", shareId);
+		params.put("commentUserId", userId);
+		params.put("commentContent", content);
 		client.post("share/addComment", params, new PWHttpResponseHandler(){
 			public void onSuccess(JSONObject data){
 				try {
