@@ -74,11 +74,14 @@ public class UserProfileActivity extends BaseActivity{
 
 	private void notifyDataSetChanged() {
 		// TODO Auto-generated method stub
+		if(mUser!=null)
+		{
 		mNameTextView.setText(mUser.getName());
 		mCreateTimeTextView.setText(Utils.getDateString(mUser.getCreateTime()));
 		mPhoneTextView.setText(mUser.getPhone());
 		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView,Utils.buildNoneDisplayImageOptions());
 		mShareListAdapter.notifyDataSetChanged();
+		}
 		
 	}
 
