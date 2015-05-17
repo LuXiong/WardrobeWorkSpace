@@ -48,11 +48,11 @@ private void loadData() {
 	// TODO Auto-generated method stub
 	Intent intent = getIntent();
 
-	ArrayList<Suit> suitList = (ArrayList<Suit>) intent
-			.getSerializableExtra(SUIT_MATCH);
-	if (suitList != null) {
-		mSuitList.clear();
-		mSuitList.addAll(suitList);
+	Clothes clothes = (Clothes) intent
+			.getSerializableExtra(EXTRA_INPUT);
+	
+	if (clothes != null) {
+		mClothes = clothes;
 	}
 	ClothesBusiness clothesBusiness = new ClothesBusiness();
 	clothesBusiness.querySuitByClothesId(mClothes.getId(), new BusinessListener<Suit>(){
@@ -76,17 +76,14 @@ private void notifyDataSetChanged() {
 	mCreateTimeTextView.setText(mClothes.getCreateTime().toString());
 	mLastEditTextView.setText(mClothes.getLastEdit().toString());
 	ImageLoader.getInstance().displayImage(mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
-	adapterNotifyDatasetChanged();
+	mClothesDetailAdapter.notifyDataSetChanged();
 	
 }
 
-private void adapterNotifyDatasetChanged() {
-	// TODO Auto-generated method stub
-//	mSuitListView.findViewById();
-	
-}
+
 private void initView() {
 	// TODO Auto-generated method stub
+	
 	bindEvents();
 	notifyPage();
 	
