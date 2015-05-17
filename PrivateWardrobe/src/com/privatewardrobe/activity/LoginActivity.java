@@ -28,8 +28,8 @@ import com.privatewardrobe.model.User;
 public class LoginActivity extends BaseActivity {
 
 	private EditText mPhoneEdit, mPasswordEdit, mCodeEdit;
-	private Button mGetCodeBtn, mRegistOrLoginBtn;
-	private TextView mRegistOrLoginText, mForgetText;
+	private Button mRegistOrLoginBtn;
+	private TextView mRegistOrLoginText, mForgetText,mGetCodeBtn;
 	private LinearLayout mCodeLayout;
 
 	private PageState mPageState = PageState.STATE_LOGIN;
@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity {
 		mPhoneEdit = (EditText) findViewById(R.id.activity_login_username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.activity_login_password_edit);
 		mCodeEdit = (EditText) findViewById(R.id.activity_login_code_edit);
-		mGetCodeBtn = (Button) findViewById(R.id.activity_login_getcode_btn);
+		mGetCodeBtn = (TextView) findViewById(R.id.activity_login_getcode_btn);
 		mRegistOrLoginBtn = (Button) findViewById(R.id.activity_login_btn);
 		mRegistOrLoginText = (TextView) findViewById(R.id.activity_login_regist_text);
 		mForgetText = (TextView) findViewById(R.id.activity_login_forget_text);
