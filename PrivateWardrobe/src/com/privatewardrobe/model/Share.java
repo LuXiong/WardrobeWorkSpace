@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,16 +68,16 @@ public class Share implements Serializable {
 			if (data.has("share_create_time")) {
 				this.createTime = new Date(data.getLong("share_create_time"));
 			}
-			if (data.has("commentList")) {
+			if (data.has("comment_list")) {
 				commentList = new ArrayList<Comment>();
-				Comment comment = new Comment(data.getString("comment_id"),
-						data.getString("comment_user_id"),data.getString("comment_share_id"),
-						data.getString("comment_user_name"),data.getString("comment_content"),
-						new Date(data.getLong("comment_create_time")),data.getString("comment_user_img"));
+				JSONArray list = new JSONArray();
+				list = data.getJSONArray("comment_list");
+				for(int i = 0;i<list.length();i++){
+				Comment comment = new Comment(list.getJSONObject(i));
 				commentList.add(comment);
+				}
 				
-//				this.commentList = new ArrayList(data.getJSONArray("commentList").toString());
-//				this.commentList.add(data.getJSONArray("commentList"));
+
 		
 			}
 			
