@@ -47,7 +47,7 @@ public class UserBusiness {
 			final BusinessListener<User> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
-		params.put("id", id);
+		params.put("uid", id);
 		client.post("user/queryById", params, new PWHttpResponseHandler() {
 			public void onSuccess(JSONObject data){
 				try{
