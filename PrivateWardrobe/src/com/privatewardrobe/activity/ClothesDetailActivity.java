@@ -14,6 +14,7 @@ import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.ClothesTypeHelper;
 import com.privatewardrobe.PWApplication;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.ClothesDetailAdapter;
 import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
 import com.privatewardrobe.business.BusinessListener;
@@ -39,6 +40,8 @@ protected void onCreate(Bundle bundle) {
 	mActionBar = getMyActionBar();
 	mActionBar.setLeftDrawable(null);
 	setContentView(R.layout.activity_clothes_detail);
+	mActionBar.addActionItem(0, null, R.drawable.action_bar_right_btn_edit,
+			ActionItem.SHOWACTION_SHOW);
 	findView();
 	initView();
 	loadData();

@@ -11,6 +11,7 @@ import android.content.Intent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.ShareListAdapter;
 import com.privatewardrobe.adapter.ShareListAdapter.ShareCommentListener;
 import com.privatewardrobe.business.BusinessListener;
@@ -41,6 +42,8 @@ public class UserProfileActivity extends BaseActivity{
 		mActionBar = getMyActionBar();
 		mActionBar.setLeftDrawable(null);
 		setContentView(R.layout.activity_userprofile);
+		mActionBar.addActionItem(0, null, R.drawable.action_bar_right_btn_edit,
+				ActionItem.SHOWACTION_SHOW);
 		findView();
 		initView();
 		loadData();

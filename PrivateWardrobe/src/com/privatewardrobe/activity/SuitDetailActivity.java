@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.privatewardrobe.BaseActivity;
 import com.privatewardrobe.R;
+import com.privatewardrobe.ActionBar.ActionItem;
 import com.privatewardrobe.adapter.SuitDetailAdapter;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ClothesBusiness;
@@ -36,6 +37,8 @@ public class SuitDetailActivity extends BaseActivity{
 		mActionBar = getMyActionBar();
 		mActionBar.setLeftDrawable(null);
 		setContentView(R.layout.activity_suit_detail);
+		mActionBar.addActionItem(0, null, R.drawable.action_bar_right_btn_edit,
+				ActionItem.SHOWACTION_SHOW);
 		findView();
 		initView();
 		loadData();
