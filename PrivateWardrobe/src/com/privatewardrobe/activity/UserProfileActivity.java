@@ -16,6 +16,7 @@ import com.privatewardrobe.adapter.ShareListAdapter.ShareCommentListener;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.ShareBusiness;
 import com.privatewardrobe.business.SuitBusiness;
+import com.privatewardrobe.business.UserBusiness;
 import com.privatewardrobe.common.Utils;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Share;
@@ -48,22 +49,25 @@ public class UserProfileActivity extends BaseActivity{
 	private void loadData() {
 		// TODO Auto-generated method stub
 		Intent intent = getIntent();
-
-		User user = (User) intent
-				.getSerializableExtra(EXTRA_INPUT);
-		
-		if (user != null) {
-			mUser = user;
-			ShareBusiness shareBusiness = new ShareBusiness();
-			shareBusiness.queryShareByUserId(mUser.getUid(),new BusinessListener<Share>(){
-				@Override
-				public void onSuccess(ArrayList<Share> sharelist) {
-					mShareList.clear();
-					mShareList.addAll(sharelist);
-					notifyDataSetChanged();
+        String id = intent.getStringExtra(EXTRA_INPUT);
+		UserBusiness ub = new UserBusiness();
+		ub.queryUserById(id, new BusinessListener<User>(){
+			public void onSuccess(User user){
+				if (user != null) {
+					mUser = user;
+					ShareBusiness shareBusiness = new ShareBusiness();
+					shareBusiness.queryShareByUserId(mUser.getUid(),new BusinessListener<Share>(){
+						@Override
+						public void onSuccess(ArrayList<Share> sharelist) {
+							mShareList.clear();
+							mShareList.addAll(sharelist);
+							notifyDataSetChanged();
+						}
+					});
 				}
-			});
-		}
+				
+			}
+		});
 		notifyDataSetChanged();
 		
 	}
