@@ -135,9 +135,10 @@ public class ShareBusiness {
 		
 	}
 	
-	public void updateCurrentShare(long currentTime,final BusinessListener<Share> listener){
+	public void updateCurrentShare(String userId,long currentTime,final BusinessListener<Share> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
+		params.put("userId", userId);
 		params.put("currentTime", currentTime);
 		client.post("share/update", params, new PWHttpResponseHandler(){
 			public void onSuccess(JSONArray data) {
