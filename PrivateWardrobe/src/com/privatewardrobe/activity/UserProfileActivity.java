@@ -71,13 +71,12 @@ public class UserProfileActivity extends BaseActivity{
 				
 			}
 		});
-		notifyDataSetChanged();
 		
 	}
 
 	private void notifyDataSetChanged() {
 		// TODO Auto-generated method stub
-
+       if(mUser!=null){
 		mNameTextView.setText(mUser.getName());
         mDescriptionTextView.setText(mUser.getDescription());
 		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView,Utils.buildNoneDisplayImageOptions());
@@ -87,6 +86,7 @@ public class UserProfileActivity extends BaseActivity{
 			mGenderView.setImageResource(R.drawable.activity_user_profile_gender_men);
 		}
 		mShareListAdapter.notifyDataSetChanged();
+       }
 		
 	}
 
