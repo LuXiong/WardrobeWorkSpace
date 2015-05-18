@@ -19,13 +19,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/activity_userprofile_avatar"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/activity_user_profile_avatar" />
 
                 <RelativeLayout
@@ -92,8 +92,13 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/activity_detail_clothes_suit_list"
                 android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:height="1dp"
+                    android:textColor="@color/grey_text" />
 
                 <com.privatewardrobe.control.StaticListView
                     android:id="@+id/activity_userproflie_share_list"
