@@ -24,7 +24,7 @@
                 <ImageView
                     android:id="@+id/activity_userprofile_avatar"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/activity_user_profile_avatar" />
 

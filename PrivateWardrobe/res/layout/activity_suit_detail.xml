@@ -24,7 +24,7 @@
                 <ImageView
                     android:id="@+id/activity_suit_detail_img"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher" />
 
