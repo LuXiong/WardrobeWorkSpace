@@ -221,7 +221,7 @@ public class ShareBusiness {
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
-		params.put("shareId", shareId);
+		params.put("id", shareId);
 		params.put("isLike", isLike);
 		client.post("share/addLike", params, new PWHttpResponseHandler(){
 			public void onSuccess(JSONObject data){
