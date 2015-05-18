@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.location.GpsStatus.Listener;
 import android.util.Log;
 
 import com.loopj.android.http.RequestParams;
@@ -216,7 +217,7 @@ public class ShareBusiness {
 	/**
 	 * µ„‘ﬁ
 	 */
-	public void addLike(String userId,String shareId,int isLike){
+	public void addLike(String userId,String shareId,int isLike,final BusinessListener<Share> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
@@ -227,6 +228,7 @@ public class ShareBusiness {
 				try {
 					JSONObject isLike = new JSONObject(data
 							.getString("is_like"));
+					listener.onSuccess();
 					
 				} catch (JSONException e1) {
 					e1.printStackTrace();
@@ -240,7 +242,7 @@ public class ShareBusiness {
 	/**
 	 *  ’≤ÿ
 	 */
-	public void addCollect(String userId,String suitId,int isCollect){
+	public void addCollect(String userId,String suitId,int isCollect,final BusinessListener<Share> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("userId", userId);
@@ -251,6 +253,7 @@ public class ShareBusiness {
 				try {
 					JSONObject isCollect = new JSONObject(data
 							.getString("is_collect"));
+					listener.onSuccess();
 					
 				} catch (JSONException e1) {
 					e1.printStackTrace();

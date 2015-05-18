@@ -23,4 +23,7 @@ public class BusinessListener<T> {
 
 	}
 
+	public void onSuccess() {
+
+	}
 }
