@@ -8,13 +8,14 @@ import com.privatewardrobe.common.PWHttpResponseHandler;
 import com.privatewardrobe.model.User;
 
 public class UserBusiness {
-	public void updateUser(String id,String name,String avatar,
+	public void updateUser(String id,String name,String avatar,String description,
 			final BusinessListener<User> listener){
 		PWHttpClient client = new PWHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("id", id);
 		params.put("name", name);
 		params.put("avatar", avatar);
+		params.put("description", description);
 		client.post("user/update", params, new PWHttpResponseHandler() {
 			public void onSuccess(JSONObject data){
 				try{

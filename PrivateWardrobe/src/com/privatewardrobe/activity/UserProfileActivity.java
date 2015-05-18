@@ -29,9 +29,9 @@ public class UserProfileActivity extends BaseActivity{
 	final static public String EXTRA_INPUT = "user";
 
 	
-	private TextView mNameTextView,mPhoneTextView,mCreateTimeTextView;
+	private TextView mNameTextView,mDescriptionTextView;
 	private ListView mShareListView;
-	private ImageView mAvatarImageView;
+	private ImageView mAvatarImageView,mGenderView;
 	
 	private ArrayList<Share> mShareList;
 	private ShareListAdapter mShareListAdapter;
@@ -80,9 +80,13 @@ public class UserProfileActivity extends BaseActivity{
 		if(mUser!=null)
 		{
 		mNameTextView.setText(mUser.getName());
-		mCreateTimeTextView.setText(Utils.getDateString(mUser.getCreateTime()));
-		mPhoneTextView.setText(mUser.getPhone());
+        mDescriptionTextView.setText(mUser.getDescription());
 		ImageLoader.getInstance().displayImage("http://" + mUser.getAvatar(), mAvatarImageView,Utils.buildNoneDisplayImageOptions());
+		if(mUser.getGender()==1){
+			mGenderView.setImageResource(R.drawable.activity_user_profile_gender_women);
+		}else{
+			mGenderView.setImageResource(R.drawable.activity_user_profile_gender_men);
+		}
 		mShareListAdapter.notifyDataSetChanged();
 		}
 		
@@ -121,8 +125,8 @@ public class UserProfileActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		mAvatarImageView = (ImageView) findViewById(R.id.activity_userprofile_avatar);
 		mNameTextView = (TextView) findViewById(R.id.activity_userprofile_name);
-		mPhoneTextView = (TextView) findViewById(R.id.activity_userprofile_phone);
-		mCreateTimeTextView = (TextView) findViewById(R.id.activity_userprofile_createTime);
+		mDescriptionTextView = (TextView) findViewById(R.id.activity_userprofile_description);
+		mGenderView = (ImageView) findViewById(R.id.activity_userprofile_gender);
 		mShareListView = (ListView) findViewById(R.id.activity_userproflie_share_list);
 	}
 }
