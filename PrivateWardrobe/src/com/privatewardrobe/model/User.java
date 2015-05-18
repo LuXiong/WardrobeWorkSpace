@@ -24,6 +24,7 @@ public class User implements Serializable{
 	private Date createTime;
 	private Date lastUse;
 	private String deviceId;
+	private String description;
 
 	// Constructors
 
@@ -60,6 +61,9 @@ public class User implements Serializable{
 			if (data.has("lastUse")) {
 				this.lastUse = new Date(data.getLong("lastUse"));
 			}
+			if (data.has("description")) {
+				this.description = data.getString("description");
+			}
 		} catch (JSONException e) {
 			// Log.i("xionglu", "dataexception");
 			e.printStackTrace();
@@ -83,7 +87,7 @@ public class User implements Serializable{
 	/** full constructor */
 	public User(String uid, String name, Integer gender, String password,
 			String phone, String avatar, Date createTime, Date lastUse,
-			String deviceId) {
+			String deviceId,String description) {
 		this.uid = uid;
 		this.name = name;
 		this.gender = gender;
@@ -93,6 +97,7 @@ public class User implements Serializable{
 		this.createTime = createTime;
 		this.lastUse = lastUse;
 		this.deviceId = deviceId;
+		this.description = description;
 	}
 
 	public String getUid() {
@@ -166,4 +171,17 @@ public class User implements Serializable{
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	
 }

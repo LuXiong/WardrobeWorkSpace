@@ -24,8 +24,7 @@ import com.privatewardrobe.model.Suit;
 public class SuitDetailActivity extends BaseActivity{
 	final static public String EXTRA_INPUT = "suit";
 	private TextView mDescriptionTextView,mWeatherTextView,mOccasionTextView;
-	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
-	private ImageView mImgImageView;
+	private ImageView mImgImageView,mIsLike;
 	private GridView mClothesListView;
 	
 	private SuitDetailAdapter mSuitDetailAdapter;
@@ -71,9 +70,12 @@ public class SuitDetailActivity extends BaseActivity{
 		mDescriptionTextView.setText(mSuit.getDescription());
 		mWeatherTextView.setText(SuitBusiness.checkWeather(mSuit.getWeather()));
 		mOccasionTextView.setText(SuitBusiness.checkOccasion(mSuit.getOccasion()));
-		mCreateTimeTextView.setText(Utils.getDateString(mSuit.getCreateTime()));
-		mLastEditTextView.setText(Utils.getDateString(mSuit.getLastEdit()));
 		ImageLoader.getInstance().displayImage("http://" + mSuit.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+		if(mSuit.getIsLike()==1){
+			mIsLike.setImageResource(R.drawable.activity_detail_suit_is_like);
+		}else{
+			mIsLike.setImageResource(R.drawable.activity_detail_suit_not_like);
+		}
 		mSuitDetailAdapter.notifyDataSetChanged();
 		
 	}
@@ -103,9 +105,7 @@ public class SuitDetailActivity extends BaseActivity{
 		mDescriptionTextView = (TextView)findViewById(R.id.activity_suit_detail_description);
 		mWeatherTextView = (TextView)findViewById(R.id.activity_suit_detail_weather);
 		mOccasionTextView = (TextView)findViewById(R.id.activity_suit_detail_occasion);
-		mCreateTimeTextView = (TextView)findViewById(R.id.activity_suit_detail_createTime);
-		mLastEditTextView = (TextView)findViewById(R.id.activity_suit_detail_lastEdit);
-		mIsLike = (TextView)findViewById(R.id.activity_suit_detail_isLike);
+		mIsLike = (ImageView)findViewById(R.id.activity_suit_detail_isLike);
 		mImgImageView = (ImageView)findViewById(R.id.activity_suit_detail_img);
 		mClothesListView = (GridView)findViewById(R.id.activity_suit_detail_clothesList);
 		

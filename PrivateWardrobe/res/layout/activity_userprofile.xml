@@ -6,7 +6,7 @@
     android:layout_weight="4"
     android:scrollbars="vertical" >
 
-    <LinearLayout
+ <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
@@ -16,88 +16,84 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" >
+                android:layout_marginTop="30dp"
+                android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/activity_userprofile_avatar"
-                    android:layout_width="60px"
-                    android:layout_height="60px"
-                    android:adjustViewBounds="false"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher" >
-                </ImageView>
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/activity_user_profile_avatar" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/activity_userprofile_gender"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="32dp"
+                    android:gravity="center"
+                    android:scrollbars="vertical"
+                    android:src="@drawable/activity_user_profile_gender_women" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/activity_user_profile_user_name"
+                android:orientation="vertical" >
 
                 <TextView
                     android:id="@+id/activity_userprofile_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="top"
-                    android:hint="姓名"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="这里用来显示用户的昵称"
                     android:scrollbars="vertical" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/activity_user_profile_description"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="手机："
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/activity_userprofile_phone"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:hint="手机"
-                    android:phoneNumber="true"
+                    android:id="@+id/activity_userprofile_description"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="这里用来显示用户个性签名"
                     android:scrollbars="vertical" />
             </LinearLayout>
+
+         
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/activity_detail_clothes_suit_list"
                 android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="创建时间："
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/activity_userprofile_createTime"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:hint="创建时间"
-                    android:scrollbars="vertical" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="相关状态："
-                    android:textSize="20dp" />
 
                 <com.privatewardrobe.control.StaticListView
                     android:id="@+id/activity_userproflie_share_list"

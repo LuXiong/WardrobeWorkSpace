@@ -26,9 +26,8 @@ import com.privatewardrobe.model.Suit;
 
 public class ClothesDetailActivity extends BaseActivity{
 	final static public String EXTRA_INPUT = "clothes";
-	private TextView mDescriptionTextView,mColorTextView,mCategoryView,mExponentTextView;
-	private TextView mCreateTimeTextView,mLastEditTextView,mIsLike;
-	private ImageView mImgImageView;
+	private TextView mDescriptionTextView,mColorTextView,mCategoryView;
+	private ImageView mImgImageView,mIsLike;
 	private GridView mSuitListView;
 	
 	private ArrayList<Suit> mSuitList;
@@ -75,9 +74,13 @@ private void notifyDataSetChanged() {
 	mDescriptionTextView.setText(mClothes.getDescription());
 	mColorTextView.setText(ClothesBusiness.checkColor(mClothes.getColor()));
 	mCategoryView.setText(ClothesTypeHelper.getInstance().getDetailName(mClothes.getCategory()));
-	mCreateTimeTextView.setText(Utils.getDateString(mClothes.getCreateTime()));
-	mLastEditTextView.setText(Utils.getDateString(mClothes.getLastEdit()));
 	ImageLoader.getInstance().displayImage("http://" + mClothes.getImg(), mImgImageView,Utils.buildNoneDisplayImageOptions());
+	if(mClothes.getLike()==1){
+//		ImageLoader.getInstance().displayImage(R.drawable.activity_detail_suit_is_like, mIsLike,Utils.buildNoneDisplayImageOptions());
+		mIsLike.setImageResource(R.drawable.activity_detail_suit_is_like);
+	} else{
+		mIsLike.setImageResource(R.drawable.activity_detail_suit_not_like);
+	}
 	mClothesDetailAdapter.notifyDataSetChanged();
 	
 }
@@ -106,10 +109,7 @@ private void findView() {
 	mDescriptionTextView = (TextView)findViewById(R.id.activity_clothes_detail_description);
 	mColorTextView = (TextView)findViewById(R.id.activity_clothes_detail_color);
 	mCategoryView = (TextView)findViewById(R.id.activity_clothes_detail_category);
-	mExponentTextView = (TextView)findViewById(R.id.activity_clothes_detail_exponent);
-	mCreateTimeTextView = (TextView)findViewById(R.id.activity_clothes_detail_createTime);
-	mLastEditTextView = (TextView)findViewById(R.id.activity_clothes_detail_lastEdit);
-	mIsLike = (TextView)findViewById(R.id.activity_clothes_detail_isLike);
+	mIsLike = (ImageView)findViewById(R.id.activity_clothes_detail_isLike);
 	mImgImageView = (ImageView)findViewById(R.id.activity_clothes_detail_img);
 	mSuitListView = (GridView)findViewById(R.id.activity_clothes_detail_suitList);
 }
