@@ -36,6 +36,7 @@ public class PWApplication extends Application {
 		imageLoader =  ImageLoader.getInstance();
 		imageLoader.init(ImageLoaderConfiguration.createDefault(this));
 		initClothesType();
+		startPushService();
 	}
 
 	private void initClothesType() {

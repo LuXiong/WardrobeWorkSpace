@@ -67,7 +67,8 @@ public class MqttCallbackHandler implements MqttCallback {
 			PWApplication.connection.addAction("Connection Lost");
 			PWApplication.connection
 					.changeConnectionStatus(ConnectionStatus.DISCONNECTED);
-
+			PushService service = new PushService();
+			service.connectAction(context);
 			// format string to use a notification text
 			Object[] args = new Object[2];
 			args[0] = PWApplication.connection.getId();
@@ -81,9 +82,9 @@ public class MqttCallbackHandler implements MqttCallback {
 					"org.eclipse.paho.android.service.sample.ConnectionDetails");
 			intent.putExtra("handle", clientHandle);
 
-			// notify the user
-			// Notify.notifcation(context, message, intent,
-			// R.string.notifyTitle_connectionLost);
+//			 notify the user
+			 Notify.notifcation(context, message, intent,
+			 R.string.notifyTitle_connectionLost);
 		}
 	}
 

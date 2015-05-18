@@ -98,6 +98,7 @@ public class ActionListener implements IMqttActionListener {
 	 */
 	@Override
 	public void onSuccess(IMqttToken asyncActionToken) {
+		Log.i("xionglu", "connect pushService success");
 		switch (action) {
 		case CONNECT:
 			connect();
@@ -107,6 +108,7 @@ public class ActionListener implements IMqttActionListener {
 			break;
 		case SUBSCRIBE:
 			subscribe();
+			Log.i("xionglu", "subscribe pushService success");
 			break;
 		case PUBLISH:
 			publish();
@@ -179,7 +181,7 @@ public class ActionListener implements IMqttActionListener {
 	 */
 	@Override
 	public void onFailure(IMqttToken token, Throwable exception) {
-		Log.i("xionglu", "connect pushService failed");
+		Log.i("xionglu", " pushService failed");
 		switch (action) {
 		case CONNECT:
 			connect(exception);
@@ -189,6 +191,7 @@ public class ActionListener implements IMqttActionListener {
 			break;
 		case SUBSCRIBE:
 			subscribe(exception);
+			Log.i("xionglu", "subscribe pushService failed");
 			break;
 		case PUBLISH:
 			publish(exception);

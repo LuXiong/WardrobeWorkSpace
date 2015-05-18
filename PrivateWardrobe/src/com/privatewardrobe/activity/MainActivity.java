@@ -26,6 +26,7 @@ import com.privatewardrobe.fragment.MoreFragment;
 import com.privatewardrobe.fragment.SuitFragment;
 import com.privatewardrobe.photo.PhotoHelper;
 import com.privatewardrobe.photo.PhotoHelper.PhotoProcessListener;
+import com.privatewardrobe.service.PushService;
 
 public class MainActivity extends BaseActivity {
 
@@ -47,6 +48,8 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PushService p = new PushService();
+		p.connectAction(this);
 		this.mSavedInstanceState = savedInstanceState;
 		mActionBar = getMyActionBar();
 		setContentView(R.layout.activity_main);
