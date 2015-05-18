@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.privatewardrobe.ActionBar;
 import com.privatewardrobe.BaseActivity;
@@ -41,7 +42,7 @@ public class ChooseClothesActivity extends BaseActivity {
 	private ActionBar mActionBar;
 	private GridView mClothesGridView;
 	private ListView mCLothesListVew;
-	private LinearLayout mCreateLayout;
+	private RelativeLayout mCreateLayout;
 	private EditText mSearchEdit;
 
 	private ImgHorizenGridAdapter mGridAdapter;
@@ -93,7 +94,7 @@ public class ChooseClothesActivity extends BaseActivity {
 	private void findView() {
 		mClothesGridView = (GridView) findViewById(R.id.activity_choose_clothes_gridView);
 		mCLothesListVew = (ListView) findViewById(R.id.activity_choose_clothes_data_list);
-		mCreateLayout = (LinearLayout) findViewById(R.id.activity_choose_create_clothes_layout);
+		mCreateLayout = (RelativeLayout) findViewById(R.id.activity_choose_create_clothes_layout);
 		mSearchEdit = (EditText) findViewById(R.id.activity_choose_clothes_edit);
 	}
 

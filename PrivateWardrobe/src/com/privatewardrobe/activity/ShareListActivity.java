@@ -235,7 +235,7 @@ public class ShareListActivity extends BaseActivity {
 
 	private void loadShare(long time, final boolean isClear) {
 		ShareBusiness shareBusiness = new ShareBusiness();
-		shareBusiness.updateCurrentShare(time, new BusinessListener<Share>() {
+		shareBusiness.updateCurrentShare(PWApplication.getInstance().getUserId(),time, new BusinessListener<Share>() {
 			@Override
 			public void onSuccess(ArrayList<Share> list) {
 				if (list != null) {
@@ -251,7 +251,7 @@ public class ShareListActivity extends BaseActivity {
 		});
 	}
 
-	private void notifyDataSetChanged() {
+	public void notifyDataSetChanged() {
 		mAdapter.notifyDataSetChanged();
 	}
 }

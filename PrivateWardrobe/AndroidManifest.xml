@@ -101,6 +101,14 @@
             android:name="com.privatewardrobe.activity.UserProfileActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.SuitEditActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.privatewardrobe.activity.AboutUsActivit"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <service android:name="com.privatewardrobe.service.MqttService" >
         </service>

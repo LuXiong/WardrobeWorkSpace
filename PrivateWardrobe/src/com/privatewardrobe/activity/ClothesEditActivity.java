@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,31 +34,29 @@ import com.privatewardrobe.photo.PhotoHelper;
 import com.privatewardrobe.photo.PhotoHelper.PhotoProcessListener;
 
 public class ClothesEditActivity extends BaseActivity {
-	public static int REQUEST_CODE = 106;
+	public static int REQUEST_CODE = 107;
 	public static String CLOTHES = "clothes";
 
 	private ActionBar mActionBar;
 	private ImageView mClothesImg;
 	private EditText mDescriptionEdit;
 	private TextView mColorText, mCategoryText;
-	private LinearLayout mColorLayout, mCategoryLayout;
-	private Button mLikeBtn;
+	private RelativeLayout mColorLayout, mCategoryLayout;
 	private PhotoHelper mPhotoHelper;
 	private ClothesTypeHelper mClothesTypeHelper = ClothesTypeHelper
 			.getInstance();
 	private UploadHelper mUploadHelper;
-	private int mColor = 2, mCategory = 0, mExponent;
+	// private int mColor = 2, mCategory = 0, mExponent;
 	private boolean hasImg = false;
-	private int mLike = 0;
-	// private String mImg;
+	// // private String mImg;
 	private Uri mSource;
-	// private int
+	// // private int
+	private Clothes mClothes;
 
 	private AlertDialog mLoadingDialog;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
-		// TODO Auto-generated method stub
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_edit_clothes);
 		mActionBar = getMyActionBar();
@@ -70,8 +69,11 @@ public class ClothesEditActivity extends BaseActivity {
 	}
 
 	private void loadData() {
-		// TODO Auto-generated method stub
-
+		Clothes clothes = (Clothes) getIntent().getSerializableExtra(CLOTHES);
+		if (clothes != null) {
+			mClothes = clothes;
+		}
+		notifyDataSetChanged();
 	}
 
 	private void notifyDataSetChanged() {
@@ -79,14 +81,18 @@ public class ClothesEditActivity extends BaseActivity {
 		colors.add("冷色系");
 		colors.add("中色系");
 		colors.add("暖色系");
-		mColorText.setText(colors.get(mColor - 1));
-		if (mCategory == 0) {
+		mColorText.setText(colors.get(mClothes.getColor() - 1));
+		mDescriptionEdit.setText(mClothes.getDescription());
+		if (mClothes.getCategory() == 0) {
 			mCategoryText.setText("默认分类");
 		} else {
-			mCategoryText.setText(mClothesTypeHelper.getDetailName(mCategory));
+			mCategoryText.setText(mClothesTypeHelper.getDetailName(mClothes
+					.getCategory()));
 		}
-
-		mLikeBtn.setText("喜欢" + mLike);
+		if (mClothes.getImg() != null) {
+			imageLoader.displayImage("http://" + mClothes.getImg(),
+					mClothesImg, Utils.buildNoneDisplayImageOptions());
+		}
 
 	}
 
@@ -109,10 +115,11 @@ public class ClothesEditActivity extends BaseActivity {
 							@Override
 							public void onSuccess(String img) {
 								ClothesBusiness clothesBusiness = new ClothesBusiness();
-								clothesBusiness.addClothes(PWApplication
-										.getInstance().getUserId(),
+								clothesBusiness.updateClothes(mClothes.getId(),
+										mClothes.getColor(),
+										mClothes.getCategory(), img,
 										mDescriptionEdit.getText().toString(),
-										mColor, mCategory, img, mLike,
+										mClothes.getLike(),
 										new BusinessListener<Clothes>() {
 											@Override
 											public void onFailure(String reason) {
@@ -139,7 +146,7 @@ public class ClothesEditActivity extends BaseActivity {
 														.finish();
 												Toast.makeText(
 														ClothesEditActivity.this,
-														"创建成功",
+														"修改成功",
 														Toast.LENGTH_LONG)
 														.show();
 											}
@@ -149,22 +156,10 @@ public class ClothesEditActivity extends BaseActivity {
 						});
 			} else {
 				ClothesBusiness clothesBusiness = new ClothesBusiness();
-				clothesBusiness.addClothes(PWApplication.getInstance()
-						.getUserId(), mDescriptionEdit.getText().toString(),
-						mColor, mCategory, null, mLike,
-						new BusinessListener<Clothes>() {
-
-							@Override
-							public void onSuccess(Clothes clothes) {
-								mLoadingDialog.dismiss();
-								Intent data = new Intent();
-								data.putExtra(CLOTHES, clothes);
-								setResult(RESULT_OK, data);
-								ClothesEditActivity.this.finish();
-								Toast.makeText(ClothesEditActivity.this,
-										"创建成功", Toast.LENGTH_LONG).show();
-							}
-
+				clothesBusiness.updateClothes(mClothes.getId(), mClothes
+						.getColor(), mClothes.getCategory(), mClothes.getImg(),
+						mDescriptionEdit.getText().toString(), mClothes
+								.getLike(), new BusinessListener<Clothes>() {
 							@Override
 							public void onFailure(String reason) {
 								Toast.makeText(ClothesEditActivity.this,
@@ -175,6 +170,18 @@ public class ClothesEditActivity extends BaseActivity {
 							public void onFinish() {
 								mLoadingDialog.dismiss();
 							}
+
+							@Override
+							public void onSuccess(Clothes clothes) {
+								mLoadingDialog.dismiss();
+								Intent data = new Intent();
+								data.putExtra(CLOTHES, clothes);
+								setResult(RESULT_OK, data);
+								ClothesEditActivity.this.finish();
+								Toast.makeText(ClothesEditActivity.this,
+										"修改成功", Toast.LENGTH_LONG).show();
+							}
+
 						});
 			}
 
@@ -185,32 +192,32 @@ public class ClothesEditActivity extends BaseActivity {
 	private void findView() {
 		mClothesImg = (ImageView) findViewById(R.id.activity_create_clothes_img);
 		mDescriptionEdit = (EditText) findViewById(R.id.activity_create_clothes_description_edit);
-		mColorLayout = (LinearLayout) findViewById(R.id.activity_create_clothes_color_layout);
-		mCategoryLayout = (LinearLayout) findViewById(R.id.activity_create_category_layout);
+		mColorLayout = (RelativeLayout) findViewById(R.id.activity_create_clothes_color_layout);
+		mCategoryLayout = (RelativeLayout) findViewById(R.id.activity_create_category_layout);
 		mColorText = (TextView) findViewById(R.id.activity_create_clothes_color_text);
 		mCategoryText = (TextView) findViewById(R.id.activity_create_clothes_category_text);
-		mLikeBtn = (Button) findViewById(R.id.activity_create_clothes_like_btn);
 	}
 
 	private void initView() {
 		bindEvents();
 		mLoadingDialog = Utils.buildLoadingDialog(ClothesEditActivity.this);
-		mPhotoHelper = new PhotoHelper(this, new PhotoProcessListener() {
+		mPhotoHelper = new PhotoHelper(ClothesEditActivity.this,
+				new PhotoProcessListener() {
 
-			@Override
-			public void onComplete(Uri source, Uri large, Uri thumbnail) {
-				mSource = thumbnail;
-				hasImg = true;
-				imageLoader.displayImage(thumbnail.toString(), mClothesImg);
-			}
-		});
+					@Override
+					public void onComplete(Uri source, Uri large, Uri thumbnail) {
+						mSource = large;
+						hasImg = true;
+						imageLoader.displayImage(thumbnail.toString(),
+								mClothesImg);
+					}
+				});
 	}
 
 	private void bindEvents() {
 		mClothesImg.setOnClickListener(mClothesImgClickListener);
 		mColorLayout.setOnClickListener(mColorLayoutClickListener);
 		mCategoryLayout.setOnClickListener(mCategoryLayoutClickListener);
-		mLikeBtn.setOnClickListener(isLikeClickListener);
 	}
 
 	private OnClickListener mClothesImgClickListener = new OnClickListener() {
@@ -235,7 +242,7 @@ public class ClothesEditActivity extends BaseActivity {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							mColor = which + 1;
+							mClothes.setColor(which + 1);
 							notifyDataSetChanged();
 						}
 					});
@@ -294,9 +301,9 @@ public class ClothesEditActivity extends BaseActivity {
 														public void onClick(
 																DialogInterface dialog,
 																int which) {
-															mCategory = mClothesTypeHelper
+															mClothes.setCategory(mClothesTypeHelper
 																	.getDetailCode(detailTypes
-																			.get(which));
+																			.get(which)));
 															notifyDataSetChanged();
 														}
 													});
@@ -310,12 +317,4 @@ public class ClothesEditActivity extends BaseActivity {
 		}
 	};
 
-	private OnClickListener isLikeClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			mLike = (mLike + 1) % 2;
-			notifyDataSetChanged();
-		}
-	};
 }

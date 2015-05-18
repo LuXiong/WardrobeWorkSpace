@@ -67,8 +67,8 @@ public class MqttCallbackHandler implements MqttCallback {
 			PWApplication.connection.addAction("Connection Lost");
 			PWApplication.connection
 					.changeConnectionStatus(ConnectionStatus.DISCONNECTED);
-			PushService service = new PushService();
-			service.connectAction(context);
+			//PushService service = new PushService();
+			//service.connectAction(context);
 			// format string to use a notification text
 			Object[] args = new Object[2];
 			args[0] = PWApplication.connection.getId();

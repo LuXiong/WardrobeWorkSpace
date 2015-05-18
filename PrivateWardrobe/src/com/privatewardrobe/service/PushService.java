@@ -44,7 +44,7 @@ public class PushService {
 		// The basic client information
 		String server = PWConstant.BASE_PUSH_SEVER;
 		String clientId = "lll";
-		int port = 1883;
+		int port = PWConstant.BASE_PUSH_PORT;
 		boolean cleanSession = false;
 
 		String uri = null;

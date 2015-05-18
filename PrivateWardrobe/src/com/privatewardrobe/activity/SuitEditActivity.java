@@ -1,5 +1,7 @@
 package com.privatewardrobe.activity;
 
-public class SuitEditActivity {
+import com.privatewardrobe.BaseActivity;
+
+public class SuitEditActivity extends BaseActivity{
 
 }

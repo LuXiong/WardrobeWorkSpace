@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,15 +42,13 @@ public class ClothesCreateActivity extends BaseActivity {
 	private ImageView mClothesImg;
 	private EditText mDescriptionEdit;
 	private TextView mColorText, mCategoryText;
-	private LinearLayout mColorLayout, mCategoryLayout;
-	private Button mLikeBtn;
+	private RelativeLayout mColorLayout, mCategoryLayout;
 	private PhotoHelper mPhotoHelper;
 	private ClothesTypeHelper mClothesTypeHelper = ClothesTypeHelper
 			.getInstance();
 	private UploadHelper mUploadHelper;
 	private int mColor = 2, mCategory = 0, mExponent;
 	private boolean hasImg = false;
-	private int mLike = 0;
 	// private String mImg;
 	private Uri mSource;
 	// private int
@@ -86,8 +85,6 @@ public class ClothesCreateActivity extends BaseActivity {
 			mCategoryText.setText(mClothesTypeHelper.getDetailName(mCategory));
 		}
 
-		mLikeBtn.setText("Ï²»¶" + mLike);
-
 	}
 
 	@Override
@@ -112,7 +109,7 @@ public class ClothesCreateActivity extends BaseActivity {
 								clothesBusiness.addClothes(PWApplication
 										.getInstance().getUserId(),
 										mDescriptionEdit.getText().toString(),
-										mColor, mCategory, img, mLike,
+										mColor, mCategory, img, 0,
 										new BusinessListener<Clothes>() {
 											@Override
 											public void onFailure(String reason) {
@@ -151,7 +148,7 @@ public class ClothesCreateActivity extends BaseActivity {
 				ClothesBusiness clothesBusiness = new ClothesBusiness();
 				clothesBusiness.addClothes(PWApplication.getInstance()
 						.getUserId(), mDescriptionEdit.getText().toString(),
-						mColor, mCategory, null, mLike,
+						mColor, mCategory, null, 0,
 						new BusinessListener<Clothes>() {
 
 							@Override
@@ -186,17 +183,16 @@ public class ClothesCreateActivity extends BaseActivity {
 	private void findView() {
 		mClothesImg = (ImageView) findViewById(R.id.activity_create_clothes_img);
 		mDescriptionEdit = (EditText) findViewById(R.id.activity_create_clothes_description_edit);
-		mColorLayout = (LinearLayout) findViewById(R.id.activity_create_clothes_color_layout);
-		mCategoryLayout = (LinearLayout) findViewById(R.id.activity_create_category_layout);
+		mColorLayout = (RelativeLayout) findViewById(R.id.activity_create_clothes_color_layout);
+		mCategoryLayout = (RelativeLayout) findViewById(R.id.activity_create_category_layout);
 		mColorText = (TextView) findViewById(R.id.activity_create_clothes_color_text);
 		mCategoryText = (TextView) findViewById(R.id.activity_create_clothes_category_text);
-		mLikeBtn = (Button) findViewById(R.id.activity_create_clothes_like_btn);
 	}
 
 	private void initView() {
 		bindEvents();
 		mLoadingDialog = Utils.buildLoadingDialog(ClothesCreateActivity.this);
-		mPhotoHelper = new PhotoHelper(this, new PhotoProcessListener() {
+		mPhotoHelper = new PhotoHelper(ClothesCreateActivity.this, new PhotoProcessListener() {
 
 			@Override
 			public void onComplete(Uri source, Uri large, Uri thumbnail) {
@@ -211,7 +207,6 @@ public class ClothesCreateActivity extends BaseActivity {
 		mClothesImg.setOnClickListener(mClothesImgClickListener);
 		mColorLayout.setOnClickListener(mColorLayoutClickListener);
 		mCategoryLayout.setOnClickListener(mCategoryLayoutClickListener);
-		mLikeBtn.setOnClickListener(isLikeClickListener);
 	}
 
 	private OnClickListener mClothesImgClickListener = new OnClickListener() {
@@ -311,12 +306,4 @@ public class ClothesCreateActivity extends BaseActivity {
 		}
 	};
 
-	private OnClickListener isLikeClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			mLike = (mLike + 1) % 2;
-			notifyDataSetChanged();
-		}
-	};
 }

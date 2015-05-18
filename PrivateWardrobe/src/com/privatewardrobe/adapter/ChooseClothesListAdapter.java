@@ -55,9 +55,9 @@ public class ChooseClothesListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		if (mChoosedList.contains(clothes)) {
-			holder.state.setText("已选择");
+			holder.state.setImageResource(R.drawable.icon_choosed);;
 		} else {
-			holder.state.setText("未选中");
+			holder.state.setImageResource(R.drawable.icon_choose);;
 		}
 		PWApplication
 				.getInstance()
@@ -69,12 +69,12 @@ public class ChooseClothesListAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
-		TextView state;
+		ImageView state;
 		ImageView img;
 		TextView description;
 
 		public ViewHolder(View v) {
-			state = (TextView) v
+			state = (ImageView) v
 					.findViewById(R.id.item_clothes_choose_state_img);
 			img = (ImageView) v.findViewById(R.id.item_clothes_choose_img);
 			description = (TextView) v

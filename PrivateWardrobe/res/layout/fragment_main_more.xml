@@ -104,7 +104,7 @@
             android:background="@color/gray" />
 
         <RelativeLayout
-            android:id="@+id/fragment_more_settings_Layout"
+            android:id="@+id/fragment_more_collections_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1px"
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="消息设置"
+                android:text="我的收藏"
                 android:textColor="@color/black" />
 
             <ImageView

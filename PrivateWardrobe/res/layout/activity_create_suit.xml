@@ -1,85 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/gray" >
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/activity_create_suit_img"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/activity_create_suit_description_edit"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/activity_create_suit_img"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="添加描述" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/add_clothes_img_selector" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/more_item_selector"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="描述:"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/activity_create_suit_description_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:background="@null"
+                    android:hint="添加描述"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/fragment_find_list_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey_text" />
+
+            <RelativeLayout
+                android:id="@+id/activity_create_suit_weather_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/more_item_selector"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="选择季节："
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/activity_create_suit_weather_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="默认" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/fragment_find_list_arrow" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey_text" />
+
+            <RelativeLayout
+                android:id="@+id/activity_create_suit_occasion_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/more_item_selector"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="选择场合："
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/activity_create_suit_occasion_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="默认" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/fragment_find_list_arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_create_suit_clothes_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/more_item_selector"
+                android:clickable="true"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:text="包含衣服："
+                    android:textColor="@color/black" />
+
+                <com.privatewardrobe.control.StaticGridView
+                    android:id="@+id/activity_create_suit_clothes_gridView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:verticalSpacing="6dp"
+                    android:layout_marginLeft="90dp"
+                    android:horizontalSpacing="6dp"
+                    android:numColumns="auto_fit" >
+                </com.privatewardrobe.control.StaticGridView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/fragment_find_list_arrow" />
+            </RelativeLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/activity_create_suit_weather_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择季节" />
-
-            <TextView
-                android:id="@+id/activity_create_suit_weather_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="夏装" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/activity_create_suit_occasion_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择场合" />
-
-            <TextView
-                android:id="@+id/activity_create_suit_occasion_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="约会" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/activity_create_suit_like_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="喜歡" />
-
-        <GridView
-            android:id="@+id/activity_create_suit_clothes_gridView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnWidth="60dp"
-            android:horizontalSpacing="6dp"
-            android:numColumns="auto_fit" >
-        </GridView>
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

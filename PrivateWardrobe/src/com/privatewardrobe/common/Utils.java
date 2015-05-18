@@ -82,9 +82,9 @@ public class Utils {
 
 	public static DisplayImageOptions buildNoneDisplayImageOptions() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ic_launcher)
-				.showImageOnFail(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_launcher)
+				.showImageOnLoading(R.drawable.icon_loading)
+				.showImageOnFail(R.drawable.icon_loading_fail)
+				.showImageForEmptyUri(R.drawable.icon_loading_fail)
 				.bitmapConfig(android.graphics.Bitmap.Config.RGB_565)
 				.cacheInMemory(true).cacheOnDisc(true).build();
 		return options;

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#c8caca"
     android:orientation="vertical" >
 
     <GridView
@@ -13,30 +14,81 @@
         android:numColumns="auto_fit" >
     </GridView>
 
-    <EditText
-        android:id="@+id/activity_choose_clothes_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:hint="搜索"
-        android:minWidth="80dp" />
-
     <LinearLayout
+        android:id="@+id/fragment_clothes_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/search_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_search" />
+
+        <EditText
+            android:id="@+id/activity_choose_clothes_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="搜索衣服"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey_text" />
+
+    <RelativeLayout
         android:id="@+id/activity_choose_create_clothes_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp" >
+        android:layout_marginTop="10dp"
+        android:background="@drawable/more_item_selector"
+        android:clickable="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新建衣服" />
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:padding="15dp"
+            android:text="新建衣服"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/fragment_find_list_arrow" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/grey_text" />
 
     <ListView
         android:id="@+id/activity_choose_clothes_data_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" >
     </ListView>
 
 </LinearLayout>

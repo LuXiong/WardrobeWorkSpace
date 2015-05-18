@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.privatewardrobe.adapter.ImgHorizenGridAdapter;
 import com.privatewardrobe.business.BusinessListener;
 import com.privatewardrobe.business.SuitBusiness;
 import com.privatewardrobe.common.Utils;
+import com.privatewardrobe.control.StaticGridView;
 import com.privatewardrobe.model.Clothes;
 import com.privatewardrobe.model.Suit;
 import com.privatewardrobe.photo.PhotoHelper;
@@ -48,13 +50,11 @@ public class SuitCreateActivity extends BaseActivity {
 	private ImageView mSuitImg;
 	private EditText mDescriptionEdit;
 	private TextView mWeatherText, mOccasionText;
-	private LinearLayout mSeasonLayout, mOccasionLayout;
-	private Button mLikeBtn;
-	private GridView mClothesGridView;
+	private RelativeLayout mSeasonLayout, mOccasionLayout, mClothesLayout;
+	private StaticGridView mClothesGridView;
 	private AlertDialog mLoadingDialog;
 
-	private String mSeason, mOccasion,  mDescription, mClothes;
-	private int mLike;
+	private String mSeason, mOccasion, mDescription, mClothes;
 
 	private ImgHorizenGridAdapter mGridAdapter;
 	private ArrayList<Clothes> mChoosedClothes;
@@ -97,7 +97,7 @@ public class SuitCreateActivity extends BaseActivity {
 										SuitBusiness.CheckWeatherW(mSeason),
 										SuitBusiness.CheckOccasionW(mOccasion),
 										mDescriptionEdit.getText().toString(),
-										mLike, new BusinessListener<Suit>() {
+										0, new BusinessListener<Suit>() {
 											@Override
 											public void onFinish() {
 												mLoadingDialog.dismiss();
@@ -125,7 +125,7 @@ public class SuitCreateActivity extends BaseActivity {
 				suitBusiness.addSuit(PWApplication.getInstance().getUserId(),
 						null, null, SuitBusiness.CheckWeatherW(mSeason),
 						SuitBusiness.CheckOccasionW(mOccasion),
-						mDescriptionEdit.getText().toString(), mLike,
+						mDescriptionEdit.getText().toString(), 0,
 						new BusinessListener<Suit>() {
 							@Override
 							public void onFinish() {
@@ -178,11 +178,10 @@ public class SuitCreateActivity extends BaseActivity {
 		} else {
 			mOccasionText.setText(mOccasion);
 		}
-		if(mSource!=null){
+		if (mSource != null) {
 			imageLoader.displayImage(mSource.toString(), mSuitImg);
 		}
-		
-		mLikeBtn.setText("Ï²»¶" + mLike);
+
 		mGridAdapter.notifyDataSetChanged();
 	}
 
@@ -191,10 +190,10 @@ public class SuitCreateActivity extends BaseActivity {
 		mDescriptionEdit = (EditText) findViewById(R.id.activity_create_suit_description_edit);
 		mWeatherText = (TextView) findViewById(R.id.activity_create_suit_weather_text);
 		mOccasionText = (TextView) findViewById(R.id.activity_create_suit_occasion_text);
-		mSeasonLayout = (LinearLayout) findViewById(R.id.activity_create_suit_weather_layout);
-		mOccasionLayout = (LinearLayout) findViewById(R.id.activity_create_suit_occasion_layout);
-		mLikeBtn = (Button) findViewById(R.id.activity_create_suit_like_btn);
-		mClothesGridView = (GridView) findViewById(R.id.activity_create_suit_clothes_gridView);
+		mSeasonLayout = (RelativeLayout) findViewById(R.id.activity_create_suit_weather_layout);
+		mOccasionLayout = (RelativeLayout) findViewById(R.id.activity_create_suit_occasion_layout);
+		mClothesLayout = (RelativeLayout) findViewById(R.id.activity_create_suit_clothes_layout);
+		mClothesGridView = (StaticGridView) findViewById(R.id.activity_create_suit_clothes_gridView);
 
 	}
 
@@ -221,8 +220,8 @@ public class SuitCreateActivity extends BaseActivity {
 		mSuitImg.setOnClickListener(mImgClickListener);
 		mSeasonLayout.setOnClickListener(mSeasonLayoutClickListener);
 		mOccasionLayout.setOnClickListener(mOccasionLayoutClickListener);
-		mLikeBtn.setOnClickListener(mLikeBtnClickListener);
 		mClothesGridView.setOnItemClickListener(mGridViewClickListener);
+		mClothesLayout.setOnClickListener(mClothesLayoutClickListener);
 	}
 
 	private OnClickListener mImgClickListener = new OnClickListener() {
@@ -280,15 +279,13 @@ public class SuitCreateActivity extends BaseActivity {
 		}
 
 	};
-	private OnClickListener mLikeBtnClickListener = new OnClickListener() {
+	private OnClickListener mClothesLayoutClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			mLike = (mLike + 1) % 2;
-			notifyDatasetChanged();
+			chooseClothes();
 		}
 	};
-
 	private OnItemClickListener mGridViewClickListener = new OnItemClickListener() {
 
 		@Override
@@ -300,7 +297,7 @@ public class SuitCreateActivity extends BaseActivity {
 
 	private void loadData() {
 		mSource = getIntent().getParcelableExtra(IMG);
-		if(mSource!=null){
+		if (mSource != null) {
 			hasImg = true;
 			notifyDatasetChanged();
 		}

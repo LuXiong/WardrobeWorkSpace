@@ -46,8 +46,7 @@ public class PhotoHelper {
 		this.listener = listener;
 	}
 
-	public PhotoHelper(Fragment fragment,
-			PhotoProcessListener listener) {
+	public PhotoHelper(Fragment fragment, PhotoProcessListener listener) {
 		this.fragment = fragment;
 		this.listener = listener;
 	}
@@ -56,7 +55,7 @@ public class PhotoHelper {
 		if (Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())) {
 			File file_go = Environment
-					.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+					.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
 			if (!file_go.exists()) {
 				file_go.mkdir();
